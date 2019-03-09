@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rock Android</string>
+    <string name="color">color</string>
+    <string name="welcome_message">Welcome to Rock Android!</string>
+    <string name="enter_dic">Merriam Webster Dictionary</string>
+    <string name="enter_nf">News Feed</string>
+    <string name="enter_fst">Flight Status Tracker</string>
+    <string name="enter_nyt">New York Times Article Search</string>
+</resources>
