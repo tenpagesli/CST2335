@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Rock Android</string>
-    <string name="color">color</string>
-    <string name="welcome_message">Welcome to Rock Android!</string>
-    <string name="enter_dic">Merriam Webster Dictionary</string>
-    <string name="enter_nf">News Feed</string>
-    <string name="enter_fst">Flight Status Tracker</string>
-    <string name="enter_nyt">New York Times Article Search</string>
+    <string name="app_name">嗨翻安卓</string>
+    <string name="color">颜色</string>
+    <string name="welcome_message">欢迎来到嗨翻安卓！</string>
+    <string name="enter_dic">梅里亚姆韦伯斯特词典</string>
+    <string name="enter_nf">新闻提要</string>
+    <string name="enter_fst">追踪航班状态</string>
+    <string name="enter_nyt">搜索纽约时报文章</string>
 </resources>
