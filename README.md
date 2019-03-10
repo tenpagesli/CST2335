@@ -1,6 +1,8 @@
 # CST2335
 For Android Course Group Project
 
+!!!!!!!!IMPORTANT!!!! Let's start with "dev/V1.0". The "startPoint" is for if anything happens, we can go back to the very first point....
+
 A> File Packaging Rules:
 1. Java related files:
    a. There are 4 folders named by our names. 
