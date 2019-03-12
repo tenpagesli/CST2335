@@ -8,6 +8,11 @@
     tools:context=".ryan.MainActivityDictionary">
 
     <TextView
+        android:id="@+id/textView1_hd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ryan says aaaaaaaaaaa!" />
+    <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
