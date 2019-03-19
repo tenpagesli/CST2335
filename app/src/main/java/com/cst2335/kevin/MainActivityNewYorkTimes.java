@@ -9,6 +9,10 @@ import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.os.Handler;
+
 
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -22,6 +26,15 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
 
     private ImageButton androidImageButton;
     private Button btnSimpleSnackbar;
+
+    private ProgressBar mProgressBar;
+    private TextView mLoadingText;
+
+    private int mProgressStatus = 0;  //loading time
+
+    private Handler mHandler = new Handler();
+
+
 
 
     @Override
@@ -43,15 +56,44 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
         });
 
         btnSimpleSnackbar = (Button) findViewById(R.id.nyt_searchButton);
-        btnSimpleSnackbar.setOnClickListener(new View.OnClickListener() {
+        mProgressBar = (ProgressBar) findViewById(R.id.nyt_progressBar);
+        mLoadingText = (TextView) findViewById(R.id.SearchCompleted);
+        btnSimpleSnackbar.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
             public void onClick(View view) {
 
                 Toast.makeText(MainActivityNewYorkTimes.this, "Searched", Toast.LENGTH_LONG).show();
                 ;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while (mProgressStatus < 100){
+                            mProgressStatus++;
+                            android.os.SystemClock.sleep(1);
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mProgressBar.setProgress(mProgressStatus);
+                                }
+                            });
+                        }
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mLoadingText.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    }
+                }).start();
             }
         });
+
+
+
+
+
 
     }//onCreate
 
