@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.cst2335.hung.MainActivityNewsFeed;
 import com.cst2335.kevin.MainActivityNewYorkTimes;
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
         Button fstBtn = findViewById(R.id.enter_fst);
         Button nfBtn = findViewById(R.id.enter_nf);
         Button nytBtn = findViewById(R.id.enter_nyt);
+        ImageButton nytMenuBtn = findViewById(R.id.nyt_menu_KN);
+
         // when user click on enter dictionary button
         dicBtn.setOnClickListener(c->{
             Intent nextPage = new Intent(MainActivity.this, MainActivityDictionary.class);
@@ -37,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
         });
         // when user click on enter new york times article button
         nytBtn.setOnClickListener(c->{
+            Intent nextPage = new Intent(MainActivity.this, MainActivityNewYorkTimes.class);
+            startActivity(nextPage);
+        });
+        nytMenuBtn.setOnClickListener(c->{
             Intent nextPage = new Intent(MainActivity.this, MainActivityNewYorkTimes.class);
             startActivity(nextPage);
         });

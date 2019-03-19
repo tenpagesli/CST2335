@@ -39,14 +39,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
                 Snackbar sb = Snackbar.make(androidImageButton, "Welcome To NewYork Times", Snackbar.LENGTH_LONG)
                         .setAction("Go Back to Menu?", e -> finish());
                 sb.show();
-
-
-
             }
-
-
-
-
         });
 
         btnSimpleSnackbar = (Button) findViewById(R.id.nyt_searchButton);

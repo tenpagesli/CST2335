@@ -20,27 +20,34 @@
 
         <Button
             android:id="@+id/enter_dic"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/enter_dic" />
 
         <Button
             android:id="@+id/enter_fst"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/enter_fst" />
 
         <Button
             android:id="@+id/enter_nf"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/enter_nf" />
 
         <Button
             android:id="@+id/enter_nyt"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/enter_nyt" />
+
+        <ImageButton
+            android:id="@+id/nyt_menu_KN"
+            android:layout_width="197dp"
+            android:layout_height="122dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/nyt_button_kn" />
     </LinearLayout>
 
 </LinearLayout>

@@ -43,11 +43,12 @@
             android:inputType="text" />
 
         <Button
+            android:id="@+id/nyt_searchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/enter_nyt_kn"
-            android:id="@+id/nyt_searchButton"
-            android:layout_above="@id/nyt_progressBar"/>
+            android:layout_above="@id/nyt_progressBar"
+            android:layout_marginBottom="0dp"
+            android:text="@string/enter_nyt_kn" />
 
         <ProgressBar
             android:id="@+id/nyt_progressBar"
