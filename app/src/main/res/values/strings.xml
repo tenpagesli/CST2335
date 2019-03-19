@@ -7,4 +7,9 @@
     <string name="enter_fst">Flight Status Tracker</string>
     <string name="enter_nyt">New York Times Article Search</string>
 
+
+  <!--Kevin Strings -->
+    <string name="enter_nyt_kn">Article Search</string>
+
+
 </resources>
