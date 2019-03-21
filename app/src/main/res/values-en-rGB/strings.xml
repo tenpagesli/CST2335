@@ -19,4 +19,19 @@
     <string name="parts_of_speech_dic_rl">Parts Of Speech:</string>
     <string name="definition_dic_rl">Definition:</string>
     <string name="example_sentence">Example sentence:</string>
+    <string name="title_qy">Flight Status tracker</string>
+    <string name="typeHere_qy">Please Input Airport Code </string>
+    <string name="search_qy">Search </string>
+    <string name="buttonView_qy">View Saved Flight Information </string>
+    <string name="buttonRefresh_qy">Refresh </string>
+    <string name="flightNo_qy">Flight Number </string>
+    <string name="flightStatus_qy">Status </string>
+    <string name="flightNoD_qy">Flight Number </string>
+    <string name="location_qy">Location </string>
+    <string name="speed_qy">Speed </string>
+    <string name="altitude_qy">Altitude </string>
+    <string name="status_qy">Status </string>
+    <string name="save_btn_qy">Save </string>
+    <string name="delete_btn_qy">Delete </string>
+    <string name="delete_warning">Do you really want to delete? </string>
 </resources>
