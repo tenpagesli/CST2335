@@ -7,4 +7,19 @@
     <string name="enter_nf">新闻提要</string>
     <string name="enter_fst">追踪航班状态</string>
     <string name="enter_nyt">搜索纽约时报文章</string>
+    <string name="title_qy">航班状态追踪</string>
+    <string name="typeHere_qy">请输入机场代码 </string>
+    <string name="search_qy">搜索 </string>
+    <string name="buttonView_qy">查看已保存的航班信息 </string>
+    <string name="buttonRefresh_qy">刷新 </string>
+    <string name="flightNo_qy">航班号 </string>
+    <string name="flightNoD_qy">航班号 </string>
+    <string name="flightStatus_qy">状态 </string>
+    <string name="location_qy">位置 </string>
+    <string name="speed_qy">速度 </string>
+    <string name="altitude_qy">高度 </string>
+    <string name="status_qy">状态 </string>
+    <string name="save_btn_qy">保存 </string>
+    <string name="delete_btn_qy">删除</string>
+    <string name="delete_warning">真的要删除么？ </string>
 </resources>

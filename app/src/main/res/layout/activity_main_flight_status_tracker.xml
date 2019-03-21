@@ -8,8 +8,51 @@
     tools:context=".queeny.MainActivityFlightStatusTracker">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/title1_qy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Queeny says hello!" />
+        android:gravity="center"
+        android:text="@string/title_qy" />
+
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/typeHere_qy" />
+
+    <Button
+        android:id="@+id/buttonSeach_qy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search_qy" />
+
+    <Button
+        android:id="@+id/buttonView_qy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/buttonView_qy" />
+
+    <Button
+        android:id="@+id/buttonRefresh_qy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/buttonRefresh_qy" />
+
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/progress_Bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible" />
+
+    <ListView
+        android:id="@+id/FlightList_qy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
 </LinearLayout>
