@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Rock Android</string>
     <string name="color">color</string>
@@ -6,5 +7,16 @@
     <string name="enter_nf">News Feed</string>
     <string name="enter_fst">Flight Status Tracker</string>
     <string name="enter_nyt">New York Times Article Search</string>
-
+    <string name="welcome_msg_dic_rl">Welcome to Merriam Webster Dictionary</string>
+    <string name="input_hint_dic_rl">Please enter the word you want to search</string>
+    <string name="search_btn_dic_rl">search</string>
+    <string name="save_btn_dic_rl">save</string>
+    <string name="delete_btn_dic_rl">delete</string>
+    <string name="refresh_btn_dic_rl">refresh</string>
+    <string name="view_saved_words_btn_dic_rl">view saved words</string>
+    <string name="welcome_msg_saved_words_list_dic_rl">Below are the words you saved</string>
+    <string name="prevos_words_list_dic_rl">Below are the last 20 words you searched</string>
+    <string name="parts_of_speech_dic_rl">Parts Of Speech:</string>
+    <string name="definition_dic_rl">Definition:</string>
+    <string name="example_sentence">Example sentence:</string>
 </resources>

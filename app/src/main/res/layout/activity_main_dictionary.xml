@@ -8,8 +8,47 @@
     tools:context=".ryan.MainActivityDictionary">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/welcome_msg_dic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ryan says hello!" />
+        android:text="@string/welcome_msg_dic_rl"/>
+
+    <EditText
+        android:id="@+id/search_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/input_hint_dic_rl"
+        android:inputType="textPersonName"/>
+
+    <Button
+        android:id="@+id/search_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search_btn_dic_rl" />
+
+    <Button
+        android:id="@+id/view_words_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/view_saved_words_btn_dic_rl" />
+
+    <Button
+        android:id="@+id/refresh_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/refresh_btn_dic_rl" />
+
+    <TextView
+        android:id="@+id/previous_words_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/prevos_words_list_dic_rl"/>
+
+    <ListView
+        android:id="@+id/words_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+
 </LinearLayout>
