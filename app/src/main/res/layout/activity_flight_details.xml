@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/flightNoD_qy_qy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/flightNoD_qy" />
+
+    <TextView
+        android:id="@+id/location_qy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/location_qy" />
+
+    <TextView
+        android:id="@+id/speed_qy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/speed_qy" />
+
+    <TextView
+        android:id="@+id/altitude_qy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/altitude_qy" />
+
+    <TextView
+        android:id="@+id/Status_qy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/status_qy" />
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save_btn_qy" />
+</LinearLayout>
