@@ -8,11 +8,6 @@
     tools:context=".ryan.MainActivityDictionary">
 
     <TextView
-        android:id="@+id/textView1_hd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ryan says aaaaaaaaaaa!" />
-    <TextView
         android:id="@+id/welcome_msg_dic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,14 +25,8 @@
         android:id="@+id/search_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ryan says aaaaaaaaaaaaa!" />
-
-    <TextView
-        android:id="@+id/textView_rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ryan says bbbbbbbbbbb!" />
         android:text="@string/search_btn_dic_rl" />
+
 
     <Button
         android:id="@+id/view_words_list"

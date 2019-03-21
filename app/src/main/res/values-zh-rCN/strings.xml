@@ -34,4 +34,8 @@
     <string name="save_btn_qy">保存 </string>
     <string name="delete_btn_qy">删除</string>
     <string name="delete_warning">真的要删除么？ </string>
+
+
+    <!--Kevin Strings -->
+    <string name="enter_nyt_kn">搜索文章</string>
 </resources>

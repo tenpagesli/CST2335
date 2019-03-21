@@ -34,4 +34,8 @@
     <string name="save_btn_qy">Save </string>
     <string name="delete_btn_qy">Delete </string>
     <string name="delete_warning">Do you really want to delete? </string>
+
+
+    <!--Kevin Strings -->
+    <string name="enter_nyt_kn">Article Search</string>
 </resources>
