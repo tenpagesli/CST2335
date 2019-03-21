@@ -12,29 +12,27 @@
         <activity android:name=".queeny.FlightSavedActivity"></activity>
         <activity android:name=".queeny.FlightDetailsActivity" />
         <activity android:name=".ryan.MainActivityDictionary" />
+        <activity android:name=".ryan.ViewSavedWordsActivity"></activity>
+        <activity android:name=".ryan.WordsDetailsActivity" />
         <activity android:name=".queeny.MainActivityFlightStatusTracker" />
         <activity android:name=".kevin.MainActivityNewYorkTimes" />
         <activity android:name=".hung.MainActivityNewsFeed" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
 
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "http://www.cst2335.com/rockandroid” -->
-                <data
+                <data android:scheme="http"
                     android:host="www.cst2335.com"
-                    android:pathPrefix="/rockandroid"
-                    android:scheme="http" />
-                <!-- note that the leading "/" is required for pathPrefix -->
+                    android:pathPrefix="/rockandroid" />
+                <!-- note that the leading "/" is required for pathPrefix-->
                 <!-- Accepts URIs that begin with "cst2335://rockandroid” -->
-                <data
-                    android:host="rockandroid"
-                    android:scheme="cst2335" />
+                <data android:scheme="cst2335"
+                    android:host="rockandroid" />
             </intent-filter>
         </activity>
     </application>
