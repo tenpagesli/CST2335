@@ -1,12 +1,15 @@
 package com.cst2335.ryan;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -52,10 +55,24 @@ public class WordsDetailsActivity extends AppCompatActivity {
 
         // clicked on view delete word button
         deleteBtn.setOnClickListener(c->{
-            // TODO: delete word from database
+            // confirm with user if really want to delete
+            View middle = getLayoutInflater().inflate(R.layout.activity_delete, null);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // TODO: delete word from database
 
-            // show toast bar if deleted successful
-            Toast.makeText(this, "Word deleted successfully!.", Toast.LENGTH_LONG).show();
+                    // show toast bar if deleted successful
+                    // Toast.makeText(this, "Word deleted successfully!.", Toast.LENGTH_LONG).show();
+                }
+            })
+                    .setNegativeButton("Not Yet", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // What to do on Cancel
+                        }
+                    })
+                    .setView(middle);
+            builder.create().show();
         });
     }
 
@@ -156,4 +173,6 @@ public class WordsDetailsActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }
