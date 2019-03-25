@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class MainActivityNewYorkTimes extends AppCompatActivity {
 
     private ArrayAdapter<String> adapterString;
-    private ListView listView1;
+    private ListView listView;
     private ImageButton androidImageButton;
 
 
@@ -51,7 +51,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
 
 
         ArrayList<Article> newsArrayList = new ArrayList<Article>();
-        newsArrayList.add(new Article("NYT", "NYT 2019", 1));
+        newsArrayList.add(new Article("NYT Article 1 Test", "NYT 2019", 1));
 
         ArticleAdapter artAdt = new ArticleAdapter(newsArrayList, getApplicationContext());
 
