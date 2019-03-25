@@ -22,6 +22,7 @@ public class NewsFeedDetailed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed_detailed);
 
+        //set title to bold
         TextView  tv = (TextView)findViewById(R.id.news_title_detailed);
         Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
         tv.setTypeface(boldTypeface);
@@ -31,30 +32,31 @@ public class NewsFeedDetailed extends AppCompatActivity {
         Button retBtn = (Button)findViewById(R.id.returnbtn_hd);
 
 
+        //saving article to db
         saveBtn.setOnClickListener(c->{
             showToast("Article Saved.");
         });
 
+        //deleting article from db
         delBtn.setOnClickListener(c->{
-            alertExample();
+            alertDelete();
         });
 
+        //hitting the return button will show snackbar
         retBtn.setOnClickListener(c->{
-        // Snackbar code:
+
         Snackbar sb = Snackbar.make(retBtn, "Would you like to return? ", Snackbar.LENGTH_LONG)
                 .setAction("Yes.", e -> Log.e("Toast", "Clicked return"));
         sb.setAction("Yes.",f -> finish());
         sb.show();
         });
     }
-    public void alertExample() {
 
+    public void alertDelete() {
 
+    //pop up custom dialog to ensure user wants to delete article
         View middle = getLayoutInflater().inflate(R.layout.activity_news_feed_popup_delete, null);
-        //  Button btn = (Button) middle.findViewById(R.id.extraBtn);
-        //EditText et = (EditText) middle.findViewById(R.id.typeHere);
 
-        //  btn.setOnClickListener(clk -> et.setText("You clicked my button!"));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -73,7 +75,7 @@ public class NewsFeedDetailed extends AppCompatActivity {
 
         builder.create().show();
     }
-
+    //toast message
 public void showToast(String msg){
     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 }
