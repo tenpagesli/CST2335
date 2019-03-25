@@ -1,13 +1,21 @@
+/****
+ * Author: Zhe (Ryan) Li
+ * Last modified: Mar 25, 2019
+ * Description: it's the word object's bean file
+ * **/
 package com.cst2335.ryan;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Word {
-
+    // to save the word's content
     private String word;
+    // to save the definitions of the word
     private ArrayList<String> definitions;
+    // to save the parts of speech
     private String partsOfSpeech;
+    // to save the example sentence
     private String exampleSentence;
 
     public Word(String word, ArrayList<String> definitions, String partsOfSpeech, String exampleSentence) {

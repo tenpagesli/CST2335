@@ -49,12 +49,11 @@ public class NewsAdapter extends BaseAdapter {
                     inflate(R.layout.activity_news_list_item, parent, false);
         }
 
-        //TextView nameTextView = (TextView) view.findViewById(R.id.dessert_name);
+
         News currentItem = (News) getItem(position);
         TextView textViewItemName = (TextView) convertView.findViewById(R.id.news_title);
         textViewItemName.setText(currentItem.getTitle());
-      //  ListView messageText = view.findViewById(R.id.news_feed_list);
-      //  messageText.setText(news.get(position).getTitle());
+
         return convertView;
     }
 }

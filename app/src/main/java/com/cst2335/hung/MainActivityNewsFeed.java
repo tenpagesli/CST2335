@@ -20,14 +20,6 @@ import java.util.ArrayList;
 
 public class MainActivityNewsFeed extends AppCompatActivity {
 
-
-/*    static private String[] arrayString = new String[] { "Article 1", "Article2",
-            "Article3", "Article4", "Article5", "Article6", "Article7", "Article8", "Article9",
-            "Article10","Article11", "Article12", "Article13" };*/
-
-    private ArrayAdapter<String> adapterString;
-    private ListView listView1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -35,20 +27,17 @@ public class MainActivityNewsFeed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_news_feed);
 
-
+        //search button
         Button searchBtn = findViewById(R.id.search_btn);
-        // clicked on search button
+
         searchBtn.setOnClickListener(c->{
-            // search word from online, and jump to detailed page
             Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSearches.class );
             startActivity(nextPage);
             //startActivityForResult(nextPage, 30);
         });
 
-/*        adapterString = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayString);
-        listView1 = findViewById(R.id.news_feed_list);
-        listView1.setAdapter(adapterString);*/
 
+        //arraylist of articles
         ArrayList<News> newsArrayList = new ArrayList<News>();
         newsArrayList.add(new News("Samsung battery explode", "djsaiudjasiudja", 1));
         newsArrayList.add(new News("Cheese found the moon", "djsaiudjasiudja", 2));
@@ -56,7 +45,7 @@ public class MainActivityNewsFeed extends AppCompatActivity {
 
         NewsAdapter newsAdt = new NewsAdapter(newsArrayList, getApplicationContext());
 
-        // Get a reference to the ListView, and attach the adapter to the listView.
+        //list view of article set to clickable
         ListView lv = (ListView) findViewById(R.id.news_feed_list);
         lv.setClickable(true);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
