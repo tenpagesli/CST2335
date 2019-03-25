@@ -32,6 +32,10 @@ public class MainActivityDictionary extends AppCompatActivity {
     private ArrayList<Word> wordsList;
     private Word word;
 
+    /***
+     * this method runs when jump to main activiety dictonary page
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +93,10 @@ public class MainActivityDictionary extends AppCompatActivity {
         });
     }
 
-    //This class needs 4 functions to work properly:
+    /**
+     * This class needs 4 functions to work properly:
+     * @param <E>
+     */
     protected class WordsListAdapter<E> extends BaseAdapter {
         private List<E> dataCopy = null;
 

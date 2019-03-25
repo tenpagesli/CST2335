@@ -30,7 +30,11 @@ public class FlightSavedActivity extends AppCompatActivity {
     private ArrayList<Flight> flights;
     private FlightAdapter flightAdapter;
 
-
+    /**
+     * When user wants to see the saved flight list, this method runs
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +84,9 @@ public class FlightSavedActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This is a inner adapter class for the view list
+     */
     protected class FlightAdapter extends ArrayAdapter<Flight> {
         public FlightAdapter(@NonNull Context context, int resource) {
             super(context, resource);

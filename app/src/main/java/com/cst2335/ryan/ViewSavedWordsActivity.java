@@ -12,6 +12,10 @@ import com.cst2335.R;
 
 public class ViewSavedWordsActivity extends AppCompatActivity {
 
+    /**
+     *  this method runs when click on "view saved word list"
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

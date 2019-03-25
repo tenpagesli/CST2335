@@ -56,6 +56,10 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
     protected static final String ACTIVITY_NAME = "Flights Search By Airport";
     protected static final String URL_XML = "http://aviation-edge.com/v2/public/flights?key=8a0877-70791c";
 
+    /**
+     * When user wants to go to Flight Status Tracker's home page, this method runs
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +124,9 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
 
     }
 
+    /**
+     * This is a inner class for the progress bar
+     */
     class FlightQuery extends AsyncTask<String, Integer, String> {
         private String flightNo, flightStatus;
         @Override
@@ -153,7 +160,9 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * This is a inner adapter class for the view list
+     */
     protected class FlightAdapter extends ArrayAdapter<Flight> {
         public FlightAdapter(@NonNull Context context, int resource) {
             super(context, resource);

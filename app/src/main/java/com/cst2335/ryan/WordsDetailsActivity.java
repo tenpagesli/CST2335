@@ -36,6 +36,10 @@ public class WordsDetailsActivity extends AppCompatActivity {
     String aWord;
     String postUrl = "?key=4556541c-b8ed-4674-9620-b6cba447184f";
 
+    /**
+     * this method runs when user click on a specific item of ViewList
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

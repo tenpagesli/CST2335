@@ -14,6 +14,11 @@ import com.cst2335.R;
 
 public class FlightDetailsActivity extends AppCompatActivity {
 
+    /**
+     * When user want's to see the flight details, this method runs
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

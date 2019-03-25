@@ -18,6 +18,14 @@ public class Word {
     // to save the example sentence
     private String exampleSentence;
 
+    /**
+     * Default constructor
+     *
+     * @param word
+     * @param definitions
+     * @param partsOfSpeech
+     * @param exampleSentence
+     */
     public Word(String word, ArrayList<String> definitions, String partsOfSpeech, String exampleSentence) {
         this.setWord(word);
         this.setDefinitions(definitions);
@@ -25,38 +33,76 @@ public class Word {
         this.setExampleSentence(exampleSentence);
     }
 
+    /** get word's content
+     *
+     * @return
+     */
     public String getWord() {
         return word;
     }
 
+    /**
+     *  set word's content
+     * @param word
+     */
     private void setWord(String word) {
         this.word = word;
     }
 
+    /**
+     * get word's definition list
+     *
+     * @return
+     */
     public ArrayList<String> getDefinitions() {
         return definitions;
     }
 
+    /**
+     *  set word's definition list
+     * @param definitions
+     */
     private void setDefinitions(ArrayList<String> definitions) {
         this.definitions = definitions;
     }
 
+    /**
+     * get word's parts of speech
+     * @return
+     */
     public String getPartsOfSpeech() {
         return partsOfSpeech;
     }
 
+    /**
+     * set word's parts of speech
+     * @param partsOfSpeech
+     */
     private void setPartsOfSpeech(String partsOfSpeech) {
         this.partsOfSpeech = partsOfSpeech;
     }
 
+    /**
+     * get example sentence
+     * @return
+     */
     public String getExampleSentence() {
         return exampleSentence;
     }
 
+    /**
+     * set example sentence
+     * @param exampleSentence
+     */
     private void setExampleSentence(String exampleSentence) {
         this.exampleSentence = exampleSentence;
     }
 
+    /**
+     * Override equals
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -68,11 +114,20 @@ public class Word {
                 Objects.equals(getExampleSentence(), word1.getExampleSentence());
     }
 
+    /**
+     * Override hashCode
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(getWord(), definitions, getPartsOfSpeech(), getExampleSentence());
     }
 
+    /**
+     * Override toString
+     * @return
+     */
     @Override
     public String toString() {
         return this.getWord();
