@@ -44,7 +44,6 @@ private ProgressBar progressBar;
 
         progressBar = findViewById(R.id.progressBar_hd);
         progressBar.setVisibility(View.VISIBLE);  //show the progress bar
-
         titleView = findViewById(R.id.title_hd);
 
     }

@@ -37,6 +37,8 @@
 
     <!--Kevin Strings -->
     <string name="enter_nyt_kn">Article Search</string>
+    <string name="nyt_save_kn">Save article</string>
+    <string name="nyt_delete_kn">Delete article</string>
 
 
 </resources>
