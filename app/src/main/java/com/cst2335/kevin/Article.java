@@ -1,13 +1,13 @@
 package com.cst2335.kevin;
 
-public class NytArticle {
+public class Article {
 
     private String title;
     private String body;
     private int articleID;
 
 
-    public NytArticle(String title, String body, int articleID){
+    public Article(String title, String body, int articleID){
         this.title = title;
         this.body = body;
         this.articleID = articleID;

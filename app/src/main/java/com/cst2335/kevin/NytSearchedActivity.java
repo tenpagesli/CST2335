@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.ProgressBar;
-
 import android.view.View;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
@@ -55,7 +54,7 @@ public class NytSearchedActivity extends AppCompatActivity {
 
         delBtn.setOnClickListener(c -> {
             // confirm with user if really want to delete
-            View middle = getLayoutInflater().inflate(R.layout.activity_delete, null);
+            View middle = getLayoutInflater().inflate(R.layout.activity_article_delete, null);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {

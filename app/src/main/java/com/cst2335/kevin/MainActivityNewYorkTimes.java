@@ -4,21 +4,23 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.os.Handler;
+import android.widget.ListView;
 import android.view.View;
 import com.cst2335.R;
+
+import java.util.ArrayList;
 
 
 public class MainActivityNewYorkTimes extends AppCompatActivity {
 
-
+    private ArrayAdapter<String> adapterString;
+    private ListView listView1;
     private ImageButton androidImageButton;
-//    private int mProgressStatus = 0;  //loading time
-    private Handler mHandler = new Handler();
 
 
     @Override
@@ -42,47 +44,35 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
             public void onClick(View view) {
 
                 Snackbar sb = Snackbar.make(androidImageButton, "Welcome To NewYork Times", Snackbar.LENGTH_LONG)
-                        .setAction("Go Back to Menu?", e -> finish());
+                        .setAction("Go Back To Main Menu?", e -> finish());
                 sb.show();
             }
         });
 
 
+        ArrayList<Article> newsArrayList = new ArrayList<Article>();
+        newsArrayList.add(new Article("NYT", "NYT 2019", 1));
+
+        ArticleAdapter artAdt = new ArticleAdapter(newsArrayList, getApplicationContext());
 
 
-//        mProgressBar =  findViewById(R.id.nyt_progressBar);
-//        mLoadingText = findViewById(R.id.SearchCompleted);
-//        btnSimpleSnackbar.setOnClickListener(new View.OnClickListener()
-//        {
+        ListView listV = findViewById(R.id.nyt_newsList);
+        listV.setClickable(true);
+        listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-//            @Override
-//            public void onClick(View view) {
-//
-//                Toast.makeText(MainActivityNewYorkTimes.this, "Searched", Toast.LENGTH_LONG).show();
-//                ;
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        while (mProgressStatus < 100){
-//                            mProgressStatus++;
-//                            android.os.SystemClock.sleep(1);
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    mProgressBar.setProgress(mProgressStatus);
-//                                }
-//                            });
-//                        }
-//                        mHandler.post(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                mLoadingText.setVisibility(View.VISIBLE);
-//                            }
-//                        });
-//                    }
-//                }).start();
-//            }
-//        });
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                //populates article one from arraylist
+                if (position == 0){
+                    Intent nextPage = new Intent(MainActivityNewYorkTimes.this, ArticleActivity1.class );
+                    Log.i("ListView clicked: ", "0");
+                    startActivity(nextPage);
+                }
+            }
+        });
+        listV.setAdapter(artAdt);
+
 
 
     }//onCreate
