@@ -15,9 +15,6 @@ import android.widget.Toast;
 
 import com.cst2335.MainActivity;
 import com.cst2335.R;
-import com.cst2335.ryan.MainActivityDictionary;
-import com.cst2335.ryan.Word;
-import com.cst2335.ryan.WordsDetailsActivity;
 
 import java.util.ArrayList;
 

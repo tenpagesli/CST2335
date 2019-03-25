@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 
 import com.cst2335.R;
-import com.cst2335.ryan.WordsDetailsActivity;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
