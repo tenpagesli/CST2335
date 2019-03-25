@@ -1,13 +1,18 @@
+/**
+ * @author      Yan Qu <qu000021@algonquinlive.com>
+ * @version     2019.03.20
+ * @since       1.8
+ */
 package com.cst2335.queeny;
 
 public class Flight {
 
-    String flightNo;
-    String location;
-    String speed;
-    String altitude;
-    String status;
-    String airportCode;
+    String flightNo; // flight number
+    String location; // flight location
+    String speed; // flight speed
+    String altitude; // flight altitude
+    String status; // flight status
+    String airportCode; // flight airportCode
 
     public Flight(String flightNo, String location, String speed, String altitude, String status, String airportCode) {
         this.flightNo = flightNo;

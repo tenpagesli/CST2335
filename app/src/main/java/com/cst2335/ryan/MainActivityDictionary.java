@@ -1,3 +1,8 @@
+/****
+ * Author: Zhe (Ryan) Li
+ * Last modified: Mar 25, 2019
+ * Description: when user wants go to dictionary's home page, this file runs
+ * **/
 package com.cst2335.ryan;
 
 import android.content.Intent;

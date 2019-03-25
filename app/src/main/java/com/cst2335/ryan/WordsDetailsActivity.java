@@ -1,3 +1,8 @@
+/****
+ * Author: Zhe (Ryan) Li
+ * Last modified: Mar 25, 2019
+ * Description: when user wants to see the details of a specific word, this file runs
+ * **/
 package com.cst2335.ryan;
 
 import android.content.DialogInterface;
@@ -26,6 +31,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class WordsDetailsActivity extends AppCompatActivity {
+    // the url that be used to get the explaination from website
     String preUrl = "https://www.dictionaryapi.com/api/v1/references/sd3/xml/";
     String aWord;
     String postUrl = "?key=4556541c-b8ed-4674-9620-b6cba447184f";

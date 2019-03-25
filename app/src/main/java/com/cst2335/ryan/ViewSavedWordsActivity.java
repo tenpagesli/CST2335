@@ -1,3 +1,8 @@
+/****
+ * Author: Zhe (Ryan) Li
+ * Last modified: Mar 25, 2019
+ * Description: when user clicked on saved word list, this file runs
+ * **/
 package com.cst2335.ryan;
 
 import android.support.v7.app.AppCompatActivity;

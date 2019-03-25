@@ -1,3 +1,8 @@
+/**
+ * @author      Yan Qu <qu000021@algonquinlive.com>
+ * @version     2019.03.20
+ * @since       1.8
+ */
 package com.cst2335.queeny;
 
 import android.support.v7.app.AppCompatActivity;
