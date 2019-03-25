@@ -1,3 +1,9 @@
+/***
+ * Author: Kevin Nghiem
+ * Last modified: Mar 25, 2019
+ * **/
+
+
 package com.cst2335.kevin;
 
 import android.widget.BaseAdapter;

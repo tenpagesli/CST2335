@@ -1,3 +1,9 @@
+/***
+ * Author: Kevin Nghiem
+ * Last modified: Mar 25, 2019
+ * Description: shows the list of searched articles
+ * **/
+
 package com.cst2335.kevin;
 
 import android.os.Bundle;
