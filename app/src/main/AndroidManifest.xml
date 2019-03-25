@@ -23,6 +23,7 @@
         <activity android:name=".ryan.WordsDetailsActivity" />
         <activity android:name=".queeny.MainActivityFlightStatusTracker" />
         <activity android:name=".kevin.MainActivityNewYorkTimes" />
+        <activity android:name=".kevin.NytSearchedActivity" />
         <activity android:name=".hung.MainActivityNewsFeed" />
         <activity android:name=".MainActivity">
             <intent-filter>

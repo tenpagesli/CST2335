@@ -11,20 +11,14 @@ import android.widget.TextView;
 import android.os.Handler;
 import android.view.View;
 import com.cst2335.R;
-import com.cst2335.ryan.WordsDetailsActivity;
+
 
 public class MainActivityNewYorkTimes extends AppCompatActivity {
 
 
     private ImageButton androidImageButton;
-
-    private ProgressBar mProgressBar;
-    private TextView mLoadingText;
-    private int mProgressStatus = 0;  //loading time
+//    private int mProgressStatus = 0;  //loading time
     private Handler mHandler = new Handler();
-
-
-
 
 
     @Override
@@ -34,7 +28,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
 
 
         Button searchBtn = findViewById(R.id.nyt_searchButton);
-        androidImageButton = (ImageButton) findViewById(R.id.nyt_imageBut);
+        androidImageButton = findViewById(R.id.nyt_imageBut);
 
         // clicked on search button
         searchBtn.setOnClickListener(c->{
@@ -42,11 +36,8 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
             startActivity(nextPage);
         });
 
-
-
+        //click on image to go back to menu
         androidImageButton.setOnClickListener(new View.OnClickListener() {
-
-
             @Override
             public void onClick(View view) {
 
@@ -55,9 +46,6 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
                 sb.show();
             }
         });
-
-
-
 
 
 
