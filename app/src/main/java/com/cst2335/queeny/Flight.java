@@ -7,12 +7,18 @@ package com.cst2335.queeny;
 
 public class Flight {
 
-    String flightNo; // flight number
-    String location; // flight location
-    String speed; // flight speed
-    String altitude; // flight altitude
-    String status; // flight status
-    String airportCode; // flight airportCode
+    /** flight number */
+    String flightNo;
+    /**  flight location */
+    String location;
+    /**  flight speed */
+    String speed;
+    /** flight altitude */
+    String altitude;
+    /**  flight status */
+    String status;
+    /**  flight airportCode */
+    String airportCode;
 
     /**
      *  Default constructor

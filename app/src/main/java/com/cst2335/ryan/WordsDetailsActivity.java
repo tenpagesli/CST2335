@@ -31,10 +31,12 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class WordsDetailsActivity extends AppCompatActivity {
-    // the url that be used to get the explaination from website
+    /** the url that be used to get the explaination from website */
     String preUrl = "https://www.dictionaryapi.com/api/v1/references/sd3/xml/";
+    /** to save the word's content */
     String aWord;
-    String postUrl = "?key=4556541c-b8ed-4674-9620-b6cba447184f";
+     /** the post part of url **/
+     String postUrl = "?key=4556541c-b8ed-4674-9620-b6cba447184f";
 
     /**
      * this method runs when user click on a specific item of ViewList

@@ -26,8 +26,11 @@ import java.util.ArrayList;
 
 public class FlightSavedActivity extends AppCompatActivity {
 
+    /**  the flight view list */
     ListView savedFlight;
+    /**  the flight list  */
     private ArrayList<Flight> flights;
+    /**  the adapter to inflate flights  */
     private FlightAdapter flightAdapter;
 
     /**

@@ -28,8 +28,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivityDictionary extends AppCompatActivity {
-
+    /**
+     *  to save all the words
+     */
     private ArrayList<Word> wordsList;
+    /**
+     *  to save word contents
+     */
     private Word word;
 
     /***

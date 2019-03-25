@@ -47,13 +47,17 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivityFlightStatusTracker extends AppCompatActivity {
+    /**  flight list */
     private ArrayList<Flight> flights;
+    /** the adapter to inflate the flights */
     private FlightAdapter flightAdapter;
+    /**  progress bar  */
     private  ProgressBar pbar;
-    private TextView flightNo_qy,
-            flightStatus_qy;
-
+    /**  the flight number and flight status */
+    private TextView flightNo_qy, flightStatus_qy;
+    /**  activity name */
     protected static final String ACTIVITY_NAME = "Flights Search By Airport";
+    /**  flight url */
     protected static final String URL_XML = "http://aviation-edge.com/v2/public/flights?key=8a0877-70791c";
 
     /**
