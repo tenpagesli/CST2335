@@ -35,7 +35,7 @@ public class NytSearchedActivity extends AppCompatActivity {
             public void run() {
                 while (mProgressStatus < 100) {
                     mProgressStatus++;
-                    android.os.SystemClock.sleep(2);
+                    android.os.SystemClock.sleep(5);
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -44,25 +44,35 @@ public class NytSearchedActivity extends AppCompatActivity {
                     });
                 };
             }
+             /* this method will call the progress bar
+                in a runnable thread
+                to do, will add condition when article populates the progress bar will
+                return and run by calling the runnable thread.
+             */
         }).start();
 
-        //click on to get message on saved article
+        /*  when click saved article comfirm saved
+            to do when saved it will transfer to the database for record keeping
+         */
         saveBtn.setOnClickListener(c -> {
             Toast.makeText(this, "Article Saved", Toast.LENGTH_LONG).show();
         });
 
 
+
         delBtn.setOnClickListener(c -> {
             // confirm with user if really want to delete
+            //to do delete from database when article is highlighted and calls delete
             View middle = getLayoutInflater().inflate(R.layout.activity_article_delete, null);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                }// comfirm saved
+                }
+
             })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                        } //cancel action
+                        }
                     })
                     .setView(middle);
             builder.create().show();

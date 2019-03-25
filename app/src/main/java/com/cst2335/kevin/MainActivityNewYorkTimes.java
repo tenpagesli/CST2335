@@ -32,17 +32,16 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
         Button searchBtn = findViewById(R.id.nyt_searchButton);
         androidImageButton = findViewById(R.id.nyt_imageBut);
 
-        // clicked on search button
+        // clicked on search button to go to new pages with searched results
         searchBtn.setOnClickListener(c->{
             Intent nextPage = new Intent(MainActivityNewYorkTimes.this, NytSearchedActivity.class );
             startActivity(nextPage);
         });
 
-        //click on image to go back to menu
+        //click on image to go back to main menu
         androidImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Snackbar sb = Snackbar.make(androidImageButton, "Welcome To NewYork Times", Snackbar.LENGTH_LONG)
                         .setAction("Go Back To Main Menu?", e -> finish());
                 sb.show();
@@ -72,6 +71,13 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
             }
         });
         listV.setAdapter(artAdt);
+        /*
+            this method will populates the listview will Arraylist objects
+            returns article to listview
+
+            to do, link to the website and return nyt Articles
+        */
+
 
 
 

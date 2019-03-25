@@ -42,10 +42,10 @@ public class ArticleAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).
-                    inflate(R.layout.activity_news_list_item, parent, false);
+                    inflate(R.layout.activity_article_search_list, parent, false);
         }
         Article currentItem = (Article) getItem(position);
-        TextView textViewItemName = convertView.findViewById(R.id.news_title);
+        TextView textViewItemName = convertView.findViewById(R.id.article_id);
         textViewItemName.setText(currentItem.getTitle());
 
         return convertView;
