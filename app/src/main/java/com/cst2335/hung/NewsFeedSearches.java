@@ -35,7 +35,6 @@ private ProgressBar progressBar;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed_searches);
 
-
         //webhose url
         NewsFeedQuery wq = new NewsFeedQuery();
         wq.execute("http://webhose.io/filterWebContent?token=86940a5c-b094-4465-942e-81ce096fe5c9&format=xml&sort=crawled&q=samsung");
@@ -52,20 +51,19 @@ private ProgressBar progressBar;
     {
 
         public String titleAtt;
+        public String uuid;
 
         @Override
         protected String doInBackground(String... params) {
 
             try {
-
                 //get the string url:
                 String myUrl = params[0];
-
                 //create the network connection:
                 URL url = new URL(myUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000 /* milliseconds */);
-                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setReadTimeout(10000 ); // milliseconds
+                conn.setConnectTimeout(15000  ); //milliseconds
                 conn.setRequestMethod("GET");
                 conn.setDoInput(true);
 
@@ -83,10 +81,22 @@ private ProgressBar progressBar;
                 //created a pull parser:
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                 factory.setNamespaceAware(false);
-
                 XmlPullParser xpp = factory.newPullParser();
-
                 xpp.setInput( inStream  , "UTF-8");
+
+
+/**             // the commented code below also can be replaced of you code from line 61 to line 86
+                String myUrl = params[0];
+                //create the network connection:
+                URL url = new URL(myUrl);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream inStream = urlConnection.getInputStream();
+                //create a pull parser:
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(false);
+                XmlPullParser xpp = factory.newPullParser();
+                xpp.setInput( inStream  , "UTF-8");  //inStream comes from line 46
+ */
 
                 //loop over the webhose.io XML:
                 while(xpp.getEventType() != XmlPullParser.END_DOCUMENT)
@@ -94,18 +104,26 @@ private ProgressBar progressBar;
                     if(xpp.getEventType() == XmlPullParser.START_TAG)
                     {
                         String tagName = xpp.getName();
-                        if(tagName.equals("title")) {
-
-
-                                publishProgress(25);
-                                Thread.sleep(300);
-                                //  partsOfSpeech = xpp.getText();
-                                //  titleAtt = xpp.getText();
-                                titleAtt = xpp.getAttributeValue(null, "cheese");
-                                Log.e("AsyncTask", "Found parameter : " + titleAtt);
-                                publishProgress(50);
-                                Thread.sleep(300);
-
+                        if(tagName.equals("uuid")) {
+                            // need to call xpp.next() point to inside of the <uuid> tag;
+                            // But if we are looking for an "attribute" of <uuid> tag, then do not need to call xpp.next()"
+                            if(xpp.next() == XmlPullParser.TEXT) {
+                                uuid = xpp.getText();
+                                Log.e("AsyncTask", "Found parameter uuid: " + uuid);
+                            }
+                            // titleAtt = xpp.getAttributeValue(null, "cheese");
+                            publishProgress(15);
+                            Thread.sleep(300);
+                        }
+                        else if(tagName.equals("title")) {
+                            // same thing as above
+                            if(xpp.next() == XmlPullParser.TEXT) {
+                                titleAtt = xpp.getText();
+                                Log.e("AsyncTask", "Found parameter titleAtt: " + titleAtt);
+                            }
+                            // titleAtt = xpp.getAttributeValue(null, "cheese");
+                            publishProgress(25);
+                            Thread.sleep(300);
                         }
 /*                    else if(tagName.equals("dt"))
                     {
@@ -146,6 +164,7 @@ private ProgressBar progressBar;
             Log.i("AsyncTask", "update:" + values[0]);
 
             progressBar.setVisibility(View.VISIBLE);
+            progressBar.setProgress(15);
             progressBar.setProgress(25);
             progressBar.setProgress(50);
             progressBar.setProgress(75);
