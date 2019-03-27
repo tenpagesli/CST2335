@@ -5,142 +5,104 @@
  */
 package com.cst2335.queeny;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 public class Flight {
 
     /** flight number */
-    String flightNo;
-    /**  flight location */
-    String location;
+    HashMap<String, String> flightNo;
+    /**  flight departure */
+    HashMap<String, String>  departure;
+    /**  flight arrival */
+    HashMap<String, String>  arrival;
     /**  flight speed */
-    String speed;
+    HashMap<String, String>  speed;
     /** flight altitude */
-    String altitude;
+    String  altitude;
     /**  flight status */
     String status;
-    /**  flight airportCode */
-    String airportCode;
 
-    /**
-     *  Default constructor
-     *
-     * @param flightNo
-     * @param location
-     * @param speed
-     * @param altitude
-     * @param status
-     * @param airportCode
-     */
-    public Flight(String flightNo, String location, String speed, String altitude, String status, String airportCode) {
+    public Flight() {
+    }
+
+    public Flight(HashMap<String, String> flightNo, HashMap<String, String> departure, HashMap<String, String> arrival, HashMap<String, String> speed, String altitude, String status) {
         this.flightNo = flightNo;
-        this.location = location;
+        this.departure = departure;
+        this.arrival = arrival;
         this.speed = speed;
         this.altitude = altitude;
         this.status = status;
-        this.airportCode = airportCode;
     }
 
-    /**
-     * get Flight number
-     * @return
-     */
-    public String getFlightNo() {
+    public HashMap<String, String> getFlightNo() {
         return flightNo;
     }
 
-    /**
-     * set Flight number
-     * @param flightNo
-     */
-    public void setFlightNo(String flightNo) {
+    public void setFlightNo(HashMap<String, String> flightNo) {
         this.flightNo = flightNo;
     }
 
-    /**
-     * get Location
-     * @return
-     */
-    public String getLocation() {
-        return location;
+    public HashMap<String, String> getDeparture() {
+        return departure;
     }
 
-    /**
-     * set Location
-     * @param location
-     */
-    public void setLocation(String location) {
-        this.location = location;
+    public void setDeparture(HashMap<String, String> departure) {
+        this.departure = departure;
     }
 
-    /**
-     * get speed
-     * @return
-     */
-    public String getSpeed() {
+    public HashMap<String, String> getArrival() {
+        return arrival;
+    }
+
+    public void setArrival(HashMap<String, String> arrival) {
+        this.arrival = arrival;
+    }
+
+    public HashMap<String, String> getSpeed() {
         return speed;
     }
 
-    /**
-     * set Speed
-     * @param speed
-     */
-    public void setSpeed(String speed) {
+    public void setSpeed(HashMap<String, String> speed) {
         this.speed = speed;
     }
 
-    /**
-     * get Altitude
-     * @return
-     */
     public String getAltitude() {
         return altitude;
     }
 
-    /**
-     * set Altitude
-     * @param altitude
-     */
     public void setAltitude(String altitude) {
         this.altitude = altitude;
     }
 
-    /**
-     * get Status
-     * @return
-     */
     public String getStatus() {
         return status;
     }
 
-    /**
-     * set status
-     * @param status
-     */
     public void setStatus(String status) {
         this.status = status;
     }
 
-    /**
-     * get airportCode
-     * @return
-     */
-    public String getAirportCode() {
-        return airportCode;
+    @Override
+    public String toString() {
+        return "Flight{}";
     }
 
-    /**
-     * set AirportCode
-     * @param airportCode
-     */
-    public void setAirportCode(String airportCode) {
-        this.airportCode = airportCode;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flight flight = (Flight) o;
+        return Objects.equals(flightNo, flight.flightNo) &&
+                Objects.equals(departure, flight.departure) &&
+                Objects.equals(arrival, flight.arrival) &&
+                Objects.equals(speed, flight.speed) &&
+                Objects.equals(altitude, flight.altitude) &&
+                Objects.equals(status, flight.status);
     }
 
-    /**
-     * overriding toString
-     * @return
-     */
-    public String toString(){
-        return "Flight number is: " + this.getFlightNo();
+    @Override
+    public int hashCode() {
+        return Objects.hash(flightNo, departure, arrival, speed, altitude, status);
     }
-
 }

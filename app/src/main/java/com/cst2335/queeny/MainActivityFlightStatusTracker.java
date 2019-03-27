@@ -6,17 +6,23 @@
 package com.cst2335.queeny;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Xml;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.HttpAuthHandler;
@@ -27,12 +33,19 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.cst2335.MainActivity;
+import com.cst2335.MyUtil;
 import com.cst2335.R;
+import com.cst2335.hung.MainActivityNewsFeed;
+import com.cst2335.kevin.MainActivityNewYorkTimes;
+import com.cst2335.ryan.MainActivityDictionary;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -40,13 +53,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivityFlightStatusTracker extends AppCompatActivity {
+    /** toolbar  */
+    Toolbar tBar;
     /**  flight list */
     private ArrayList<Flight> flights;
     /** the adapter to inflate the flights */
@@ -58,7 +75,13 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
     /**  activity name */
     protected static final String ACTIVITY_NAME = "Flights Search By Airport";
     /**  flight url */
-    protected static final String URL_XML = "http://aviation-edge.com/v2/public/flights?key=8a0877-70791c";
+    protected static final String myUrl = "http://aviation-edge.com/v2/public/flights?key=8a0877-70791c";
+    /** airport code test view */
+    TextView airportCode;
+    Button search;
+    Button viewSaved;
+    Button refreshList;
+    ListView flightList;
 
     /**
      * When user wants to go to Flight Status Tracker's home page, this method runs
@@ -68,22 +91,26 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_flight_status_tracker);
+        // get toolbar
+        tBar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(tBar);
 
         flights = new ArrayList<Flight>();
-        flights.add(new Flight("1024", "locaiton", "speed",
-                "altitude", "status", "airportCode"));
-        flights.add(new Flight("1025", "locaiton2", "speed2",
-                "altitude2", "status2", "airportCode2"));
-        TextView airportNo = findViewById(R.id.editText2);
-        Button search = findViewById(R.id.buttonSeach_qy);
-        Button viewSaved = findViewById(R.id.buttonView_qy);
-        Button refreshList = findViewById(R.id.buttonRefresh_qy);
-        ListView flightList = findViewById(R.id.FlightList_qy);
+//        flights.add(new Flight("1024", "locaiton", "speed",
+//                "altitude", "status", "airportCode"));
+//        flights.add(new Flight("1025", "locaiton2", "speed2",
+//                "altitude2", "status2", "airportCode2"));
+        airportCode = findViewById(R.id.editText2);
+        search = findViewById(R.id.buttonSeach_qy);
+        viewSaved = findViewById(R.id.buttonView_qy);
+        refreshList = findViewById(R.id.buttonRefresh_qy);
+        flightList = findViewById(R.id.FlightList_qy);
         // when click on search button
         search.setOnClickListener(c->{
             // get flight list from website
-            //TODO: search for flight
-            this.getFlightList();
+            FlightQuery fq = new FlightQuery();
+            fq.execute(myUrl); // will run doInBackground()
+
             // inflate flight summary xml
             flightAdapter = new FlightAdapter(this, 0);
             flightList.setAdapter(flightAdapter);
@@ -135,7 +162,64 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
         private String flightNo, flightStatus;
         @Override
         protected String doInBackground(String... strings) {
-         return null;
+            //get the string url:
+            String myUrl = strings[0];
+            try {
+                //create the network connection:
+                URL url = new URL(myUrl);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line+"\n");
+                }
+                br.close();
+
+                JSONArray array;
+                try {
+                    array = new JSONArray(sb.toString());
+                    for(int i=0;i<array.length();i++){
+                        JSONObject obj = array.getJSONObject(i);
+                        // get your data from jsonObject
+                        JSONArray departures = obj.getJSONArray("departure");
+                        if(departures.getString(0).equals(airportCode.getText().toString())
+                           || departures.getString(1).equals(airportCode.getText().toString())){
+
+//                            HashMap<String, String> flightNo = new HashMap<>();
+//                            flightNo.put("iataNumber",obj.getJSONObject("flight").getJSONObject("iataNumber").toString());
+//                            flightNo.put("icaoNumber",obj.getJSONObject("flight").getJSONObject("icaoNumber").toString());
+//                            flightNo.put("number",obj.getJSONObject("flight").getJSONObject("number").toString());
+                            HashMap<String, String>  departure = new HashMap<>();
+                            HashMap<String, String>  arrival = new HashMap<>();
+                            HashMap<String, String>  speed = new HashMap<>();
+                            String  altitude = null;
+                            String status = null;
+
+
+//
+//                            Flight flight = new Flight(obj.getJSONObject("flight").getJSONObject("number"),
+//                                    obj.getJSONObject("departure").getJSONObject("iataCode")
+//                                    , String speed, String altitude, String status, String airportCode);
+//
+//                            new Flight(new HashMap<String>, HashMap<String, String> departure, HashMap<String, String> arrival,
+//                                    HashMap<String, String> speed, HashMap<String, String> altitude,
+//                                    HashMap<String, String> status, HashMap<String, String> airportCode);
+                        }
+                        JSONArray arrivals = obj.getJSONArray("arrival");
+
+                    }
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+
+
+            }catch (Exception ex){
+                Log.e("Crash!!", ex.getMessage() );
+            }
+            return  "Finished task";
         }
 
         @Override
@@ -188,7 +272,7 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
             newView = inflater.inflate(R.layout.activity_flight_summary_qy, null);
             TextView flightNo = newView.findViewById(R.id.flightNo_qy);
             TextView flightStatus = newView.findViewById(R.id.flightStatus_qy);
-            flightNo.setText(flight.getFlightNo());
+            // flightNo.setText(flight.getFlightNo());
             flightStatus.setText(flight.getStatus());
             return newView;
         }
@@ -198,10 +282,68 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
         }
     }
 
+
+
     /**
-     * get flight list from web site, and add all flights into flight arrayList
-     * */
-    private void getFlightList(){
-        // TODO:
+     * inflate the icons for toolbar
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu_flight_main_qy, menu);
+        return true;
     }
+
+    /**
+     * when click on the icons
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent nextPage = null;
+        switch(item.getItemId())
+        {
+            //when click on "dictionary"
+            case R.id.go_dic:
+                nextPage = new Intent(MainActivityFlightStatusTracker.this, MainActivityDictionary.class);
+                startActivity(nextPage);
+                break;
+            //when click on "news feed"
+            case R.id.go_news_feed:
+                nextPage = new Intent(MainActivityFlightStatusTracker.this, MainActivityNewsFeed.class);
+                startActivity(nextPage);
+                break;
+            //when click on "new york times"
+            case R.id.go_new_york:
+                nextPage = new Intent(MainActivityFlightStatusTracker.this, MainActivityNewYorkTimes.class);
+                startActivity(nextPage);
+                break;
+            // when click on "help":
+            case R.id.go_help:
+                // show help dialog
+                View middle = getLayoutInflater().inflate(R.layout.activity_help_dialog, null);
+                TextView authorName = (TextView)middle.findViewById(R.id.author_name);
+                TextView versionNumber = (TextView)middle.findViewById(R.id.version_number);
+                TextView instructions = (TextView)middle.findViewById(R.id.instructions);
+                authorName.setText(MyUtil.flightAuther);
+                versionNumber.setText(MyUtil.versionNumber);
+                instructions.setText(MyUtil.flightInstruction);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                        .setView(middle);
+
+                builder.create().show();
+                break;
+        }
+        return true;
+    }
+
 }
