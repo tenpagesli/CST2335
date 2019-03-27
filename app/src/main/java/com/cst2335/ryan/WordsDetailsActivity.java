@@ -57,6 +57,7 @@ public class WordsDetailsActivity extends AppCompatActivity {
         Intent previousPage = getIntent();
         inputWord = previousPage.getStringExtra("inputWord");
         String myURL = preUrl + inputWord + postUrl;
+        Log.e("url is: ", myURL);
 
         // show the input word
         TextView inputWordView = findViewById(R.id.word);

@@ -22,6 +22,7 @@ public class Word {
      *  Constructor
      */
     public Word() {
+
     }
 
     /**
