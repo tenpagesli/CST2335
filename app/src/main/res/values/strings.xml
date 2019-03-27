@@ -1,4 +1,5 @@
 <resources>
+    <!--common strings-->
     <string name="app_name">Rock Android</string>
     <string name="color">color</string>
     <string name="welcome_message">Welcome to Rock Android!</string>
@@ -6,6 +7,17 @@
     <string name="enter_nf">News Feed</string>
     <string name="enter_fst">Flight Status Tracker</string>
     <string name="enter_nyt">New York Times Article Search</string>
+    <string name="delete_warning">Do you really want to delete? </string>
+    <string name="help">Help </string>
+    <string name="home">Home Page </string>
+
+    <!--Kevin Strings -->
+    <string name="enter_nyt_kn">Article Search</string>
+    <string name="nyt_save_kn">Save article</string>
+    <string name="nyt_delete_kn">Delete article</string>
+    <string name="delete_article_kn">Do you want to delete this Article </string>
+
+    <!--Ryan Strings-->
     <string name="welcome_msg_dic_rl">Welcome to Merriam Webster Dictionary</string>
     <string name="input_hint_dic_rl">Please enter the word you want to search</string>
     <string name="search_btn_dic_rl">search</string>
@@ -17,7 +29,9 @@
     <string name="prevos_words_list_dic_rl">Below are the last 20 words you searched</string>
     <string name="parts_of_speech_dic_rl">Parts Of Speech:</string>
     <string name="definition_dic_rl">Definition:</string>
-    <string name="example_sentence">Example sentence:</string>
+    <string name="example_sentence_rl">Example sentence:</string>
+
+    <!--Quenny Strings-->
     <string name="title_qy">Flight Status tracker</string>
     <string name="typeHere_qy">Please Input Airport Code </string>
     <string name="search_qy">Search </string>
@@ -32,14 +46,8 @@
     <string name="status_qy">Status </string>
     <string name="save_btn_qy">Save </string>
     <string name="delete_btn_qy">Delete </string>
-    <string name="delete_warning">Do you really want to delete? </string>
 
-
-    <!--Kevin Strings -->
-    <string name="enter_nyt_kn">Article Search</string>
-    <string name="nyt_save_kn">Save article</string>
-    <string name="nyt_delete_kn">Delete article</string>
-    <string name="delete_article_kn">Do you want to delete this Article </string>
+    <!--Hung Strings-->
 
 
 </resources>

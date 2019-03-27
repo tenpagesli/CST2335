@@ -3,18 +3,17 @@
     package="com.cst2335">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:minSdkVersion="8"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".hung.NewsFeedDetailed3"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".hung.NewsFeedDetailed3" />
         <activity android:name=".hung.NewsFeedDetailed2" />
         <activity android:name=".hung.NewsFeedDetailed" />
         <activity android:name=".hung.NewsFeedSearches" />
@@ -26,7 +25,7 @@
         <activity android:name=".queeny.MainActivityFlightStatusTracker" />
         <activity android:name=".kevin.MainActivityNewYorkTimes" />
         <activity android:name=".kevin.NytSearchedActivity" />
-        <activity android:name=".kevin.ArticleActivity1"/>
+        <activity android:name=".kevin.ArticleActivity1" />
         <activity android:name=".hung.MainActivityNewsFeed" />
         <activity android:name=".MainActivity">
             <intent-filter>

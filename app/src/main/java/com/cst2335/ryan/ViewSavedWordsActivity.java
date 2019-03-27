@@ -19,7 +19,8 @@ public class ViewSavedWordsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_saved_words);
+        setContentView(R.layout.activity_dic_view_saved_words);
+
 
     }
 }

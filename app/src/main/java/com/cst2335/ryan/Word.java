@@ -19,6 +19,12 @@ public class Word {
     private String exampleSentence;
 
     /**
+     *  Constructor
+     */
+    public Word() {
+    }
+
+    /**
      * Default constructor
      *
      * @param word

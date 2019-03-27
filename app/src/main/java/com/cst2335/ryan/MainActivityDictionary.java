@@ -5,11 +5,14 @@
  * **/
 package com.cst2335.ryan;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,6 +24,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cst2335.MainActivity;
+import com.cst2335.MyUtil;
 import com.cst2335.R;
 
 import java.util.ArrayList;
@@ -28,6 +33,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivityDictionary extends AppCompatActivity {
+    /**
+     *  tool bar
+     */
+    Toolbar tBar;
     /**
      *  to save all the words
      */
@@ -45,6 +54,10 @@ public class MainActivityDictionary extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_dictionary);
+
+        tBar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(tBar);
+
         // get all the user input word
         TextView inputWord = findViewById(R.id.search_input);
         Button searchBtn = findViewById(R.id.search_btn);
@@ -70,6 +83,7 @@ public class MainActivityDictionary extends AppCompatActivity {
         searchBtn.setOnClickListener(c->{
             // search word from online, and jump to detailed page
             Intent nextPage = new Intent(MainActivityDictionary.this, WordsDetailsActivity.class );
+            nextPage.putExtra("inputWord", inputWord.getText().toString());
             startActivity(nextPage);
         });
 
@@ -96,6 +110,44 @@ public class MainActivityDictionary extends AppCompatActivity {
             Intent nextPage = new Intent(MainActivityDictionary.this, WordsDetailsActivity.class );
             startActivity(nextPage);
         });
+    }
+
+    /**
+     * inflate the icons for toolbar
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu_dictionary_rl, menu);
+        return true;
+    }
+
+    /**
+     * when click on the icons
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent nextPage = null;
+        switch(item.getItemId())
+        {
+            //when click on "home page":
+            case R.id.go_home:
+                nextPage = new Intent(MainActivityDictionary.this, MainActivity.class);
+                startActivity(nextPage);
+                break;
+
+            // when click on "help":
+            case R.id.go_help:
+                // show help dialog
+                this.showDialog();
+                break;
+        }
+        return true;
     }
 
     /**
@@ -142,7 +194,7 @@ public class MainActivityDictionary extends AppCompatActivity {
             View newView = null;
             LayoutInflater inflater = getLayoutInflater();
             word = (Word)getItem(position);
-            newView = inflater.inflate(R.layout.activity_pre_words, parent, false);
+            newView = inflater.inflate(R.layout.activity_dic_pre_words, parent, false);
             TextView content = (TextView) newView.findViewById(R.id.pre_word);
             //Get the string to go in row: position
             String toDisplay = ((Word) getItem(position)).getWord();
@@ -157,4 +209,27 @@ public class MainActivityDictionary extends AppCompatActivity {
             return 0;
         }
     }
+
+    /**
+     *  show the help dialog
+     */
+    private void showDialog(){
+        View middle = getLayoutInflater().inflate(R.layout.activity_help_dialog, null);
+        TextView authorName = (TextView)middle.findViewById(R.id.author_name);
+        TextView versionNumber = (TextView)middle.findViewById(R.id.version_number);
+        TextView instructions = (TextView)middle.findViewById(R.id.instructions);
+        authorName.setText(MyUtil.dictionaryAuther);
+        versionNumber.setText(MyUtil.versionNumber);
+        instructions.setText(MyUtil.dictionaryInstruction);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        })
+                .setView(middle);
+
+        builder.create().show();
+    }
+
 }
