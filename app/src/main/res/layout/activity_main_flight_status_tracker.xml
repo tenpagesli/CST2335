@@ -19,12 +19,18 @@
         android:gravity="center"
         android:text="@string/title_qy" />
 
-
     <EditText
-        android:id="@+id/editText2"
-        android:layout_width="match_parent"
+        android:id="@+id/airport_code_qy"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/typeHere_qy" />
+
+    <Switch
+        android:id="@+id/airport_switch_qy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="IATA Code"/>
 
     <Button
         android:id="@+id/buttonSeach_qy"
@@ -42,7 +48,6 @@
         android:id="@+id/buttonRefresh_qy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:text="@string/buttonRefresh_qy" />
 
     <android.support.v4.widget.ContentLoadingProgressBar
@@ -57,7 +62,5 @@
         android:id="@+id/FlightList_qy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-
 
 </LinearLayout>

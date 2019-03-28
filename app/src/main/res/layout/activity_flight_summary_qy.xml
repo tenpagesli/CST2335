@@ -1,22 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <GridLayout android:rowCount="2"
+    android:columnCount="4"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:orientation="horizontal"
-    android:layout_height="match_parent">
+    android:id="@+id/grid_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:id="@+id/flightNo_qy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/flightNo_qy" />
+        android:text="@string/flightNo_qy"
+        android:layout_columnWeight="1"/>
 
-    <TextView
-        android:id="@+id/flightStatus_qy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/flightStatus_qy" />
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/iataNumber_qy" android:text="IATA No." android:layout_columnWeight="1"/>
 
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/icaoNumber_qy" android:text="ICAO No." android:layout_columnWeight="1"/>
 
-</LinearLayout>
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/flightStatus_qy" android:text="@string/flightStatus_qy" android:layout_columnWeight="1"/>
+
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/v_flightNo_qy" android:text="@string/flightNo_qy" android:layout_columnWeight="1"/>
+
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/v_iataNumber_qy" android:text="IATA No." android:layout_columnWeight="1"/>
+
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/v_icaoNumber_qy" android:text="ICOA No." android:layout_columnWeight="1"/>
+
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/v_flightStatus_qy" android:text="@string/flightStatus_qy" android:layout_columnWeight="1"/>
+
+</GridLayout>
