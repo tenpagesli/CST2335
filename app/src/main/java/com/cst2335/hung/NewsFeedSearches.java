@@ -28,8 +28,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class NewsFeedSearches extends AppCompatActivity {
-private TextView titleView;
-private ProgressBar progressBar;
+private TextView titleView, uuidView, articleView; //title, uuid, article view
+private ProgressBar progressBar; //progress bar of Async
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +42,7 @@ private ProgressBar progressBar;
         progressBar = findViewById(R.id.progressBar_hd);
         progressBar.setVisibility(View.VISIBLE);
         titleView = findViewById(R.id.title_hd);
+        uuidView = findViewById(R.id.uuid_hd);
 
     }
 
@@ -50,8 +51,8 @@ private ProgressBar progressBar;
     private class NewsFeedQuery extends AsyncTask<String, Integer, String>
     {
 
-        public String titleAtt;
-        public String uuid;
+        public String titleAtt; //title value
+        public String uuid; //uuid value
 
         @Override
         protected String doInBackground(String... params) {
@@ -159,6 +160,10 @@ private ProgressBar progressBar;
             return "Finished task";
         }
 
+        /**
+         *
+         * @param values
+         */
         @Override
         protected void onProgressUpdate(Integer... values) {
             Log.i("AsyncTask", "update:" + values[0]);
@@ -168,14 +173,18 @@ private ProgressBar progressBar;
             progressBar.setProgress(25);
             progressBar.setProgress(50);
             progressBar.setProgress(75);
-            progressBar.setProgress(75);
             progressBar.setMax(100);
         }
 
+        /**
+         * title, uuid, anticle displayed once connection is done
+         * @param args
+         */
         @Override
         protected void onPostExecute(String args) {
             Log.i("AsyncTask", "onPostExecute" );
-            titleView.setText("TITLE:" + titleAtt);
+            titleView.setText(titleAtt);
+            titleView.setText(uuid);
         }
 
 

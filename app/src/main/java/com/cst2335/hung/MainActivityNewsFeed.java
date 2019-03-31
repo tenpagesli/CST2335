@@ -1,20 +1,24 @@
 package com.cst2335.hung;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.cst2335.MainActivity;
+import android.widget.Button;
+
+import android.widget.ListView;
+
 import com.cst2335.R;
+
 
 import java.util.ArrayList;
 
@@ -36,6 +40,8 @@ public class MainActivityNewsFeed extends AppCompatActivity {
             //startActivityForResult(nextPage, 30);
         });
 
+        Toolbar tBar = (Toolbar)findViewById(R.id.toolbar_hd);
+        setSupportActionBar(tBar);
 
         //arraylist of articles
         ArrayList<News> newsArrayList = new ArrayList<News>();
@@ -81,6 +87,66 @@ public class MainActivityNewsFeed extends AppCompatActivity {
         lv.setAdapter(newsAdt);
 
 
+    }
+
+    /**
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent nextPage = null;
+        switch(item.getItemId())
+        {
+
+            // when click on "help":
+            case R.id.go_help:
+                // show help dialog
+                showDialog();
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * news feed toolbar inflater
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu_newsfeed_hd, menu);
+        return true;
+    }
+
+    /**
+     * show help dialog of toolbar(overflow)
+     */
+    private void showDialog() {
+        //pop up custom dialog to show Activity Version, Author, and how to use news feed
+        View middle = getLayoutInflater().inflate(R.layout.activity_main_news_feed_help_popup, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage("Activity Version: 1.0\n" +
+                "Author: Hung\n" +
+                "How to use: Enter search term of the article. Click on article for further details.")
+/*                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                    }
+                })*/
+                .setNegativeButton("OK.", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // What to do on Cancel
+                    }
+                }).setView(middle);
+
+        builder.create().show();
     }
 
 }
