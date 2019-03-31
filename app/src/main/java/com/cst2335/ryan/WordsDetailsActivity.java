@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class WordsDetailsActivity extends AppCompatActivity {
     /** the url that be used to get the explaination from website */
@@ -37,12 +38,6 @@ public class WordsDetailsActivity extends AppCompatActivity {
     String inputWord;
      /** the post part of url **/
      String postUrl = "?key=4556541c-b8ed-4674-9620-b6cba447184f";
-
-     /** the word object bean*/
-     Word word = null;
-
-     /** definition list */
-     ArrayList<String> defiList = null;
 
     /**
      * this method runs when user click on a specific item of ViewList
@@ -109,10 +104,12 @@ public class WordsDetailsActivity extends AppCompatActivity {
     // a subclass of AsyncTask                  Type1    Type2    Type3
     private class WordQuery extends AsyncTask<String, Integer, String>
     {
-        String word;
-        String partsOfSpeech;
-        ArrayList<String> definitions;
-        String exampleSentence;
+        // definition list
+        HashMap<String, ArrayList<String>> defiList = new HashMap<>();
+        // example sentence list
+        ArrayList<String> exSenList;
+        // all the results for the searching word
+        ArrayList<Word> wordsList = new ArrayList<>();
 
         // We don't use namespaces
         String ns = null;
@@ -156,16 +153,16 @@ public class WordsDetailsActivity extends AppCompatActivity {
 //            progressBar.setVisibility(View.INVISIBLE);
         }
 
+        /**
+         *
+         * @param params
+         * @throws XmlPullParserException
+         * @throws IOException
+         */
         private void processWordXML(String... params) throws XmlPullParserException, IOException {
-            String currentWord = null; // the current attribute content of id in <entry> tag
-            boolean sameDef = false; // if in the same <def> tag. inside this tag, all are definitions
-            boolean sameSn = false; // if in the same <sn> tag. inside this tag, it's a number for each defination
-          //   boolean sameDt = false; // if in the same <dt> tag. inside this tag, it's ":" or ": with explaination"
-            boolean sameSx = false; // if in the same <sx> tag. inside this tag, it's the explaination
 
             //get the string url:
             String myUrl = params[0];
-            String definition = "";
 
             //create the network connection:
             URL url = new URL(myUrl);
@@ -178,66 +175,228 @@ public class WordsDetailsActivity extends AppCompatActivity {
             XmlPullParser xpp = factory.newPullParser();
             xpp.setInput( inStream  , "UTF-8");  //inStream comes from line 46
 
-            //loop over the weather XML:
-            while(xpp.getEventType() != XmlPullParser.END_DOCUMENT)
-            {
-                if(xpp.getEventType() == XmlPullParser.START_TAG)
-                {
+            // Loop for one entry
+            while(xpp.getEventType() != XmlPullParser.END_DOCUMENT){
+                if(xpp.getEventType() == XmlPullParser.START_TAG){
                     String tagName = xpp.getName(); //get the name of the starting tag: <tagName>
-                    if(tagName.equals("entry") && xpp.getAttributeValue(null, "id").equals(inputWord))
-                    {
-                        currentWord = inputWord;
-                    }
-                    // if this is still inside input word's <entry> tag
-                    else if(inputWord.equals(currentWord) && tagName.equals("fl"))
-                    {
-                        xpp.next();
-                        partsOfSpeech = xpp.getText();
-                        Log.e("AsyncTask", "Found partsOfSpeech: "+ partsOfSpeech);
-                    }
-                    else if(inputWord.equals(currentWord) && tagName.equals("def"))
-                    {
-                        sameDef = true;
-                        Log.e("AsyncTask", "Found def tag: ");
-                    } // if there is a <sn> under <def> tag
-                    else if(inputWord.equals(currentWord)
-                            && tagName.equals("sn")
-                            && sameDef){
-                        Log.e("AsyncTask", "Found sn tag: ");
-                        sameSn = true;
-                        xpp.next();
-                        definition += (xpp.getText()+": ");
-                    }
-                    // if there is no <sn> under <def> tag (the tag under <def> is <dt>)
-                    else if(inputWord.equals(currentWord)
-                            && tagName.equals("dt")
-                            && sameDef){
-                        Log.e("AsyncTask", "Found dt tag: ");
-                        xpp.next();
-                        definition += (xpp.getText()+" ");
-                        definitions.add(definition);
-                        // it reaches the bottom of the tree, so set everything as false for next run.
-                        sameSn = false;
-                        sameDef = false;
-                    }
-                    // if there is a <sn> under <def> tag
-                    else if(inputWord.equals(currentWord)
-                            && tagName.equals("dt")
-                            && sameDef
-                            && sameSn){
-                        Log.e("AsyncTask", "Found dt tag: ");
-                        xpp.next();
-                        definition += (xpp.getText()+" ");
-                        definitions.add(definition);
-                        // it reaches the bottom of the tree, so set everything as false for next run.
-                        sameSn = false;
-                        sameDef = false;
+                    if(tagName.equals("entry")){
+                        xpp = this.getWordFromEntryXML(xpp);
                     }
                 }
-                xpp.next(); //advance to next XML event
+                xpp.next();
             }
+            Log.e("test", "--------------------");
+        }
+
+        /**
+         * get a Word object by passing in an <Entry> tag
+         *
+         * eg: "good"'s result as below:
+         *
+         * good[1]:
+         *      adjective:
+         *          1 a:of a favorable character or tendency
+         *              good news
+         *          b: fertile
+         *              good land
+         * good-hearted:
+         *      adjective:
+         *          :having a kindly generous disposition
+         *      adverb
+         *      noun
+         *
+         * it's structure example of xml file:
+         * normally:
+         * 1. under <entry> tag: only one <fl> and <def> tag
+         *                       <fl> means the "parts of speech"
+         *                       <def> means the definition starts. No contents directly after this tag
+         * 2. under <def>tag: may be multiple <sn> and <dt> tags.
+         *                    the next tag must be <sn> or <dt>, and no other context between <def> and next tag.
+         *                   <sn> means the number of one of the definition.
+         *                        the next tag must be <dt>. and must have other context between <sn> and <dt>.
+         *                   <dt> means the content of each definition
+         *                        the next "element" could be context, or <vi> tag, or <sx> tag
+         * 3. under <dt> tag: may be multiple <sx> but only one <vi> tags.
+         *                    <sx> means one of the content of sub-definitions
+         *                    <vi>: between <vi> and </vi> is an example.
+         *                         next "element" could be a context or <it>tag.
+         * 4-1. under <sx> tag: must be a content (or also has <sxn> tag after content)
+         *                     <sxn> tag means a given order for the <sx>. We can ignore the content between <sxn> and </sxn>.
+         *                           and consider <sx> or <vi> as the bottom node of the structure.
+         * 4-2. under <vi> tag: must be a content or a <it> tag. eg: <vi>it is a <it>good</it> book</it>
+         *                    <it>: between <it> and </it> is the searched word its own
+         *                    after <it> tag: it is the other parts of the example.
+         *
+         * <entry id="good[1]">
+         *      <fl>adjective</fl>
+         *      <def>
+         *          <sn>1 a</sn>
+         *          <dt>
+         *              :of a favorable character or tendency
+         *              <vi>
+         *                  <it>good</it>
+         *                  news
+         *              </vi>
+         *          </dt>
+         *          <sn>b</sn>
+         *          <dt>
+         *              :
+         *              <sx>
+         *                  fertile
+         *                  <sxn>1</sxn>
+         *              </sx>
+         *              <vi> // means there is an example
+         *                  <it>good</it>
+         *                  land
+         *              </vi>
+         *          </dt>
+         *      </def>
+         * </entry>
+         * <entry id="good-hearted">
+         *      <fl>adjective</fl>
+         *      <def>
+         *          <dt>:having a kindly generous disposition</dt>
+         *      </def>
+         *      <fl>adverb</fl>
+         *      <fl>noun</fl>
+         * </entry>
+         *
+         *
+         * @param xpp
+         * @return
+         */
+        private XmlPullParser getWordFromEntryXML(XmlPullParser xpp)throws XmlPullParserException, IOException{
+
+            // the "id" attribute of <entry> tag is the content of the searched word
+            String wordContent = "";
+            String partsOfSpeech = "";
+            String definition = "";
+            String exampleSentence = "";
+            boolean hadSn = false; // if there is a <sn> before
+            boolean hadDt = false; // if there is a <dt> before
+            boolean hadSx = false;
+
+            do{
+                String tagName = xpp.getName();
+                if("entry".equals(tagName)){ // when the tag is <entry>
+                    defiList = new HashMap<>(); // when there is a new entry, need a new definition list
+                    wordContent = xpp.getAttributeValue(null, "id");
+                }else if("fl".equals(tagName)){ // when the tag is <fl>
+                    xpp.next();
+                    partsOfSpeech = xpp.getText();
+                }else if("def".equals(tagName)){ // when the tag is <def>. means there is a new definition
+                    // NOTE: because there should be no content directly after this tag,
+                    //       however, we still add the definition to the list, just in case for a special situation
+
+                    // add previous definition to definition list
+                    if(!"".equals(definition)){
+                        defiList.put(definition, exSenList);
+                    }
+                    // reset definition as "" for next definition
+                    definition = "";
+                }else if("sn".equals(tagName)){ // when the tag is <sn>. means there is a new definition
+                    hadSn = true; // indicate it's a new definition
+                    // add previous definition to definition list
+                    if(!"".equals(definition)){
+                        defiList.put(definition, exSenList);
+                    }
+                    xpp.next();
+                    // reset definition start with the content of <sn> tag for next definition
+                    definition = xpp.getText() + " ";
+                    // need a new sentence list for the new definition
+                    exSenList = new ArrayList<>();
+                }else if("dt".equals(tagName)){ // when the tag is <dt>
+                    // there is a <sn> before. Because one <sn> must match with one <dt>,
+                    // no need to add previous definition to list yet because <sn> already added to list
+                    if(hadSn){
+                        xpp.next();
+                        definition += xpp.getText() + " ";
+                    }else{ // no <sn> before.
+                        if(hadDt){ // if there is a <dt> before, means it's a new definition.
+                            // add previous definition to list
+                            if(!"".equals(definition)){
+                                defiList.put(definition, exSenList);
+                            }
+                        }
+                        // need a new sentence list for the new definition
+                        exSenList = new ArrayList<>();
+                        xpp.next();
+                        definition += xpp.getText() + " ";
+                    }
+                }else if("sx".equals(tagName)){ // when the tag is <sx>
+                    // we ignore <sxn>, so add the content of <sx> to definition, it will be the last part of definition
+                    String nextTag;
+                    do{
+                        xpp.next();
+                        definition += (xpp.getText() + "; ");
+                        xpp.next();
+                        nextTag = xpp.getName();
+                    }while("sx".equals(nextTag));
+
+//                    if("vi".equals(nextTag)){
+//                        xpp.next();
+//                        if("it".equals(xpp.getName())){
+//                            xpp.next();
+//                            exampleSentence += (" " + xpp.getText());
+//                            xpp.next();
+//                            String lastPart = xpp.getText();
+//                            if(lastPart!=null && !"".equals(lastPart)){
+//                                exampleSentence += (" " + xpp.getText());
+//                            }
+//                        }else{
+//                            exampleSentence = xpp.getText();
+//                            if(exampleSentence==null){
+//                                exampleSentence = "";
+//                            }
+//                            xpp.next();
+//                        }
+//                    }
+                    exSenList.add(exampleSentence);
+                    defiList.put(definition, exSenList);
+                    hadSn = false; // reset
+                    hadDt = false; // reset
+                    definition = ""; // reset as "" for next definition
+                }else if("vi".equals(tagName)){
+//                    xpp.next();
+//                    exampleSentence = xpp.getText();
+//                    if(exampleSentence==null){
+//                        exampleSentence = "";
+//                    }
+//                    xpp.next();
+//                    if("it".equals(xpp.getName())){
+//                        xpp.next();
+//                        exampleSentence += (" " + xpp.getText());
+//                        xpp.next();
+//                        String lastPart = xpp.getText();
+//                        if(lastPart!=null && !"".equals(lastPart)){
+//                            exampleSentence += (" " + xpp.getText());
+//                        }
+//                    }
+//                    exSenList.add(exampleSentence);
+//                    defiList.put(definition, exSenList);
+//                    hadSn = false; // reset
+//                    hadDt = false; // reset
+//                    definition = ""; // reset as "" for next definition
+                }
+                xpp.next(); // point to next element
+                // if next element is <entry>, then break the loop
+                if("entry".equals(xpp.getName()) ){ // while next element is not next <entry> tag yet
+                    break;
+                }
+                if(xpp.getEventType() == XmlPullParser.END_TAG
+                        || xpp.getName()==null){
+                    xpp.next();
+                    continue;
+                }
+            }while(xpp.getEventType() != XmlPullParser.END_DOCUMENT); // and is start tag
+            // add the last word
+            Word theWord = new Word(wordContent, defiList, partsOfSpeech);
+            wordsList.add(theWord);
+            return xpp;
         }
     }
+
+
 
 
 }

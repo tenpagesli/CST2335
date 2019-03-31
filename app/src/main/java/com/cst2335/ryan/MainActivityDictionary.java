@@ -71,7 +71,7 @@ public class MainActivityDictionary extends AppCompatActivity {
         // get the top 20 words from shared-preferrence
         ArrayList<String> definList = new ArrayList<String>();
         definList.add("very glad");
-        wordsList.add(new Word("happy", definList, "adv", "I feel happy"));
+        // wordsList.add(new Word("happy", definList, "adv", "I feel happy"));
         // get the adapter to inflate the most recent words list
         ListAdapter adt = new WordsListAdapter(wordsList);
         preWordsList.setAdapter(adt);

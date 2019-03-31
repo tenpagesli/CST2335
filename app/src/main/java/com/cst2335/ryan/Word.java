@@ -6,17 +6,20 @@
 package com.cst2335.ryan;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Word {
     /** to save the word's content */
     private String word;
-    /** to save the definitions of the word */
-    private ArrayList<String> definitions;
+
+    /** to save the definitions of the word.
+     * One definition may match with more than 0 record of example sentences
+     * structure: HashMap<String definition, ArrayList<String> exampleSentences> definitions*/
+    private HashMap<String, ArrayList<String>> definitions;
+
      /** to save the parts of speech */
     private String partsOfSpeech;
-     /** to save the example sentence */
-    private String exampleSentence;
 
     /**
      *  Constructor
@@ -26,21 +29,19 @@ public class Word {
     }
 
     /**
-     * Default constructor
      *
      * @param word
      * @param definitions
      * @param partsOfSpeech
-     * @param exampleSentence
      */
-    public Word(String word, ArrayList<String> definitions, String partsOfSpeech, String exampleSentence) {
-        this.setWord(word);
-        this.setDefinitions(definitions);
-        this.setPartsOfSpeech(partsOfSpeech);
-        this.setExampleSentence(exampleSentence);
+    public Word(String word, HashMap<String, ArrayList<String>> definitions, String partsOfSpeech) {
+        this.word = word;
+        this.definitions = definitions;
+        this.partsOfSpeech = partsOfSpeech;
     }
 
-    /** get word's content
+    /**
+     * getWord
      *
      * @return
      */
@@ -49,32 +50,35 @@ public class Word {
     }
 
     /**
-     *  set word's content
+     * setWord
+     *
      * @param word
      */
-    private void setWord(String word) {
+    public void setWord(String word) {
         this.word = word;
     }
 
     /**
-     * get word's definition list
+     * getDefinitions
      *
      * @return
      */
-    public ArrayList<String> getDefinitions() {
+    public HashMap<String, ArrayList<String>> getDefinitions() {
         return definitions;
     }
 
     /**
-     *  set word's definition list
+     * setDefinitions
+     *
      * @param definitions
      */
-    private void setDefinitions(ArrayList<String> definitions) {
+    public void setDefinitions(HashMap<String, ArrayList<String>> definitions) {
         this.definitions = definitions;
     }
 
     /**
-     * get word's parts of speech
+     * getPartsOfSpeech
+     *
      * @return
      */
     public String getPartsOfSpeech() {
@@ -82,61 +86,31 @@ public class Word {
     }
 
     /**
-     * set word's parts of speech
+     * setPartsOfSpeech
+     *
      * @param partsOfSpeech
      */
-    private void setPartsOfSpeech(String partsOfSpeech) {
+    public void setPartsOfSpeech(String partsOfSpeech) {
         this.partsOfSpeech = partsOfSpeech;
     }
 
-    /**
-     * get example sentence
-     * @return
-     */
-    public String getExampleSentence() {
-        return exampleSentence;
+    @Override
+    public String toString() {
+        return this.getWord();
     }
 
-    /**
-     * set example sentence
-     * @param exampleSentence
-     */
-    private void setExampleSentence(String exampleSentence) {
-        this.exampleSentence = exampleSentence;
-    }
-
-    /**
-     * Override equals
-     * @param o
-     * @return
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Word word1 = (Word) o;
         return Objects.equals(getWord(), word1.getWord()) &&
-                Objects.equals(definitions, word1.definitions) &&
-                Objects.equals(getPartsOfSpeech(), word1.getPartsOfSpeech()) &&
-                Objects.equals(getExampleSentence(), word1.getExampleSentence());
+                Objects.equals(getDefinitions(), word1.getDefinitions()) &&
+                Objects.equals(getPartsOfSpeech(), word1.getPartsOfSpeech());
     }
 
-    /**
-     * Override hashCode
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
-        return Objects.hash(getWord(), definitions, getPartsOfSpeech(), getExampleSentence());
-    }
-
-    /**
-     * Override toString
-     * @return
-     */
-    @Override
-    public String toString() {
-        return this.getWord();
+        return Objects.hash(getWord(), getDefinitions(), getPartsOfSpeech());
     }
 }
