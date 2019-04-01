@@ -94,6 +94,7 @@ public class MainActivityNewsFeed extends AppCompatActivity {
      * @param item
      * @return
      */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent nextPage = null;
