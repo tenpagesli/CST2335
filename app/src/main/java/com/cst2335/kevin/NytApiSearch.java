@@ -42,7 +42,8 @@ public class NytApiSearch extends AppCompatActivity {
         setContentView(R.layout.activity_news_feed_searches);
 
         //webhose url
-
+        NewsFeedQuery networkThread = new NewsFeedQuery();
+        networkThread.execute( "http://torunski.ca/CST2335_XML.xml" );
 
         progressBar = findViewById(R.id.progressBar_hd);
         progressBar.setVisibility(View.VISIBLE);
@@ -176,8 +177,8 @@ public class NytApiSearch extends AppCompatActivity {
 
                 //now a JSON table:
                 JSONObject jObject = new JSONObject(result);
-                String aDouble = jObject.getString("status");
-                Log.i("UV is:", ""+ aDouble);
+                aString = jObject.getString("status");
+                Log.i("UV is:", ""+ aString);
 
                 //END of UV rating
 
@@ -191,6 +192,7 @@ public class NytApiSearch extends AppCompatActivity {
             //return type 3, which is String:
             return "Finished task";
         }
+
 
         /**
          *
