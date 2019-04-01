@@ -5,23 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ryan.ViewSavedWordsActivity">
+    tools:context=".ryan.WordsDetailsActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <TextView
+        android:id="@+id/word_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/parts_of_speech"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/welcome_msg_saved_words_list_dic_rl" />
+        android:text="@string/parts_of_speech_dic_rl"/>
 
-    <ListView
-        android:id="@+id/saved_words_list"
+    <TextView
+        android:id="@+id/definition"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="5"/>
+        android:layout_height="wrap_content"
+        android:text="@string/definition_dic_rl" />
+
+
+
+
 </LinearLayout>
