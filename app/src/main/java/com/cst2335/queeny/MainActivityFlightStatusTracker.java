@@ -8,8 +8,6 @@ package com.cst2335.queeny;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.annotation.NonNull;
@@ -18,22 +16,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.HttpAuthHandler;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
-import com.cst2335.MainActivity;
 import com.cst2335.MyUtil;
 import com.cst2335.R;
 import com.cst2335.hung.MainActivityNewsFeed;
@@ -43,29 +39,24 @@ import com.cst2335.ryan.MainActivityDictionary;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivityFlightStatusTracker extends AppCompatActivity {
     /** toolbar  */
     Toolbar tBar;
     /**  flight list */
-    private ArrayList<Flight> flights;
+    private ArrayList<Flight> allFlights = new ArrayList<>();
     /** the adapter to inflate the flights */
     private FlightAdapter flightAdapter;
     /**  progress bar  */
@@ -75,13 +66,25 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
     /**  activity name */
     protected static final String ACTIVITY_NAME = "Flights Search By Airport";
     /**  flight url */
-    protected static final String myUrl = "http://aviation-edge.com/v2/public/flights?key=8a0877-70791c";
+    // protected static final String myUrl = "http://aviation-edge.com/v2/public/flights?key=8a0877-70791c&arrIata=MEX&limit=3";
+    protected String preUrl = "http://aviation-edge.com/v2/public/flights?key=8b238e-5c48c5";
+    protected String depAirCode, arrAirCode;
+    protected String depUrl, arrUrl;
+
     /** airport code test view */
-    TextView airportCode;
-    Button search;
-    Button viewSaved;
-    Button refreshList;
-    ListView flightList;
+    private TextView airportCodeBtn;
+    private Button searchBtn;
+    private Button viewSavedBtn;
+    private Button refreshList;
+    private ListView flightList;
+    /** switch button */
+    Switch swBtn;
+    /** airport code type*/
+    String airportCodeType;
+    /** depart flight list */
+    ArrayList<Flight> depFlights = new ArrayList<>();
+    /** arrive flight list */
+    ArrayList<Flight> arrFlights = new ArrayList<>();
 
     /**
      * When user wants to go to Flight Status Tracker's home page, this method runs
@@ -95,31 +98,50 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
         tBar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(tBar);
 
-        flights = new ArrayList<Flight>();
-//        flights.add(new Flight("1024", "locaiton", "speed",
-//                "altitude", "status", "airportCode"));
-//        flights.add(new Flight("1025", "locaiton2", "speed2",
-//                "altitude2", "status2", "airportCode2"));
-        airportCode = findViewById(R.id.editText2);
-        search = findViewById(R.id.buttonSeach_qy);
-        viewSaved = findViewById(R.id.buttonView_qy);
+        airportCodeBtn = findViewById(R.id.airport_code_qy);
+        searchBtn = findViewById(R.id.buttonSeach_qy);
+        viewSavedBtn = findViewById(R.id.buttonView_qy);
         refreshList = findViewById(R.id.buttonRefresh_qy);
         flightList = findViewById(R.id.FlightList_qy);
+        swBtn = findViewById(R.id.airport_switch_qy);
+
+        // default airport code is IATA
+        depAirCode = "&depIata=" + airportCodeBtn.getText().toString();
+        arrAirCode ="&arrIata=" + airportCodeBtn.getText().toString();
+        depUrl = preUrl + depAirCode;
+        arrUrl = preUrl + arrAirCode;
+
+        // switch button
+        swBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) { // if change airport code
+                // The toggle is enabled
+                swBtn.setText("ICAO Code");
+                airportCodeType = "ICAO";
+                depAirCode = "&depIcao=" + airportCodeBtn.getText().toString();
+                arrAirCode ="&arrIcao=" + airportCodeBtn.getText().toString();
+            } else {
+                // The toggle is disabled
+                swBtn.setText("IATA Code");
+                airportCodeType = "IATA";
+                depAirCode = "&depIata=" + airportCodeBtn.getText().toString();
+                arrAirCode ="&arrIata=" + airportCodeBtn.getText().toString();
+            }
+            depUrl = preUrl + depAirCode;
+            arrUrl = preUrl + arrAirCode;
+
+        });
+
         // when click on search button
-        search.setOnClickListener(c->{
-            // get flight list from website
-            FlightQuery fq = new FlightQuery();
-            fq.execute(myUrl); // will run doInBackground()
-
-            // inflate flight summary xml
-            flightAdapter = new FlightAdapter(this, 0);
-            flightList.setAdapter(flightAdapter);
-
+        searchBtn.setOnClickListener(c->{
             // show progress bar
             pbar = findViewById(R.id.progress_Bar);
             pbar.setVisibility(View.VISIBLE);
-            new FlightQuery().execute(null, null,null);
-
+            // get flight list from website
+            FlightQuery fq = new FlightQuery();
+            fq.execute(depUrl, arrUrl); // will run doInBackground()
+            // inflate flight summary xml
+            flightAdapter = new FlightAdapter(allFlights);
+            flightList.setAdapter(flightAdapter);
             // after progress bar shown up, update the flight list
             flightAdapter.notifyDataSetChanged();
 
@@ -133,7 +155,7 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
         });
 
         // when click on view saved flight button
-        viewSaved.setOnClickListener(c->{
+        viewSavedBtn.setOnClickListener(c->{
             // forward to saved flight list page
             Intent nextPage = new Intent(MainActivityFlightStatusTracker.this, FlightSavedActivity.class);
 
@@ -145,7 +167,14 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
             Snackbar sb = Snackbar.make(refreshList, "Do you want to refresh?", Snackbar.LENGTH_LONG)
                     .setAction("Yes!", e -> {
                         if(flightAdapter!=null){
-                            // update the flight list
+                            pbar.setVisibility(View.VISIBLE);
+                            /// get flight list from website
+                            FlightQuery fq = new FlightQuery();
+                            fq.execute(depUrl, arrUrl); // will run doInBackground()
+                            // inflate flight summary xml
+                            flightAdapter = new FlightAdapter(allFlights);
+                            flightList.setAdapter(flightAdapter);
+                            // after progress bar shown up, update the flight list
                             flightAdapter.notifyDataSetChanged();
                         }
                     });
@@ -159,63 +188,31 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
      * This is a inner class for the progress bar
      */
     class FlightQuery extends AsyncTask<String, Integer, String> {
-        private String flightNo, flightStatus;
         @Override
         protected String doInBackground(String... strings) {
             //get the string url:
-            String myUrl = strings[0];
+            String depUrl = strings[0];
+            String arrUrl = strings[1];
+            Log.e("deparURL: ", depUrl);
+            Log.e("arrUrl: ", arrUrl);
             try {
-                //create the network connection:
-                URL url = new URL(myUrl);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line+"\n");
-                }
-                br.close();
-
-                JSONArray array;
-                try {
-                    array = new JSONArray(sb.toString());
-                    for(int i=0;i<array.length();i++){
-                        JSONObject obj = array.getJSONObject(i);
-                        // get your data from jsonObject
-                        JSONArray departures = obj.getJSONArray("departure");
-                        if(departures.getString(0).equals(airportCode.getText().toString())
-                           || departures.getString(1).equals(airportCode.getText().toString())){
-
-//                            HashMap<String, String> flightNo = new HashMap<>();
-//                            flightNo.put("iataNumber",obj.getJSONObject("flight").getJSONObject("iataNumber").toString());
-//                            flightNo.put("icaoNumber",obj.getJSONObject("flight").getJSONObject("icaoNumber").toString());
-//                            flightNo.put("number",obj.getJSONObject("flight").getJSONObject("number").toString());
-                            HashMap<String, String>  departure = new HashMap<>();
-                            HashMap<String, String>  arrival = new HashMap<>();
-                            HashMap<String, String>  speed = new HashMap<>();
-                            String  altitude = null;
-                            String status = null;
-
-
-//
-//                            Flight flight = new Flight(obj.getJSONObject("flight").getJSONObject("number"),
-//                                    obj.getJSONObject("departure").getJSONObject("iataCode")
-//                                    , String speed, String altitude, String status, String airportCode);
-//
-//                            new Flight(new HashMap<String>, HashMap<String, String> departure, HashMap<String, String> arrival,
-//                                    HashMap<String, String> speed, HashMap<String, String> altitude,
-//                                    HashMap<String, String> status, HashMap<String, String> airportCode);
-                        }
-                        JSONArray arrivals = obj.getJSONArray("arrival");
-
-                    }
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-
-
+                this.getFlights(depUrl, "depart");
+                publishProgress(25); //tell android to call onProgressUpdate with 25 as parameter
+                pbar.setProgress(25);
+                Thread.sleep(1000);
+                this.getFlights(arrUrl, "arrive");
+                publishProgress(50); //tell android to call onProgressUpdate with 25 as parameter
+                pbar.setProgress(50);
+                Thread.sleep(1000);
+                // merge flight lists
+                allFlights = depFlights;
+                publishProgress(75); //tell android to call onProgressUpdate with 25 as parameter
+                pbar.setProgress(75);
+                Thread.sleep(1000);
+                allFlights.addAll(arrFlights);
+                publishProgress(100); //tell android to call onProgressUpdate with 25 as parameter
+                pbar.setProgress(100);
+                Thread.sleep(1000);
             }catch (Exception ex){
                 Log.e("Crash!!", ex.getMessage() );
             }
@@ -224,20 +221,16 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
 
         @Override
         protected  void onProgressUpdate(Integer ... value){
-            pbar.setVisibility(View.VISIBLE);
-            pbar.setProgress(value[0]);
+            // pbar.setVisibility(View.VISIBLE);
+            Log.e("onProgressUpdate:", " should update some thing here");
+            // update the view list here
         }
 
         @Override
         protected  void onPostExecute(String args){
-            pbar.setVisibility(View.VISIBLE);
-//            curTemperatureTxt.setText(getString(R.string.currTemp) + currTemp + "℃");
-//            minTemperatureTxt.setText(getString(R.string.minTemp) + minTemp + "℃");
-//            maxTemperatureTxt.setText(getString(R.string.maxTemp) + maxTemp + "℃");
-//            windspeedText.setText(getString(R.string.wind_speed) + windspeed + "m/s");
-//            UV_ratingTxt.setText(getString(R.string.UV_rating) + uv_rating + "/rate");
+            Log.e("onPostExecute:", " should update some thing here");
+            pbar.setVisibility(View.INVISIBLE);
 
-//            weatherImage.setImageBitmap(bmap);
         }
 
 
@@ -246,23 +239,78 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
             return file.exists();
 
         }
+
+        private void getFlights(String myUrl, String flightType) throws MalformedURLException, IOException, JSONException {
+            //create the network connection:
+            URL url = new URL(myUrl);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line+"\n");
+            }
+            br.close();
+
+            JSONArray array;
+            array = new JSONArray(sb.toString());
+            for(int i=0;i<array.length();i++){
+                JSONObject obj = array.getJSONObject(i);
+                HashMap<String, String> flightNo = new HashMap<>();
+                flightNo.put("iataNumber",obj.getJSONObject("flight").getString("iataNumber"));
+                flightNo.put("icaoNumber",obj.getJSONObject("flight").getString("icaoNumber"));
+                flightNo.put("number",obj.getJSONObject("flight").getString("number"));
+                HashMap<String, String>  departure = new HashMap<>();
+                departure.put("iataCode",obj.getJSONObject("departure").getString("iataCode"));
+                departure.put("icaoCode",obj.getJSONObject("departure").getString("icaoCode"));
+                HashMap<String, String>  arrival = new HashMap<>();
+                departure.put("iataCode",obj.getJSONObject("arrival").getString("iataCode"));
+                departure.put("icaoCode",obj.getJSONObject("arrival").getString("icaoCode"));
+                HashMap<String, String>  speed = new HashMap<>();
+                departure.put("horizontal",obj.getJSONObject("speed").getString("horizontal"));
+                departure.put("isGround",obj.getJSONObject("speed").getString("isGround"));
+                departure.put("vertical",obj.getJSONObject("speed").getString("vertical"));
+                String  altitude = obj.getJSONObject("geography").getString("altitude");
+                String status = obj.getString("status");
+                Flight flight= new Flight(flightNo, departure, arrival, speed,  altitude,  status);
+                if(flightType.equals("depart")){
+                    depFlights.add(flight);
+                }
+                if(flightType.equals("arrive")){
+                    arrFlights.add(flight);
+                }
+            }
+        }
     }
+
+
 
     /**
      * This is a inner adapter class for the view list
      */
-    protected class FlightAdapter extends ArrayAdapter<Flight> {
-        public FlightAdapter(@NonNull Context context, int resource) {
-            super(context, resource);
+    protected class FlightAdapter<E> extends BaseAdapter {
+        private List<E> dataCopy = null;
+
+        //Keep a reference to the data:
+        public FlightAdapter(List<E> originalData) {
+            dataCopy = originalData;
+        }
+
+        //You can give it an array
+        public FlightAdapter(E[] array) {
+            dataCopy = Arrays.asList(array);
+        }
+
+        public FlightAdapter() {
         }
 
         @Override
         public int getCount() {
-            return flights.size();
+            return allFlights.size();
         }
 
         public Flight getItem(int position) {
-            return flights.get(position);
+            return allFlights.get(position);
         }
 
         public View getView(int position, View old, ViewGroup parent) {
@@ -270,8 +318,10 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
             View newView = null;
             Flight flight = getItem(position);
             newView = inflater.inflate(R.layout.activity_flight_summary_qy, null);
-            TextView flightNo = newView.findViewById(R.id.flightNo_qy);
-            TextView flightStatus = newView.findViewById(R.id.flightStatus_qy);
+            TextView flightNo = newView.findViewById(R.id.v_flightNo_qy);
+            TextView iataNumber_qy = newView.findViewById(R.id.v_iataNumber_qy);
+            TextView icaoNumber_qy = newView.findViewById(R.id.v_icaoNumber_qy);
+            TextView flightStatus = newView.findViewById(R.id.v_flightStatus_qy);
             // flightNo.setText(flight.getFlightNo());
             flightStatus.setText(flight.getStatus());
             return newView;

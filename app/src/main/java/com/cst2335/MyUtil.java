@@ -9,6 +9,6 @@ public class MyUtil {
     public static final String dictionaryInstruction = "Here is a long instruction";
 
     /** help dialog contents for Queeny*/
-    public static final String flightAuther = "Yan (Queeny) Zhang";
+    public static final String flightAuther = "Yan (Queeny) Qu";
     public static final String flightInstruction = "Queeny's meodule instruction";
 }

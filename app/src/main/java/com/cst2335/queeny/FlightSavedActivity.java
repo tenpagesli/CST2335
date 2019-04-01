@@ -57,11 +57,8 @@ public class FlightSavedActivity extends AppCompatActivity {
         setSupportActionBar(tBar);
 
         savedFlight=findViewById(R.id.saved_flights_qy);
-//        flights = new ArrayList<Flight>();
-//        flights.add(new Flight("1024", "locaiton", "speed",
-//                "altitude", "status", "airportCode"));
-//        flights.add(new Flight("1025", "locaiton2", "speed2",
-//                "altitude2", "status2", "airportCode2"));
+        flights = new ArrayList<Flight>();
+        flights.add(new Flight());
         //TODO: search for flight
         this.getFlightList();
         // inflate flight summary xml
