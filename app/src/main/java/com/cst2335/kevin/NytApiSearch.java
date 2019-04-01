@@ -1,34 +1,41 @@
 package com.cst2335.kevin;
 
 
-        import android.content.DialogInterface;
-        import android.graphics.BitmapFactory;
-        import android.os.AsyncTask;
-        import android.support.v7.app.AlertDialog;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.util.Log;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.ProgressBar;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.cst2335.R;
-        import org.xmlpull.v1.XmlPullParser;
-        import org.xmlpull.v1.XmlPullParserException;
-        import org.xmlpull.v1.XmlPullParserFactory;
-        import java.io.IOException;
-        import java.io.InputStream;
-        import java.net.HttpURLConnection;
-        import java.net.URL;
-        import java.util.ArrayList;
 
+
+import com.cst2335.R;
+import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 
 
 public class NytApiSearch extends AppCompatActivity {
+
     private TextView titleView, uuidView, articleView; //title, uuid, article view
     private ProgressBar progressBar; //progress bar of Async
+    public string aString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +43,7 @@ public class NytApiSearch extends AppCompatActivity {
 
         //webhose url
         NewsFeedQuery wq = new NewsFeedQuery();
-        wq.execute("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-");
+        wq.execute("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-key=89kmL9QdZSaSnHNrZtgRuPmf11e3mPQh");
 
         progressBar = findViewById(R.id.progressBar_hd);
         progressBar.setVisibility(View.VISIBLE);
@@ -151,6 +158,25 @@ public class NytApiSearch extends AppCompatActivity {
                 }
 
                 Thread.sleep(2000); //pause for 2000 milliseconds to watch the progress bar spin
+
+
+                URL UVurl = new URL("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-key=89kmL9QdZSaSnHNrZtgRuPmf11e3mPQh");
+                        HttpURLConnection conn1 = (HttpURLConnection)UVurl.openConnection();
+                inStream = conn1.getInputStream();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
+                StringBuilder sb = new StringBuilder();
+                String line= null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line+"\n");
+                }
+
+                String result = sb.toString();
+                JSONObject jObject = new JSONObject(result);
+                aDouble = jObject.getString("value");
+                Log.i("UV is:", ""+ aDouble);
+
+
             }catch (Exception ex)
             {
                 Log.e("Crash!!", ex.getMessage() );
