@@ -322,7 +322,6 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
             TextView iataNumber_qy = newView.findViewById(R.id.v_iataNumber_qy);
             TextView icaoNumber_qy = newView.findViewById(R.id.v_icaoNumber_qy);
             TextView flightStatus = newView.findViewById(R.id.v_flightStatus_qy);
-            // flightNo.setText(flight.getFlightNo());
             HashMap<String, String> flightNoMap = flight.getFlightNo();
             flightNo.setText(flightNoMap.get("number"));
             iataNumber_qy.setText(flightNoMap.get("iataNumber"));
