@@ -49,14 +49,13 @@
     <string name="delete_btn_qy">删除</string>
 
     <!--Hung Strings-->
-
-    <string name="welcome_hd">航班追踪删除</string>
-    <string name="search_hd">航班追踪</string>
-    <string name="save_article_hd">搜索</string>
-    <string name="del_article_hd">请输入</string>
-    <string name="return_article_hd">航班追踪</string>
-    <string name="help_hd">搜索</string>
-    <string name="type_search_hd">您确定删除</string>
-    <string name="title_hd">您确定:</string>
-    <string name="uuid_hd">定删: </string>
+    <string name="welcome_hd">欢迎收看新闻提要</string>
+    <string name="search_hd">搜索</string>
+    <string name="type_search_hd">输入搜索信息</string>
+    <string name="save_article_hd">保存</string>
+    <string name="del_article_hd">删除</string>
+    <string name="return_article_hd">返回</string>
+    <string name="help_hd">帮助</string>
+    <string name="title_hd">标题: </string>
+    <string name="uuid_hd">uuid: </string>
 </resources>
