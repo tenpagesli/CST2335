@@ -18,6 +18,9 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.cst2335.R;
+import com.cst2335.kevin.MainActivityNewYorkTimes;
+import com.cst2335.queeny.MainActivityFlightStatusTracker;
+import com.cst2335.ryan.MainActivityDictionary;
 
 
 import java.util.ArrayList;
@@ -100,11 +103,28 @@ public class MainActivityNewsFeed extends AppCompatActivity {
         Intent nextPage = null;
         switch(item.getItemId())
         {
+            //when click on "dictionary"
+            case R.id.go_flight:
+                nextPage = new Intent(MainActivityNewsFeed.this, MainActivityFlightStatusTracker.class);
+                startActivity(nextPage);
+                break;
+            //when click on "news feed"
+            case R.id.go_dic:
+                nextPage = new Intent(MainActivityNewsFeed.this, MainActivityDictionary.class);
+                startActivity(nextPage);
+                break;
+            //when click on "new york times"
+            case R.id.go_new_york:
+                nextPage = new Intent(MainActivityNewsFeed.this, MainActivityNewYorkTimes.class);
+                startActivity(nextPage);
+                break;
+
 
             // when click on "help":
             case R.id.go_help:
                 // show help dialog
                 showDialog();
+
                 break;
         }
         return true;

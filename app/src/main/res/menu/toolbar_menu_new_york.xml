@@ -8,20 +8,20 @@
         android:orderInCategory="200"
         app:showAsAction="always"/>
 
-    <item android:id="@+id/go_dic"
-        android:title="@string/enter_dic"
-        android:icon="@drawable/dictionary"
+    <item android:id="@+id/go_news_feed"
+        android:title="@string/enter_nf"
+        android:icon="@drawable/news_feed"
         android:orderInCategory="100"
         app:showAsAction="always"/>
 
-    <item android:id="@+id/go_new_york"
-        android:title="@string/enter_nyt"
-        android:icon="@drawable/new_york_times"
+    <item android:id="@+id/go_dic"
+        android:title="@string/enter_dic"
+        android:icon="@drawable/dictionary"
         android:orderInCategory="300"
         app:showAsAction="always"/>
 
     <item android:id="@+id/go_help"
         android:title="@string/help"
-        android:orderInCategory="500"
+        android:orderInCategory="400"
         app:showAsAction="never"/>
 </menu>

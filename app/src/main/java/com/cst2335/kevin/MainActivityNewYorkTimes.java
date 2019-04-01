@@ -24,6 +24,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.view.View;
 import com.cst2335.R;
+import com.cst2335.hung.MainActivityNewsFeed;
+import com.cst2335.queeny.MainActivityFlightStatusTracker;
+import com.cst2335.ryan.MainActivityDictionary;
 
 
 import java.util.ArrayList;
@@ -44,7 +47,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
 
         Button searchBtn = findViewById(R.id.nyt_searchButton);
         androidImageButton = findViewById(R.id.nyt_imageBut);
-        Toolbar tBar = (Toolbar) findViewById(R.id.toolbar_hd);
+        Toolbar tBar = (Toolbar) findViewById(R.id.toolbar_kn);
         setSupportActionBar(tBar);
 
 
@@ -99,7 +102,21 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
     public boolean onOptionsItemSelected (MenuItem item){
         Intent nextPage = null;
         switch (item.getItemId()) {
-
+//when click on "dictionary"
+            case R.id.go_flight:
+                nextPage = new Intent(MainActivityNewYorkTimes.this, MainActivityFlightStatusTracker.class);
+                startActivity(nextPage);
+                break;
+            //when click on "news feed"
+            case R.id.go_dic:
+                nextPage = new Intent(MainActivityNewYorkTimes.this, MainActivityDictionary.class);
+                startActivity(nextPage);
+                break;
+            //when click on "new york times"
+            case R.id.go_news_feed:
+                nextPage = new Intent(MainActivityNewYorkTimes.this, MainActivityNewsFeed.class);
+                startActivity(nextPage);
+                break;
             // when click on "help":
             case R.id.go_help:
                 // show help dialog

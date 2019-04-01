@@ -32,26 +32,26 @@ import java.util.ArrayList;
 
 public class NytApiSearch extends AppCompatActivity {
 
-    private TextView titleView, uuidView, articleView; //title, uuid, article view
-    private ProgressBar progressBar; //progress bar of Async
+    private TextView copyrightView ;
+    private ProgressBar progressBar;
     public String aString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news_feed_searches);
+        setContentView(R.layout.activity_main_newyork_api);
 
-        //webhose url
+
         NewsFeedQuery networkThread = new NewsFeedQuery();
         networkThread.execute( "http://torunski.ca/CST2335_XML.xml" );
 
 
 
 
-        progressBar = findViewById(R.id.progressBar_hd);
+        progressBar = findViewById(R.id.progressBar_kn);
         progressBar.setVisibility(View.VISIBLE);
-        titleView = findViewById(R.id.title_hd);
-        uuidView = findViewById(R.id.uuid_hd);
+        copyrightView = findViewById(R.id.copyright_kn);
+
 
     }
 
@@ -60,8 +60,7 @@ public class NytApiSearch extends AppCompatActivity {
     private class NewsFeedQuery extends AsyncTask<String, Integer, String>
     {
 
-        public String titleAtt; //title value
-        public String uuid; //uuid value
+
 
         @Override
         protected String doInBackground(String... params) {
@@ -78,89 +77,9 @@ public class NytApiSearch extends AppCompatActivity {
                 conn.setDoInput(true);
 
                 InputStream inStream = conn.getInputStream();
-                //obtain response code, success if 200
-                int responseCode = conn.getResponseCode();
-                if (responseCode == 200) {
-                    Log.e("Conection to WEBHOSE", "Successful" );
-                } else {
-                    Log.e("Conection to WEBHOSE", "FAILED" );
-                }
-
-                conn.connect();
-
-                //created a pull parser:
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(false);
-                XmlPullParser xpp = factory.newPullParser();
-                xpp.setInput( inStream  , "UTF-8");
 
 
-/**             // the commented code below also can be replaced of you code from line 61 to line 86
- String myUrl = params[0];
- //create the network connection:
- URL url = new URL(myUrl);
- HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
- InputStream inStream = urlConnection.getInputStream();
- //create a pull parser:
- XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
- factory.setNamespaceAware(false);
- XmlPullParser xpp = factory.newPullParser();
- xpp.setInput( inStream  , "UTF-8");  //inStream comes from line 46
- */
 
-                //loop over the webhose.io XML:
-                while(xpp.getEventType() != XmlPullParser.END_DOCUMENT)
-                {
-                    if(xpp.getEventType() == XmlPullParser.START_TAG)
-                    {
-                        String tagName = xpp.getName();
-                        if(tagName.equals("uuid")) {
-                            // need to call xpp.next() point to inside of the <uuid> tag;
-                            // But if we are looking for an "attribute" of <uuid> tag, then do not need to call xpp.next()"
-                            if(xpp.next() == XmlPullParser.TEXT) {
-                                uuid = xpp.getText();
-                                Log.e("AsyncTask", "Found parameter uuid: " + uuid);
-                            }
-                            // titleAtt = xpp.getAttributeValue(null, "cheese");
-                            publishProgress(15);
-                            Thread.sleep(300);
-                        }
-                        else if(tagName.equals("title")) {
-                            // same thing as above
-                            if(xpp.next() == XmlPullParser.TEXT) {
-                                titleAtt = xpp.getText();
-                                Log.e("AsyncTask", "Found parameter titleAtt: " + titleAtt);
-                            }
-                            // titleAtt = xpp.getAttributeValue(null, "cheese");
-                            publishProgress(25);
-                            Thread.sleep(300);
-                        }
-/*                    else if(tagName.equals("dt"))
-                    {
-                        String definition = xpp.getText();
-                        publishProgress(75);
-                        Log.e("AsyncTask", "Found parameter definition: "+ definition);
-                    }
-                    else if(tagName.equals("dt"))
-                    {
-                        String definition = xpp.getText();
-                        definitions.add(definition);
-                        publishProgress(75);
-                        Log.e("AsyncTask", "Found parameter definition: "+ definition);
-                    }*/
-
-                        /**
-                         else if(tagName.equals("Temperature")) {
-                         xpp.next(); //move to the text between opening and closing tags:
-                         String temp = xpp.getText();
-                         publishProgress(3); //tell android to call onProgressUpdate with 3 as parameter
-                         }
-                         **/
-                    }
-                    xpp.next(); //advance to next XML event
-                }
-
-                Thread.sleep(2000); //pause for 2000 milliseconds to watch the progress bar spin
 
 
                 URL UVurl = new URL("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-key=z0pR0Dz3Ke0loLw2kFTPk3tEPvezSe26");
@@ -181,11 +100,12 @@ public class NytApiSearch extends AppCompatActivity {
                 //now a JSON table:
                 JSONObject jObject = new JSONObject(result);
                 aString = jObject.getString("copyright");
-                Log.i("UV is:", ""+ aString);
+                Log.i("copyright is:", ""+ aString);
 
                 //END of UV rating
 
-                Thread.sleep(2000); //pause for 2000 milliseconds to watch the progress bar spin
+                publishProgress(15);
+                publishProgress(50);
 
             }catch (Exception ex)
             {
@@ -203,26 +123,23 @@ public class NytApiSearch extends AppCompatActivity {
          */
         @Override
         protected void onProgressUpdate(Integer... values) {
-            Log.i("AsyncTask", "update:" + values[0]);
+
 
             progressBar.setVisibility(View.VISIBLE);
             progressBar.setProgress(15);
-            progressBar.setProgress(25);
             progressBar.setProgress(50);
-            progressBar.setProgress(75);
             progressBar.setMax(100);
         }
 
         /**
-         * title, uuid, anticle displayed once connection is done
+         *
          * @param args
          */
         @Override
         protected void onPostExecute(String args) {
             Log.i("AsyncTask", "onPostExecute" );
-            titleView.setText(titleAtt);
-            titleView.setText(uuid);
-            titleView.setText(aString);
+
+            copyrightView.setText(aString);
         }
 
 

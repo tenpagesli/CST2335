@@ -8,7 +8,7 @@
     tools:context=".kevin.MainActivityNewYorkTimes">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_hd"
+        android:id="@+id/toolbar_kn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
