@@ -49,8 +49,9 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
 
 
         // clicked on search button to go to new pages with searched results
+
         searchBtn.setOnClickListener(c -> {
-            Intent nextPage = new Intent(MainActivityNewYorkTimes.this, NytSearchedActivity.class);
+            Intent nextPage = new Intent(MainActivityNewYorkTimes.this, NytApiSearch.class);
             startActivity(nextPage);
         });
 
