@@ -11,9 +11,9 @@ import java.util.Objects;
 public class Word {
     /** to save the word's content */
     private String word;
-    /** to save the definitions of the word */
+    // to save the definitions of the word
     private ArrayList<String> definitions;
-     /** to save the parts of speech */
+    // to save the parts of speech
     private String partsOfSpeech;
      /** to save the example sentence */
     private String exampleSentence;

@@ -146,7 +146,7 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
 
         @Override
         protected  void onPostExecute(String args){
-            pbar.setVisibility(View.INVISIBLE);
+            pbar.setVisibility(View.VISIBLE);
 //            curTemperatureTxt.setText(getString(R.string.currTemp) + currTemp + "℃");
 //            minTemperatureTxt.setText(getString(R.string.minTemp) + minTemp + "℃");
 //            maxTemperatureTxt.setText(getString(R.string.maxTemp) + maxTemp + "℃");

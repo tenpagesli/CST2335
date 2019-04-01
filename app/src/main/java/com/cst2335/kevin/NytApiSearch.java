@@ -42,8 +42,7 @@ public class NytApiSearch extends AppCompatActivity {
         setContentView(R.layout.activity_news_feed_searches);
 
         //webhose url
-        NewsFeedQuery networkThread = new NewsFeedQuery();
-        networkThread.execute( "http://torunski.ca/CST2335_XML.xml" );
+
 
         progressBar = findViewById(R.id.progressBar_hd);
         progressBar.setVisibility(View.VISIBLE);
@@ -58,7 +57,7 @@ public class NytApiSearch extends AppCompatActivity {
     {
 
         public String titleAtt; //title value
-        public String uuid; //uuid value
+        public String uuid, aDouble; //uuid value
 
         @Override
         protected String doInBackground(String... params) {
@@ -176,9 +175,10 @@ public class NytApiSearch extends AppCompatActivity {
                 String result = sb.toString();
 
                 //now a JSON table:
-                JSONObject jObject = new JSONObject(result);
-                aString = jObject.getString("status");
-                Log.i("UV is:", ""+ aString);
+               // JSONObject jObject = new JSONObject(result);
+                JSONObject jObject  = reader.getJSONObject("status");
+                aDouble = jObject.getString("status");
+                Log.i("UV is:", ""+ aDouble);
 
                 //END of UV rating
 
@@ -192,7 +192,6 @@ public class NytApiSearch extends AppCompatActivity {
             //return type 3, which is String:
             return "Finished task";
         }
-
 
         /**
          *
