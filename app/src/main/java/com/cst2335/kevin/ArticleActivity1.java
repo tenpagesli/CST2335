@@ -5,8 +5,6 @@
 
 package com.cst2335.kevin;
 
-
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 

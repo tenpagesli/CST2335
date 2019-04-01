@@ -1,4 +1,5 @@
-package com.cst2335.hung;
+package com.cst2335.kevin;
+
 
 import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
@@ -16,28 +17,37 @@ import android.widget.Toast;
 
 
 import com.cst2335.R;
-
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
-
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class NewsFeedSearches extends AppCompatActivity {
-private TextView titleView, uuidView, articleView; //title, uuid, article view
-private ProgressBar progressBar; //progress bar of Async
+
+public class NytApiSearch extends AppCompatActivity {
+
+    private TextView titleView, uuidView, articleView; //title, uuid, article view
+    private ProgressBar progressBar; //progress bar of Async
+    public String aString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed_searches);
 
         //webhose url
-        NewsFeedQuery wq = new NewsFeedQuery();
-        wq.execute("http://webhose.io/filterWebContent?token=86940a5c-b094-4465-942e-81ce096fe5c9&format=xml&sort=crawled&q=samsung");
+        NewsFeedQuery networkThread = new NewsFeedQuery();
+        networkThread.execute( "https://www.nytimes.com/svc/search/v2/articlesearch.json?q=" );
+//
+//        new NewsFeedQuery().execute();
+
+
 
         progressBar = findViewById(R.id.progressBar_hd);
         progressBar.setVisibility(View.VISIBLE);
@@ -87,16 +97,16 @@ private ProgressBar progressBar; //progress bar of Async
 
 
 /**             // the commented code below also can be replaced of you code from line 61 to line 86
-                String myUrl = params[0];
-                //create the network connection:
-                URL url = new URL(myUrl);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                InputStream inStream = urlConnection.getInputStream();
-                //create a pull parser:
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(false);
-                XmlPullParser xpp = factory.newPullParser();
-                xpp.setInput( inStream  , "UTF-8");  //inStream comes from line 46
+ String myUrl = params[0];
+ //create the network connection:
+ URL url = new URL(myUrl);
+ HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+ InputStream inStream = urlConnection.getInputStream();
+ //create a pull parser:
+ XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+ factory.setNamespaceAware(false);
+ XmlPullParser xpp = factory.newPullParser();
+ xpp.setInput( inStream  , "UTF-8");  //inStream comes from line 46
  */
 
                 //loop over the webhose.io XML:
@@ -152,13 +162,41 @@ private ProgressBar progressBar; //progress bar of Async
                 }
 
                 Thread.sleep(2000); //pause for 2000 milliseconds to watch the progress bar spin
+
+
+                URL UVurl = new URL("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-key=z0pR0Dz3Ke0loLw2kFTPk3tEPvezSe26");
+                HttpURLConnection UVConnection = (HttpURLConnection) UVurl.openConnection();
+                inStream = UVConnection.getInputStream();
+
+                //create a JSON object from the response
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 8);
+                StringBuilder sb = new StringBuilder();
+
+                String line = null;
+                while ((line = reader.readLine()) != null)
+                {
+                    sb.append(line + "\n");
+                }
+                String result = sb.toString();
+
+                //now a JSON table:
+                JSONObject jObject = new JSONObject(result);
+                aString = jObject.getString("copyright");
+                Log.i("UV is:", ""+ aString);
+
+                //END of UV rating
+
+                Thread.sleep(2000); //pause for 2000 milliseconds to watch the progress bar spin
+
             }catch (Exception ex)
             {
                 Log.e("Crash!!", ex.getMessage() );
             }
 
+            //return type 3, which is String:
             return "Finished task";
         }
+
 
         /**
          *
@@ -185,6 +223,7 @@ private ProgressBar progressBar; //progress bar of Async
             Log.i("AsyncTask", "onPostExecute" );
             titleView.setText(titleAtt);
             titleView.setText(uuid);
+            titleView.setText(aString);
         }
 
 
