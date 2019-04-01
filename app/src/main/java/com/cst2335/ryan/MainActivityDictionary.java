@@ -27,6 +27,9 @@ import android.widget.TextView;
 import com.cst2335.MainActivity;
 import com.cst2335.MyUtil;
 import com.cst2335.R;
+import com.cst2335.hung.MainActivityNewsFeed;
+import com.cst2335.kevin.MainActivityNewYorkTimes;
+import com.cst2335.queeny.MainActivityFlightStatusTracker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,7 +74,7 @@ public class MainActivityDictionary extends AppCompatActivity {
         // get the top 20 words from shared-preferrence
         ArrayList<String> definList = new ArrayList<String>();
         definList.add("very glad");
-        wordsList.add(new Word("happy", definList, "adv", "I feel happy"));
+        // wordsList.add(new Word("happy", definList, "adv", "I feel happy"));
         // get the adapter to inflate the most recent words list
         ListAdapter adt = new WordsListAdapter(wordsList);
         preWordsList.setAdapter(adt);
@@ -135,9 +138,19 @@ public class MainActivityDictionary extends AppCompatActivity {
         Intent nextPage = null;
         switch(item.getItemId())
         {
-            //when click on "home page":
-            case R.id.go_home:
-                nextPage = new Intent(MainActivityDictionary.this, MainActivity.class);
+            //when click on "dictionary"
+            case R.id.go_flight:
+                nextPage = new Intent(MainActivityDictionary.this, MainActivityFlightStatusTracker.class);
+                startActivity(nextPage);
+                break;
+            //when click on "news feed"
+            case R.id.go_news_feed:
+                nextPage = new Intent(MainActivityDictionary.this, MainActivityNewsFeed.class);
+                startActivity(nextPage);
+                break;
+            //when click on "new york times"
+            case R.id.go_new_york:
+                nextPage = new Intent(MainActivityDictionary.this, MainActivityNewYorkTimes.class);
                 startActivity(nextPage);
                 break;
 
@@ -197,7 +210,7 @@ public class MainActivityDictionary extends AppCompatActivity {
             newView = inflater.inflate(R.layout.activity_dic_pre_words, parent, false);
             TextView content = (TextView) newView.findViewById(R.id.pre_word);
             //Get the string to go in row: position
-            String toDisplay = ((Word) getItem(position)).getWord();
+            String toDisplay = word.getWord();
             //Set the text of the text view
             content.setText(toDisplay);
             return newView;
