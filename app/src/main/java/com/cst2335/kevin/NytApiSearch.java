@@ -43,7 +43,11 @@ public class NytApiSearch extends AppCompatActivity {
 
         //webhose url
         NewsFeedQuery networkThread = new NewsFeedQuery();
-        networkThread.execute( "http://torunski.ca/CST2335_XML.xml" );
+        networkThread.execute( "https://www.nytimes.com/svc/search/v2/articlesearch.json?q=" );
+//
+//        new NewsFeedQuery().execute();
+
+
 
         progressBar = findViewById(R.id.progressBar_hd);
         progressBar.setVisibility(View.VISIBLE);
@@ -177,7 +181,7 @@ public class NytApiSearch extends AppCompatActivity {
 
                 //now a JSON table:
                 JSONObject jObject = new JSONObject(result);
-                aString = jObject.getString("status");
+                aString = jObject.getString("copyright");
                 Log.i("UV is:", ""+ aString);
 
                 //END of UV rating
@@ -219,6 +223,7 @@ public class NytApiSearch extends AppCompatActivity {
             Log.i("AsyncTask", "onPostExecute" );
             titleView.setText(titleAtt);
             titleView.setText(uuid);
+            titleView.setText(aString);
         }
 
 
