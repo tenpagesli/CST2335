@@ -43,9 +43,8 @@ public class NytApiSearch extends AppCompatActivity {
 
         //webhose url
         NewsFeedQuery networkThread = new NewsFeedQuery();
-        networkThread.execute( "https://www.nytimes.com/svc/search/v2/articlesearch.json?q=" );
-//
-//        new NewsFeedQuery().execute();
+        networkThread.execute( "http://torunski.ca/CST2335_XML.xml" );
+
 
 
 
