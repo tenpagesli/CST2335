@@ -34,7 +34,7 @@ public class NytApiSearch extends AppCompatActivity {
 
     private TextView titleView, uuidView, articleView; //title, uuid, article view
     private ProgressBar progressBar; //progress bar of Async
-    public string aString;
+    public String aString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +42,7 @@ public class NytApiSearch extends AppCompatActivity {
         setContentView(R.layout.activity_news_feed_searches);
 
         //webhose url
-        NewsFeedQuery wq = new NewsFeedQuery();
-        wq.execute("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-key=89kmL9QdZSaSnHNrZtgRuPmf11e3mPQh");
+
 
         progressBar = findViewById(R.id.progressBar_hd);
         progressBar.setVisibility(View.VISIBLE);
@@ -160,28 +159,36 @@ public class NytApiSearch extends AppCompatActivity {
                 Thread.sleep(2000); //pause for 2000 milliseconds to watch the progress bar spin
 
 
-                URL UVurl = new URL("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-key=89kmL9QdZSaSnHNrZtgRuPmf11e3mPQh");
-                        HttpURLConnection conn1 = (HttpURLConnection)UVurl.openConnection();
-                inStream = conn1.getInputStream();
+                URL UVurl = new URL("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-key=z0pR0Dz3Ke0loLw2kFTPk3tEPvezSe26");
+                HttpURLConnection UVConnection = (HttpURLConnection) UVurl.openConnection();
+                inStream = UVConnection.getInputStream();
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
+                //create a JSON object from the response
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 8);
                 StringBuilder sb = new StringBuilder();
-                String line= null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line+"\n");
-                }
 
+                String line = null;
+                while ((line = reader.readLine()) != null)
+                {
+                    sb.append(line + "\n");
+                }
                 String result = sb.toString();
+
+                //now a JSON table:
                 JSONObject jObject = new JSONObject(result);
-                aDouble = jObject.getString("value");
+                String aDouble = jObject.getString("status");
                 Log.i("UV is:", ""+ aDouble);
 
+                //END of UV rating
+
+                Thread.sleep(2000); //pause for 2000 milliseconds to watch the progress bar spin
 
             }catch (Exception ex)
             {
                 Log.e("Crash!!", ex.getMessage() );
             }
 
+            //return type 3, which is String:
             return "Finished task";
         }
 
