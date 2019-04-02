@@ -66,7 +66,7 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
     /**  activity name */
     protected static final String ACTIVITY_NAME = "Flights Search By Airport";
     /**  flight url */
-    // protected static final String myUrl = "http://aviation-edge.com/v2/public/flights?key=8a0877-70791c&arrIata=MEX&limit=3";
+    // protected static final String myUrl = "http://aviation-edge.com/v2/public/flights?key=8b238e-5c48c5&arrIata=MEX&limit=3";
     protected String preUrl = "http://aviation-edge.com/v2/public/flights?key=8b238e-5c48c5";
     protected String depAirCode, arrAirCode;
     protected String depUrl, arrUrl;
