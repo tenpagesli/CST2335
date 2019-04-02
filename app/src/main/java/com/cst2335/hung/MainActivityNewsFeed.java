@@ -120,6 +120,7 @@ public class MainActivityNewsFeed extends AppCompatActivity {
                 break;
 
 
+
             // when click on "help":
             case R.id.go_help:
                 // show help dialog
