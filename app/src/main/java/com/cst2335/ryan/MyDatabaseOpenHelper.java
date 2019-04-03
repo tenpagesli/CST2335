@@ -26,10 +26,10 @@ public class MyDatabaseOpenHelper extends SQLiteOpenHelper {
         //Make sure you put spaces between SQL statements and Java strings:
         String sql = "CREATE TABLE " + TABLE_NAME + "( "
                 + COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COL_CONTENT + " TEXT,";
+                + COL_CONTENT + " TEXT)";
+        Log.i("Database onCreate:", "the query is: " + sql);
         db.execSQL(sql);
         // log messages
-        Log.i("Database onCreate:", "the query is: " + sql);
         Log.i("Database onCreate:", "the database is created.");
     }
 
@@ -55,8 +55,8 @@ public class MyDatabaseOpenHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean deleteRow(SQLiteDatabase db, long id)
-    {
-        return db.delete(TABLE_NAME, COL_ID + "=?", new String[]{id+""}) > 0;
-    }
+//    public boolean deleteRow(SQLiteDatabase db, long id)
+//    {
+//        return db.delete(TABLE_NAME, COL_ID + "=?", new String[]{id+""}) > 0;
+//    }
 }

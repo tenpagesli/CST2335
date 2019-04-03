@@ -5,6 +5,7 @@
  * **/
 package com.cst2335.ryan;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,6 +23,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -51,6 +54,8 @@ public class ViewSavedWordsActivity extends AppCompatActivity {
     ArrayList<Word> savedWordList;
     /** Saved Words Adapter */
     SavedWordsAdapter adt;
+    /** selected word */
+    Word selectedWord;
 
     /**
      *  this method runs when click on "view saved word list"
@@ -104,13 +109,34 @@ public class ViewSavedWordsActivity extends AppCompatActivity {
             }
             else //isPhone
             {
-                Intent nextActivity = new Intent(ViewSavedWordsActivity.this, DetailFragmentPhone.class);
+                Intent nextActivity = new Intent(ViewSavedWordsActivity.this, EmptyFragmentActivity.class);
                 nextActivity.putExtras(dataToPass); //send data to next activity
                 startActivityForResult(nextActivity, EMPTY_ACTIVITY); //make the transition
             }
         });
+    }
 
-
+    /**
+     *  delete the message from view list by it's id, and update the list
+     * @param id
+     */
+    public void deleteMessageId(int id)
+    {
+        Log.i("Delete this message:" , " id="+id);
+        String str="";
+        Cursor c;
+        String [] cols = {MyDatabaseOpenHelper.COL_ID, MyDatabaseOpenHelper.COL_CONTENT};
+        c = db.query(false, MyDatabaseOpenHelper.TABLE_NAME, cols, null, null, null, null, null, null);
+        if(c.moveToFirst()) {
+            for (int i =0; i<id; i++) {
+                c.moveToNext();
+            }
+            str = c.getString(c.getColumnIndex("_id"));
+        }
+        int x = db.delete("Message", "_id=?", new String[] {str});
+        Log.i("ViewContact", "Deleted " + x + " rows");
+        savedWordList.remove(id);
+        adt.notifyDataSetChanged();
     }
 
     /**
@@ -249,19 +275,17 @@ public class ViewSavedWordsActivity extends AppCompatActivity {
         public View getView(int position, View old, ViewGroup parent) {
             View newView = null;
             LayoutInflater inflater = getLayoutInflater();
-            msg = (Message)getItem(position);
-            if (msg.isSent()) {
-                newView = inflater.inflate(R.layout.sender_row, parent, false);
-                content = (TextView) newView.findViewById(R.id.sendContent);
-            }else{
-                // Locate the layout (single_row), and add it to the bottom of current listView
-                newView = inflater.inflate(R.layout.receiver_row, parent, false);
-                content = (TextView) newView.findViewById(R.id.receiveContent);
-            }
+            selectedWord = (Word)getItem(position);
+            newView = inflater.inflate(R.layout.activity_dic_detail_fragment_rl, parent, false);
+            TextView idView = (TextView) newView.findViewById(R.id.idText);
+            TextView contentView = (TextView) newView.findViewById(R.id.word_content_rl);
+
             //Get the string to go in row: position
-            String toDisplay = getItem(position).toString();
+            long id = ((Word) getItem(position)).getId();
+            String content = getItem(position).toString();
             //Set the text of the text view
-            content.setText(toDisplay);
+            idView.setText(id+"");
+            contentView.setText(content);
             return newView;
         }
 

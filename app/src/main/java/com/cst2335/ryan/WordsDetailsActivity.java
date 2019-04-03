@@ -5,8 +5,10 @@
  * **/
 package com.cst2335.ryan;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -23,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -134,6 +137,33 @@ public class WordsDetailsActivity extends AppCompatActivity {
                     .setView(middle);
             builder.create().show();
         });
+    }
+
+    /**
+     * when click on save button, then save the word to database
+     *
+     * @param db
+     * @param adt
+     * @param buttonClicked
+     */
+    private void saveWord(SQLiteDatabase db, TextView wordContent, ListAdapter adt, Button buttonClicked){
+        // get word content
+        String content = wordContent.getText().toString();
+
+        //add to the database and get the new ID
+        ContentValues newRowValues = new ContentValues();
+        //put string word content in the word_content column:
+        newRowValues.put(MyDatabaseOpenHelper.COL_CONTENT, content);
+        //insert into the database:
+        long newId = db.insert(MyDatabaseOpenHelper.TABLE_NAME, null, newRowValues);
+
+        // create Word Object and add it to the list
+        selectedWord = new Word( newId,content , null, null);
+        savedWordList.add(selectedWord);
+        // update ListView
+        ((ViewSavedWordsActivity.SavedWordsAdapter) adt).notifyDataSetChanged();
+        //show a notification: first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
+        // Snackbar.make(buttonClicked, "Inserted item id:"+newId, Snackbar.LENGTH_LONG).show();
     }
 
     /**
