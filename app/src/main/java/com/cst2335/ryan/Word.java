@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class Word {
+    /** id */
+    long id;
     /** to save the word's content */
     private String word;
 
@@ -29,15 +31,44 @@ public class Word {
     }
 
     /**
-     *
+     * this is for non-database use, because id is 0
      * @param word
      * @param definitions
      * @param partsOfSpeech
      */
     public Word(String word, HashMap<String, ArrayList<String>> definitions, String partsOfSpeech) {
+        this(0, word, definitions, partsOfSpeech);
+    }
+
+    /**
+     * this is for database use
+     *
+     * @param id
+     * @param word
+     * @param definitions
+     * @param partsOfSpeech
+     */
+    public Word(long id, String word, HashMap<String, ArrayList<String>> definitions, String partsOfSpeech) {
+        this.id = id;
         this.word = word;
         this.definitions = definitions;
         this.partsOfSpeech = partsOfSpeech;
+    }
+
+    /**
+     * get id
+     * @return
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * set id
+     * @param id
+     */
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
@@ -104,13 +135,14 @@ public class Word {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Word word1 = (Word) o;
-        return Objects.equals(getWord(), word1.getWord()) &&
+        return getId() == word1.getId() &&
+                Objects.equals(getWord(), word1.getWord()) &&
                 Objects.equals(getDefinitions(), word1.getDefinitions()) &&
                 Objects.equals(getPartsOfSpeech(), word1.getPartsOfSpeech());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getWord(), getDefinitions(), getPartsOfSpeech());
+        return Objects.hash(getId(), getWord(), getDefinitions(), getPartsOfSpeech());
     }
 }

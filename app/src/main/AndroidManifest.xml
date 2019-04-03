@@ -13,6 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ryan.DetailFragmentPhone"></activity>
+        <activity android:name=".ryan.DetailFragment" />
         <activity android:name=".hung.NewsFeedDetailed3" />
         <activity android:name=".hung.NewsFeedDetailed2" />
         <activity android:name=".hung.NewsFeedDetailed" />

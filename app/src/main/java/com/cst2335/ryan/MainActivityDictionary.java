@@ -5,8 +5,11 @@
  * **/
 package com.cst2335.ryan;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -20,11 +23,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.cst2335.MainActivity;
 import com.cst2335.MyUtil;
 import com.cst2335.R;
 import com.cst2335.hung.MainActivityNewsFeed;
@@ -36,17 +36,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivityDictionary extends AppCompatActivity {
-    /**
-     *  tool bar
-     */
+    /** to save the word which the user typed in */
+    SharedPreferences sp;
+    /** the input word view */
+    TextView inputWord;
+    /** tool bar */
     Toolbar tBar;
-    /**
-     *  to save all the words
-     */
+    /** to save all the words */
     private ArrayList<Word> wordsList;
-    /**
-     *  to save word contents
-     */
+    /** to save word contents */
     private Word word;
 
     /***
@@ -61,19 +59,27 @@ public class MainActivityDictionary extends AppCompatActivity {
         tBar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(tBar);
 
-        // get all the user input word
-        TextView inputWord = findViewById(R.id.search_input);
+        // get all the views from page
+        inputWord = findViewById(R.id.search_input);
         Button searchBtn = findViewById(R.id.search_btn);
         Button viewSavedWords = findViewById(R.id.view_words_list);
+
+        // get saved SharedPreference from disk, the saved file name is "SearchedWords"
+        sp = getSharedPreferences("SearchedWords", Context.MODE_PRIVATE);
+        // get the value from xml tag of <inputWord>
+        String savedString = sp.getString("inputWord", "");
+        inputWord.setText(savedString);
+/**
         Button refreshList = findViewById(R.id.refresh_list);
         ListView preWordsList = findViewById(R.id.words_list);
-
+*/
         // display the most recent 20 words that were searched
         wordsList = new ArrayList<>();
         // TODO: get the top 20 words from shared-prefference, and add them into words list
         // get the top 20 words from shared-preferrence
         ArrayList<String> definList = new ArrayList<String>();
         definList.add("very glad");
+/**
         // wordsList.add(new Word("happy", definList, "adv", "I feel happy"));
         // get the adapter to inflate the most recent words list
         ListAdapter adt = new WordsListAdapter(wordsList);
@@ -81,7 +87,7 @@ public class MainActivityDictionary extends AppCompatActivity {
         if(!wordsList.isEmpty()){
             ((WordsListAdapter) adt).notifyDataSetChanged();
         }
-
+*/
         // clicked on search button
         searchBtn.setOnClickListener(c->{
             // search word from online, and jump to detailed page
@@ -95,7 +101,7 @@ public class MainActivityDictionary extends AppCompatActivity {
             Intent nextPage = new Intent(MainActivityDictionary.this, ViewSavedWordsActivity.class );
             startActivity(nextPage);
         });
-
+/**
         // clicked on refresh words button, refresh previous searched words list
         refreshList.setOnClickListener(c->{
             // Snackbar code:
@@ -113,6 +119,7 @@ public class MainActivityDictionary extends AppCompatActivity {
             Intent nextPage = new Intent(MainActivityDictionary.this, WordsDetailsActivity.class );
             startActivity(nextPage);
         });
+ */
     }
 
     /**
@@ -135,31 +142,36 @@ public class MainActivityDictionary extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent nextPage = null;
-        switch(item.getItemId())
-        {
-            //when click on "dictionary"
-            case R.id.go_flight:
-                nextPage = new Intent(MainActivityDictionary.this, MainActivityFlightStatusTracker.class);
-                startActivity(nextPage);
-                break;
-            //when click on "news feed"
-            case R.id.go_news_feed:
-                nextPage = new Intent(MainActivityDictionary.this, MainActivityNewsFeed.class);
-                startActivity(nextPage);
-                break;
-            //when click on "new york times"
-            case R.id.go_new_york:
-                nextPage = new Intent(MainActivityDictionary.this, MainActivityNewYorkTimes.class);
-                startActivity(nextPage);
-                break;
+        // Snackbar code:
+        Snackbar sb = Snackbar.make(tBar, "Do you want to switch to other module?", Snackbar.LENGTH_LONG)
+                .setAction("Yes", e -> {
+                    Intent nextPage = null;
+                    switch(item.getItemId())
+                    {
+                        //when click on "dictionary"
+                        case R.id.go_flight:
+                            nextPage = new Intent(MainActivityDictionary.this, MainActivityFlightStatusTracker.class);
+                            startActivity(nextPage);
+                            break;
+                        //when click on "news feed"
+                        case R.id.go_news_feed:
+                            nextPage = new Intent(MainActivityDictionary.this, MainActivityNewsFeed.class);
+                            startActivity(nextPage);
+                            break;
+                        //when click on "new york times"
+                        case R.id.go_new_york:
+                            nextPage = new Intent(MainActivityDictionary.this, MainActivityNewYorkTimes.class);
+                            startActivity(nextPage);
+                            break;
 
-            // when click on "help":
-            case R.id.go_help:
-                // show help dialog
-                this.showDialog();
-                break;
-        }
+                        // when click on "help":
+                        case R.id.go_help:
+                            // show help dialog
+                            this.showDialog();
+                            break;
+                    }
+                });
+        sb.show();
         return true;
     }
 
@@ -243,6 +255,24 @@ public class MainActivityDictionary extends AppCompatActivity {
                 .setView(middle);
 
         builder.create().show();
+    }
+
+    /**
+     * override onPause() for sharedPreference
+     */
+    @Override
+    protected void onPause(){
+        super.onPause();
+        //get an editor object
+        SharedPreferences.Editor editor = sp.edit();
+
+        //save what was typed under the name "inputWord"
+        String whatWasTyped = inputWord.getText().toString();
+        // xml tag name is inputWord
+        editor.putString("inputWord", whatWasTyped);
+
+        //write it to disk:
+        editor.commit();
     }
 
 }
