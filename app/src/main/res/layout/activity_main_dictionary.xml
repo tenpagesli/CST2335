@@ -39,22 +39,4 @@
         android:layout_height="wrap_content"
         android:text="@string/view_saved_words_btn_dic_rl" />
 
-    <Button
-        android:id="@+id/refresh_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/refresh_btn_dic_rl" />
-
-    <TextView
-        android:id="@+id/previous_words_hint"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/prevos_words_list_dic_rl"/>
-
-    <ListView
-        android:id="@+id/words_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"/>
-
 </LinearLayout>

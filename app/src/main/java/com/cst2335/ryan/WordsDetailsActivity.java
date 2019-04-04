@@ -5,9 +5,12 @@
  * **/
 package com.cst2335.ryan;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -136,6 +140,33 @@ public class WordsDetailsActivity extends AppCompatActivity {
     }
 
     /**
+     * when click on save button, then save the word to database
+     *
+     * @param db
+     * @param adt
+     * @param buttonClicked
+     */
+    private void saveWord(SQLiteDatabase db, TextView wordContent, ListAdapter adt, Button buttonClicked){
+        // get word content
+        String content = wordContent.getText().toString();
+
+        //add to the database and get the new ID
+        ContentValues newRowValues = new ContentValues();
+        //put string word content in the word_content column:
+        newRowValues.put(MyDatabaseOpenHelper.COL_CONTENT, content);
+        //insert into the database:
+        long newId = db.insert(MyDatabaseOpenHelper.TABLE_NAME, null, newRowValues);
+
+        // create Word Object and add it to the list
+        selectedWord = new Word( newId,content , null, null);
+        savedWordList.add(selectedWord);
+        // update ListView
+        ((ViewSavedWordsActivity.SavedWordsAdapter) adt).notifyDataSetChanged();
+        //show a notification: first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
+        // Snackbar.make(buttonClicked, "Inserted item id:"+newId, Snackbar.LENGTH_LONG).show();
+    }
+
+    /**
      * inflate the icons for toolbar
      * @param menu
      * @return
@@ -155,31 +186,36 @@ public class WordsDetailsActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent nextPage = null;
-        switch(item.getItemId())
-        {
-            //when click on "dictionary"
-            case R.id.go_flight:
-                nextPage = new Intent(WordsDetailsActivity.this, MainActivityFlightStatusTracker.class);
-                startActivity(nextPage);
-                break;
-            //when click on "news feed"
-            case R.id.go_news_feed:
-                nextPage = new Intent(WordsDetailsActivity.this, MainActivityNewsFeed.class);
-                startActivity(nextPage);
-                break;
-            //when click on "new york times"
-            case R.id.go_new_york:
-                nextPage = new Intent(WordsDetailsActivity.this, MainActivityNewYorkTimes.class);
-                startActivity(nextPage);
-                break;
+        // Snackbar code:
+        Snackbar sb = Snackbar.make(tBar, "Do you want to switch to other module?", Snackbar.LENGTH_LONG)
+                .setAction("Yes", e -> {
+                    Intent nextPage = null;
+                    switch(item.getItemId())
+                    {
+                        //when click on "dictionary"
+                        case R.id.go_flight:
+                            nextPage = new Intent(WordsDetailsActivity.this, MainActivityFlightStatusTracker.class);
+                            startActivity(nextPage);
+                            break;
+                        //when click on "news feed"
+                        case R.id.go_news_feed:
+                            nextPage = new Intent(WordsDetailsActivity.this, MainActivityNewsFeed.class);
+                            startActivity(nextPage);
+                            break;
+                        //when click on "new york times"
+                        case R.id.go_new_york:
+                            nextPage = new Intent(WordsDetailsActivity.this, MainActivityNewYorkTimes.class);
+                            startActivity(nextPage);
+                            break;
 
-            // when click on "help":
-            case R.id.go_help:
-                // show help dialog
-                this.showDialog();
-                break;
-        }
+                        // when click on "help":
+                        case R.id.go_help:
+                            // show help dialog
+                            this.showDialog();
+                            break;
+                    }
+                });
+        sb.show();
         return true;
     }
 
@@ -374,10 +410,8 @@ public class WordsDetailsActivity extends AppCompatActivity {
             String wordContent = "";
             String partsOfSpeech = "";
             String definition = "";
-            String exampleSentence = "";
             boolean hadSn = false; // if there is a <sn> before
             boolean hadDt = false; // if there is a <dt> before
-            boolean hadSx = false;
 
             do{
                 String tagName = xpp.getName();
@@ -440,51 +474,10 @@ public class WordsDetailsActivity extends AppCompatActivity {
                             nextTag = xpp.getName();
                         }
                     }while("sx".equals(nextTag));
-
-//                    if("vi".equals(nextTag)){
-//                        xpp.next();
-//                        if("it".equals(xpp.getName())){
-//                            xpp.next();
-//                            exampleSentence += (" " + xpp.getText());
-//                            xpp.next();
-//                            String lastPart = xpp.getText();
-//                            if(lastPart!=null && !"".equals(lastPart)){
-//                                exampleSentence += (" " + xpp.getText());
-//                            }
-//                        }else{
-//                            exampleSentence = xpp.getText();
-//                            if(exampleSentence==null){
-//                                exampleSentence = "";
-//                            }
-//                            xpp.next();
-//                        }
-//                    }
-//                  exSenList.add(exampleSentence);
                     defiList.put(definition, exSenList);
                     hadSn = false; // reset
                     hadDt = false; // reset
                     definition = ""; // reset as "" for next definition
-                }else if("vi".equals(tagName)){
-//                    xpp.next();
-//                    exampleSentence = xpp.getText();
-//                    if(exampleSentence==null){
-//                        exampleSentence = "";
-//                    }
-//                    xpp.next();
-//                    if("it".equals(xpp.getName())){
-//                        xpp.next();
-//                        exampleSentence += (" " + xpp.getText());
-//                        xpp.next();
-//                        String lastPart = xpp.getText();
-//                        if(lastPart!=null && !"".equals(lastPart)){
-//                            exampleSentence += (" " + xpp.getText());
-//                        }
-//                    }
-//                    exSenList.add(exampleSentence);
-//                    defiList.put(definition, exSenList);
-//                    hadSn = false; // reset
-//                    hadDt = false; // reset
-//                    definition = ""; // reset as "" for next definition
                 }
                 xpp.next(); // point to next element
                 // if next element is <entry>, then break the loop
