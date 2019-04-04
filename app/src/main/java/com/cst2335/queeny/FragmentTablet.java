@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -81,15 +82,19 @@ public class FragmentTablet extends Fragment {
         boolean isTablet = getArguments().getBoolean("isTablet");
 
         deleteFlight.setOnClickListener(v -> {
-            if (isTablet) {
-                ((FlightSavedActivity) getActivity()).deleteMessage((int) getArguments().getLong("messageId"));
-                getFragmentManager().beginTransaction().remove(FragmentTablet.this).commit();
-            } else {
-                Intent intent = new Intent();
-                intent.putExtra("id", getArguments().getLong("id"));
-                getActivity().setResult(Activity.RESULT_OK, intent);
-                getActivity().finish();
-            }
+            Snackbar sb = Snackbar.make(deleteFlight, "You really want to delete?", Snackbar.LENGTH_LONG)
+                    .setAction("Yes!", e -> {
+                        if (isTablet) {
+                            ((FlightSavedActivity) getActivity()).deleteMessage((int) getArguments().getLong("messageId"));
+                            getFragmentManager().beginTransaction().remove(FragmentTablet.this).commit();
+                        } else {
+                            Intent intent = new Intent();
+                            intent.putExtra("id", getArguments().getLong("id"));
+                            getActivity().setResult(Activity.RESULT_OK, intent);
+                            getActivity().finish();
+                        }
+                    });
+            sb.show();
         });
 
         return view;
