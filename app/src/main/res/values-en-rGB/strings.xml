@@ -47,6 +47,7 @@
     <string name="status_qy">Status </string>
     <string name="save_btn_qy">Save </string>
     <string name="delete_btn_qy">Delete </string>
+    <string name="back_btn_qy">Previous Page</string>
     <!--Hung Strings-->
     <string name="welcome_hd">WELCOME TO THE NEWS FEED</string>
     <string name="search_hd">Type in search article</string>

@@ -5,8 +5,10 @@
  */
 package com.cst2335.queeny;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -60,6 +62,10 @@ public class FlightDetailsActivity extends AppCompatActivity {
     /** flight object to save flight details */
     Flight flight;
 
+
+    private SQLiteDatabase db;
+    private FlightDataBaseHelper dbOpener;
+
     /**
      * When user want's to see the flight details, this method runs
      *
@@ -75,7 +81,7 @@ public class FlightDetailsActivity extends AppCompatActivity {
 
         // get progress bar
         pbar = findViewById(R.id.progress_Bar);
-        pbar.setVisibility(View.INVISIBLE);
+        pbar.setVisibility(View.VISIBLE);
         pbar.setProgress(10);
 
         // get all the views and buttons
@@ -85,7 +91,10 @@ public class FlightDetailsActivity extends AppCompatActivity {
         altitudeView = findViewById(R.id.altitude_qy);
         StatusView = findViewById(R.id.Status_qy);
         Button saveFlight = findViewById(R.id.save_btn);
+        Button prePage = findViewById(R.id.previous_page_btn);
+        // get delete button and set it as invisible because no need to delete the record yet
         Button deleteFlight = findViewById(R.id.delete_btn);
+        deleteFlight.setVisibility(View.INVISIBLE);
 
         // get flight number and depIcao code from previous page
         Intent previousPage = getIntent();
@@ -98,8 +107,38 @@ public class FlightDetailsActivity extends AppCompatActivity {
         fdq.execute(myUrl); // it will go to doInBackground()
 
         // when click on save button
+
+        //get a database
+        dbOpener= new FlightDataBaseHelper(this);
+        db = dbOpener.getWritableDatabase();
         saveFlight.setOnClickListener(c->{
-            Toast.makeText(FlightDetailsActivity.this, "The flight has already saved", Toast.LENGTH_LONG).show();
+            // add to the database and get the new ID
+            ContentValues newRowValues = new ContentValues();
+            //put string message in the message column
+            newRowValues.put(FlightDataBaseHelper.COL_ALTITUDE, flight.getAltitude());
+            newRowValues.put(FlightDataBaseHelper.COL_FLIGHT_NO, flight.getFlightNo().get("number"));
+            newRowValues.put(FlightDataBaseHelper.COL_HORIZONTAL, flight.getSpeed().get("horizontal"));
+            newRowValues.put(FlightDataBaseHelper.COL_ISGROUND, flight.getSpeed().get("isGround"));
+            newRowValues.put(FlightDataBaseHelper.COL_LATITUDE, flight.getLocation().get("latitude"));
+            newRowValues.put(FlightDataBaseHelper.COL_LONGITUDE, flight.getLocation().get("longitude"));
+            newRowValues.put(FlightDataBaseHelper.COL_STATUS, flight.getStatus());
+            newRowValues.put(FlightDataBaseHelper.COL_VERTICAL, flight.getSpeed().get("vertical"));
+
+            //insert to the database
+            long newId = db.insert(FlightDataBaseHelper.TABLE_NAME,null,newRowValues);
+            String taostMessage;
+            if(newId>0){
+                taostMessage ="Flight information saved successfully!";
+            }else{
+                taostMessage ="Sorry, flight information saved unsuccessfully!";
+            }
+            Toast.makeText(FlightDetailsActivity.this, taostMessage, Toast.LENGTH_LONG).show();
+        });
+
+        // when click on go to previous page
+        prePage.setOnClickListener(c->{
+            Intent nextPage = new Intent(FlightDetailsActivity.this, MainActivityFlightStatusTracker.class);
+            startActivity(nextPage);
         });
     }
 
@@ -190,7 +229,7 @@ public class FlightDetailsActivity extends AppCompatActivity {
             // pbar.setVisibility(View.VISIBLE);
             Log.e("onProgressUpdate:", " should update some thing here");
             if(value[0]==1){
-                // update the view list here
+                // update the views here
                 flightNoView.setText("Flight Number: " + flight.getFlightNo().get("number"));
                 String locationText = "Location: " + "<br/>"
                                       + "&nbsp &nbsp &nbsp Latitude: " + flight.getLocation().get("latitude") + "<br/>"
@@ -255,10 +294,8 @@ public class FlightDetailsActivity extends AppCompatActivity {
                 location.put("latitude",obj.getJSONObject("geography").getString("latitude") );
                 location.put("longitude",obj.getJSONObject("geography").getString("longitude") );
                 String status = obj.getString("status");
-                flight= new Flight(flightNo, location, departure, arrival, speed,  altitude,  status);
+                flight= new Flight(0, flightNo, location, departure, arrival, speed,  altitude,  status);
             }
         }
     }
-
-
 }

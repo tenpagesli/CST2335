@@ -47,6 +47,7 @@
     <string name="status_qy">状态 </string>
     <string name="save_btn_qy">保存 </string>
     <string name="delete_btn_qy">删除</string>
+    <string name="back_btn_qy">上一页</string>
 
     <!--Hung Strings-->
     <string name="welcome_hd">欢迎收看新闻提要</string>

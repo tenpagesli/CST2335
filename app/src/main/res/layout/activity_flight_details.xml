@@ -48,10 +48,17 @@
         android:text="@string/status_qy" />
 
     <Button
+        android:id="@+id/previous_page_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/back_btn_qy" />
+
+    <Button
         android:id="@+id/save_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save_btn_qy" />
+
     <Button
         android:id="@+id/delete_btn"
         android:layout_width="match_parent"

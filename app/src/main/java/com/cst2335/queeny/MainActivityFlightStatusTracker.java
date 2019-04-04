@@ -290,7 +290,7 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
                 location.put("latitude",obj.getJSONObject("geography").getString("latitude") );
                 location.put("longitude",obj.getJSONObject("geography").getString("longitude") );
 */
-                Flight flight= new Flight(flightNo, null, departure, null, null,  null,  status);
+                Flight flight= new Flight(0, flightNo, null, departure, null, null,  null,  status);
                 if(flightType.equals("depart")){
                     depFlights.add(flight);
                 }

@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class Flight {
-
+    /** id in database */
+    long id;
     /** flight number */
     HashMap<String, String> flightNo;
     /** location */
@@ -28,9 +29,10 @@ public class Flight {
     public Flight() {
     }
 
-    public Flight(HashMap<String, String> flightNo, HashMap<String, String> location,
+    public Flight(long id, HashMap<String, String> flightNo, HashMap<String, String> location,
                   HashMap<String, String> departure, HashMap<String, String> arrival,
                   HashMap<String, String> speed, String altitude, String status) {
+        this.setId(id);
         this.setFlightNo(flightNo);
         this.setLocation(location);
         this.setDeparture(departure);
@@ -38,6 +40,24 @@ public class Flight {
         this.setSpeed(speed);
         this.setAltitude(altitude);
         this.setStatus(status);
+    }
+
+    /**
+     * get id
+     *
+     * @return
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * set id
+     *
+     * @param id
+     */
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
@@ -176,6 +196,7 @@ public class Flight {
 
     /**
      * override equals()
+     *
      * @param o
      * @return
      */
@@ -184,7 +205,8 @@ public class Flight {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Flight flight = (Flight) o;
-        return Objects.equals(flightNo, flight.flightNo) &&
+        return id == flight.id &&
+                Objects.equals(flightNo, flight.flightNo) &&
                 Objects.equals(location, flight.location) &&
                 Objects.equals(departure, flight.departure) &&
                 Objects.equals(arrival, flight.arrival) &&
@@ -194,12 +216,12 @@ public class Flight {
     }
 
     /**
-     * override hashCode()
+     * Override hashCode()
      *
      * @return
      */
     @Override
     public int hashCode() {
-        return Objects.hash(flightNo, location, departure, arrival, speed, altitude, status);
+        return Objects.hash(id, flightNo, location, departure, arrival, speed, altitude, status);
     }
 }
