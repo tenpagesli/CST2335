@@ -13,10 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ryan.EmptyFragmentActivity"></activity>
-        <activity android:name=".ryan.DetailFragmentPhone" />
-        <activity android:name=".ryan.DetailFragment" />
-        <activity android:name=".queeny.FlightPhoneFragmentActivity"></activity>
+        <activity android:name=".queeny.FlightPhoneFragmentActivity"/>
         <activity android:name=".hung.NewsFeedDetailed3" />
         <activity android:name=".hung.NewsFeedDetailed2" />
         <activity android:name=".hung.NewsFeedDetailed" />
@@ -24,6 +21,7 @@
         <activity android:name=".queeny.FlightSavedActivity" />
         <activity android:name=".queeny.FlightDetailsActivity" />
         <activity android:name=".ryan.MainActivityDictionary" />
+        <activity android:name=".ryan.EmptyFragmentActivity"/>
         <activity android:name=".ryan.ViewSavedWordsActivity" />
         <activity android:name=".ryan.WordsDetailsActivity" />
         <activity android:name=".queeny.MainActivityFlightStatusTracker" />
