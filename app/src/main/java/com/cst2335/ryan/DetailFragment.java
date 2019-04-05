@@ -61,6 +61,7 @@ public class DetailFragment extends Fragment {
                 //now remove the fragment since you deleted it from the database:
                 // this is the object to be removed, so remove(this):
                 parent.getSupportFragmentManager().beginTransaction().remove(this).commit();
+                parent.finish(); //go back
             }
             //for Phone:
             else //You are only looking at the details, you need to go back to the previous list page

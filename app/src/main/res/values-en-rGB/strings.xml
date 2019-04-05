@@ -31,6 +31,7 @@
     <string name="parts_of_speech_dic_rl">Parts Of Speech:</string>
     <string name="definition_dic_rl">Definition:</string>
     <string name="example_sentence_rl">Example sentence:</string>
+    <string name="to_sub_main_rl">Dictionary Home Page</string>
 
     <!--Quenny Strings-->
     <string name="title_qy">Flight Status tracker</string>
