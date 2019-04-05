@@ -8,6 +8,7 @@ package com.cst2335.queeny;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.annotation.NonNull;
@@ -66,8 +67,8 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
     /**  activity name */
     protected static final String ACTIVITY_NAME = "Flights Search By Airport";
     /**  flight url */
-    // protected static final String myUrl = "http://aviation-edge.com/v2/public/flights?key=8a0877-70791c&arrIata=MEX&limit=3";
-    protected String preUrl = "http://aviation-edge.com/v2/public/flights?key=8b238e-5c48c5";
+    // protected static final String myUrl = "http://aviation-edge.com/v2/public/flights?key=8b238e-5c48c5&arrIata=MEX&limit=3";
+    protected String preUrl = "http://aviation-edge.com/v2/public/flights?key=" + MyUtil.flightApiKey;
     protected String depAirCode, arrAirCode;
     protected String depUrl, arrUrl;
 
@@ -86,6 +87,9 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
     /** arrive flight list */
     ArrayList<Flight> arrFlights = new ArrayList<>();
 
+    /** to save the word which the user typed in */
+    SharedPreferences sp;
+
     /**
      * When user wants to go to Flight Status Tracker's home page, this method runs
      * @param savedInstanceState
@@ -98,12 +102,19 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
         tBar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(tBar);
 
+        // get all the views and buttons
         airportCodeBtn = findViewById(R.id.airport_code_qy);
         searchBtn = findViewById(R.id.buttonSeach_qy);
         viewSavedBtn = findViewById(R.id.buttonView_qy);
         refreshList = findViewById(R.id.buttonRefresh_qy);
         flightList = findViewById(R.id.FlightList_qy);
         swBtn = findViewById(R.id.airport_switch_qy);
+
+        // get saved SharedPreference from disk, the saved file name is "SearchedWords"
+        sp = getSharedPreferences("SearchedAirportCode", Context.MODE_PRIVATE);
+        // get the value of the tag <inputCode> in xml file called SearchedAirportCode
+        String savedString = sp.getString("inputCode", "");
+        airportCodeBtn.setText(savedString);
 
         // default airport code is IATA
         depAirCode = "&depIata=" + airportCodeBtn.getText().toString();
@@ -148,8 +159,10 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
             // get the specific flight info which user clicked on, and jump to the details page
             flightList.setOnItemClickListener(  (parent, view, position, id)->{
                 //TODO: FORWARD TO FLIGHT DETAILS PAGE
-
+                Flight clickedFlight = allFlights.get(position);
                 Intent nextPage = new Intent(MainActivityFlightStatusTracker.this, FlightDetailsActivity.class);
+                nextPage.putExtra("flightNo", clickedFlight.getFlightNo().get("number"));
+                nextPage.putExtra("depIcao", clickedFlight.getDeparture().get("icaoCode"));
                 startActivity(nextPage);
             });
         });
@@ -260,19 +273,24 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
                 flightNo.put("iataNumber",obj.getJSONObject("flight").getString("iataNumber"));
                 flightNo.put("icaoNumber",obj.getJSONObject("flight").getString("icaoNumber"));
                 flightNo.put("number",obj.getJSONObject("flight").getString("number"));
+                String status = obj.getString("status");
                 HashMap<String, String>  departure = new HashMap<>();
                 departure.put("iataCode",obj.getJSONObject("departure").getString("iataCode"));
                 departure.put("icaoCode",obj.getJSONObject("departure").getString("icaoCode"));
+/** *****************************  do not need below info yet ******************************
                 HashMap<String, String>  arrival = new HashMap<>();
-                departure.put("iataCode",obj.getJSONObject("arrival").getString("iataCode"));
-                departure.put("icaoCode",obj.getJSONObject("arrival").getString("icaoCode"));
+                arrival.put("iataCode",obj.getJSONObject("arrival").getString("iataCode"));
+                arrival.put("icaoCode",obj.getJSONObject("arrival").getString("icaoCode"));
                 HashMap<String, String>  speed = new HashMap<>();
-                departure.put("horizontal",obj.getJSONObject("speed").getString("horizontal"));
-                departure.put("isGround",obj.getJSONObject("speed").getString("isGround"));
-                departure.put("vertical",obj.getJSONObject("speed").getString("vertical"));
+                speed.put("horizontal",obj.getJSONObject("speed").getString("horizontal"));
+                speed.put("isGround",obj.getJSONObject("speed").getString("isGround"));
+                speed.put("vertical",obj.getJSONObject("speed").getString("vertical"));
                 String  altitude = obj.getJSONObject("geography").getString("altitude");
-                String status = obj.getString("status");
-                Flight flight= new Flight(flightNo, departure, arrival, speed,  altitude,  status);
+                HashMap<String, String> location = new HashMap<>();
+                location.put("latitude",obj.getJSONObject("geography").getString("latitude") );
+                location.put("longitude",obj.getJSONObject("geography").getString("longitude") );
+*/
+                Flight flight= new Flight(0, flightNo, null, departure, null, null,  null,  status);
                 if(flightType.equals("depart")){
                     depFlights.add(flight);
                 }
@@ -397,6 +415,24 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    /**
+     * override onPause() for sharedPreference
+     */
+    @Override
+    protected void onPause(){
+        super.onPause();
+        //get an editor object
+        SharedPreferences.Editor editor = sp.edit();
+
+        //save what was typed under the name "inputWord"
+        String whatWasTyped = airportCodeBtn.getText().toString();
+        // xml tag name is inputWord
+        editor.putString("inputCode", whatWasTyped);
+
+        //write it to disk:
+        editor.commit();
     }
 
 }
