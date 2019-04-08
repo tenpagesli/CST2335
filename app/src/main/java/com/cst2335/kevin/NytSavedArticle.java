@@ -29,16 +29,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.cst2335.MyUtil;
+
 import com.cst2335.R;
-import com.cst2335.hung.MainActivityNewsFeed;
-import com.cst2335.kevin.MainActivityNewYorkTimes;
-import com.cst2335.queeny.MainActivityFlightStatusTracker;
-import com.cst2335.ryan.DetailFragment;
-import com.cst2335.ryan.EmptyFragmentActivity;
-import com.cst2335.ryan.MyDatabaseOpenHelper;
-import com.cst2335.ryan.ViewSavedWordsActivity;
-import com.cst2335.ryan.Word;
+
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,11 +52,11 @@ public class NytSavedArticle extends AppCompatActivity {
     /** tool bar */
     Toolbar tBar;
     /** word list */
-    ArrayList<Word> savedWordList;
+    ArrayList<Article> savedArticleList;
     /** Saved Words Adapter */
     SavedWordsAdapter adt;
-    /** selected word */
-    Word selectedWord;
+    /** selected Article */
+    Article selectArticle;
 
     /**
      *  this method runs when click on "view saved word list"
@@ -78,8 +72,8 @@ public class NytSavedArticle extends AppCompatActivity {
         setSupportActionBar(tBar);
 
         // get savedWordList array list for first time running
-        if (savedWordList == null) {
-            savedWordList = new ArrayList<>();
+        if (savedArticleList == null) {
+            savedArticleList = new ArrayList<>();
         }
 
         //get a database:
@@ -90,16 +84,16 @@ public class NytSavedArticle extends AppCompatActivity {
         this.findAllData(db);
 
         // get the "ListView" object
-        ListView theList = (ListView)findViewById(R.id.saved_article_list);
+        ListView theList = (ListView)findViewById(R.id.saved_nyt_articles);
         // get fragment
-        boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
+        boolean isTablet = findViewById(R.id.frameLayout) != null; //check if the FrameLayout is loaded
         // initial the adapter with chatting history list
-        adt = new SavedWordsAdapter(savedWordList);
+        adt = new SavedWordsAdapter(savedArticleList);
         theList.setAdapter(adt); // the list should show up now
 
         theList.setOnItemClickListener( (list, item, position, id) -> {
             Bundle dataToPass = new Bundle();
-            dataToPass.putString(ITEM_SELECTED, savedWordList.get(position).toString() );
+            dataToPass.putString(ITEM_SELECTED, savedArticleList.get(position).getTitle() );
             dataToPass.putInt(ITEM_POSITION, position);
             // dataToPass.putLong(ITEM_ID, msgList.get(position).getId());
             dataToPass.putLong(ITEM_ID, id);
@@ -111,13 +105,13 @@ public class NytSavedArticle extends AppCompatActivity {
                 dFragment.setTablet(true);  //tell the fragment if it's running on a tablet or not
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
+                        .add(R.id.frameLayout, dFragment) //Add the fragment in FrameLayout
                         .addToBackStack("AnyName") //make the back button undo the transaction
                         .commit(); //actually load the fragment.
             }
             else //isPhone
             {
-                Intent nextActivity = new Intent(NytSavedArticle.this, EmptyFragmentActivity.class);
+                Intent nextActivity = new Intent(NytSavedArticle.this, EmptyActivity.class);
                 nextActivity.putExtras(dataToPass); //send data to next activity
                 startActivityForResult(nextActivity, EMPTY_ACTIVITY); //make the transition
             }
@@ -155,7 +149,7 @@ public class NytSavedArticle extends AppCompatActivity {
         }
         int x = db.delete(NytDataBaseHelper.TABLE_NAME, NytDataBaseHelper.COL_ID+"=?", new String[] {str});
         Log.i("ViewContact", "Deleted " + x + " rows");
-        savedWordList.remove(id);
+        savedArticleList.remove(id);
         adt.notifyDataSetChanged();
     }
 
@@ -194,10 +188,13 @@ public class NytSavedArticle extends AppCompatActivity {
         //iterate over the results, return true if there is a next item:
         while(results.moveToNext())
         {
-            long id = results.getLong(idColIndex);
+            int id = results.getInt(idColIndex);
             String content = results.getString(contentColumnIndex);
             //add the new Contact to the array list:
-            savedWordList.add(new Word(id, content, null, null));
+            String content1 = results.getString(contentColumnIndex);
+            //add the new Contact to the array list:
+            savedArticleList.add(new Article(content,content1,id));
+
         }
     }
 
@@ -241,14 +238,14 @@ public class NytSavedArticle extends AppCompatActivity {
         public View getView(int position, View old, ViewGroup parent) {
             View newView = null;
             LayoutInflater inflater = getLayoutInflater();
-            selectedWord = (Word)getItem(position);
+            selectArticle = (Article)getItem(position);
             newView = inflater.inflate(R.layout.activity_nyt_article_list, parent, false);
             TextView idView = (TextView) newView.findViewById(R.id.article_id);
             TextView contentView = (TextView) newView.findViewById(R.id.a_article);
 
             //Get the string to go in row: position
-            long id = ((Word) getItem(position)).getId();
-            String content = getItem(position).toString();
+            int id = ((Article) getItem(position)).getNewsID();
+            String content = ((Article) getItem(position)).getTitle();
             //Set the text of the text view
             idView.setText("    " + id);
             contentView.setText(content);
