@@ -17,6 +17,9 @@
     <string name="nyt_save_kn">Save article</string>
     <string name="nyt_delete_kn">Delete article</string>
     <string name="delete_article_kn">Do you want to delete this Article </string>
+    <string name="nyt_saved_article">View Saved Article </string>
+    <string name="nyt_search">Enter Search Article </string>
+    <string name="nyt_article_saved">Your Saved Articles</string>
 
     <!--Ryan Strings-->
     <string name="welcome_msg_dic_rl">Welcome to Merriam Webster Dictionary</string>

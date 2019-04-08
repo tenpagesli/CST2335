@@ -26,7 +26,7 @@
         <activity android:name=".ryan.WordsDetailsActivity" />
         <activity android:name=".queeny.MainActivityFlightStatusTracker" />
         <activity android:name=".kevin.MainActivityNewYorkTimes" />
-        <activity android:name=".kevin.NytSearchedActivity" />
+        <activity android:name=".kevin.NytSavedArticle" />
         <activity android:name=".kevin.ArticleActivity1" />
         <activity android:name=".kevin.NytApiSearch" />
         <activity android:name=".hung.MainActivityNewsFeed" />

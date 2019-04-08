@@ -47,12 +47,13 @@
             android:layout_height="wrap_content"
             android:text="@string/enter_nyt" />
 
-        <ImageButton
-            android:id="@+id/nyt_menu_KN"
-            android:layout_width="197dp"
-            android:layout_height="122dp"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/nyt_button_kn" />
+        <!--<ImageButton-->
+            <!--android:id="@+id/nyt_menu_KN"-->
+            <!--android:layout_width="197dp"-->
+            <!--android:layout_height="122dp"-->
+            <!--android:scaleType="fitXY"-->
+            <!--app:srcCompat="@drawable/nyt_button_kn" />-->
+
     </LinearLayout>
 
 </LinearLayout>

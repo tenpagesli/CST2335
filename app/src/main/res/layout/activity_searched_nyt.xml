@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".kevin.NytSearchedActivity">
+    tools:context=".kevin.NytSavedArticle">
 
     <ProgressBar
         android:id="@+id/nyt_progressBar"
@@ -30,21 +30,21 @@
         android:layout_height="wrap_content"
         android:text="ID" />
 
-    <Button
-        android:id="@+id/nyt_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nyt_progressBar"
-        android:layout_marginBottom="0dp"
-        android:text="@string/nyt_save_kn" />
+    <!--<Button-->
+        <!--android:id="@+id/nyt_save"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/nyt_progressBar"-->
+        <!--android:layout_marginBottom="0dp"-->
+        <!--android:text="@string/nyt_save_kn" />-->
 
-    <Button
-        android:id="@+id/nyt_delete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nyt_save"
-        android:layout_marginBottom="0dp"
-        android:text="@string/nyt_delete_kn" />
+    <!--<Button-->
+        <!--android:id="@+id/nyt_delete"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/nyt_save"-->
+        <!--android:layout_marginBottom="0dp"-->
+        <!--android:text="@string/nyt_delete_kn" />-->
 
 
     <!--<RelativeLayout-->
