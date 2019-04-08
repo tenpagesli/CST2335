@@ -76,10 +76,11 @@ public class WordsDetailsActivity extends AppCompatActivity {
     ArrayList<Word> wordsList = new ArrayList<>();
     /** to save word contents  */
     private Word word;
-
-
     /** the final url to search a word */
     String myURL;
+    /** below 2 fields are for database using */
+    MyDatabaseOpenHelper dbOpener;
+    SQLiteDatabase db;
 
     /**
      * this method runs when user click on a specific item of ViewList
@@ -110,13 +111,13 @@ public class WordsDetailsActivity extends AppCompatActivity {
         //this starts doInBackground on other thread
         wq.execute(myURL);
 
-
         // clicked on view save word button
         saveBtn.setOnClickListener(c->{
-            // TODO: save word into database
-
-            // show toast bar if saved successful
-            Toast.makeText(WordsDetailsActivity.this, "Word saved successfully!.", Toast.LENGTH_LONG).show();
+            // save word into database
+            //get a database:
+            dbOpener = new MyDatabaseOpenHelper(this);
+            db = dbOpener.getWritableDatabase();
+            this.saveWord(db, inputWord);
         });
 
         // clicked on view delete word button
@@ -143,27 +144,25 @@ public class WordsDetailsActivity extends AppCompatActivity {
      * when click on save button, then save the word to database
      *
      * @param db
-     * @param adt
-     * @param buttonClicked
+     * @param inputWord
      */
-    private void saveWord(SQLiteDatabase db, TextView wordContent, ListAdapter adt, Button buttonClicked){
+    private void saveWord(SQLiteDatabase db, String inputWord){
         // get word content
-        String content = wordContent.getText().toString();
 
         //add to the database and get the new ID
         ContentValues newRowValues = new ContentValues();
         //put string word content in the word_content column:
-        newRowValues.put(MyDatabaseOpenHelper.COL_CONTENT, content);
+        newRowValues.put(MyDatabaseOpenHelper.COL_CONTENT, inputWord);
         //insert into the database:
         long newId = db.insert(MyDatabaseOpenHelper.TABLE_NAME, null, newRowValues);
-
-        // create Word Object and add it to the list
-        selectedWord = new Word( newId,content , null, null);
-        savedWordList.add(selectedWord);
-        // update ListView
-        ((ViewSavedWordsActivity.SavedWordsAdapter) adt).notifyDataSetChanged();
-        //show a notification: first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
-        // Snackbar.make(buttonClicked, "Inserted item id:"+newId, Snackbar.LENGTH_LONG).show();
+        String saveResultMessage = "";
+        if(newId>0){
+            saveResultMessage = "Word saved successfully!.";
+        }else{
+            saveResultMessage = "Warning! Word did not save successfully!.";
+        }
+        // show toast bar if saved successful
+        Toast.makeText(WordsDetailsActivity.this, saveResultMessage, Toast.LENGTH_LONG).show();
     }
 
     /**

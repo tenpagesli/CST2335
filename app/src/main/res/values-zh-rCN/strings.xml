@@ -31,6 +31,7 @@
     <string name="parts_of_speech_dic_rl">词性:</string>
     <string name="definition_dic_rl">定义:</string>
     <string name="example_sentence_rl">例句:</string>
+    <string name="to_sub_main_rl">字典首页</string>
 
     <!--Quenny Strings-->
     <string name="title_qy">航班状态追踪</string>
@@ -47,6 +48,7 @@
     <string name="status_qy">状态 </string>
     <string name="save_btn_qy">保存 </string>
     <string name="delete_btn_qy">删除</string>
+    <string name="back_btn_qy">上一页</string>
 
     <!--Hung Strings-->
     <string name="welcome_hd">欢迎收看新闻提要</string>

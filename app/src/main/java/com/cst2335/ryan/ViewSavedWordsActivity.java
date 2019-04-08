@@ -116,6 +116,17 @@ public class ViewSavedWordsActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == EMPTY_ACTIVITY && resultCode == RESULT_OK) {
+            // for phone, check if deleted a message
+            long deletedId = data.getLongExtra("deletedId", 0);
+            // delete from database
+            // dbOpener.deleteRow(db, deletedId);
+            deleteMessageId((int)deletedId);
+        }
+    }
+
     /**
      *  delete the message from view list by it's id, and update the list
      * @param id
@@ -131,9 +142,9 @@ public class ViewSavedWordsActivity extends AppCompatActivity {
             for (int i =0; i<id; i++) {
                 c.moveToNext();
             }
-            str = c.getString(c.getColumnIndex("_id"));
+            str = c.getString(c.getColumnIndex(MyDatabaseOpenHelper.COL_ID));
         }
-        int x = db.delete("Message", "_id=?", new String[] {str});
+        int x = db.delete(MyDatabaseOpenHelper.TABLE_NAME, MyDatabaseOpenHelper.COL_ID+"=?", new String[] {str});
         Log.i("ViewContact", "Deleted " + x + " rows");
         savedWordList.remove(id);
         adt.notifyDataSetChanged();
@@ -276,15 +287,15 @@ public class ViewSavedWordsActivity extends AppCompatActivity {
             View newView = null;
             LayoutInflater inflater = getLayoutInflater();
             selectedWord = (Word)getItem(position);
-            newView = inflater.inflate(R.layout.activity_dic_detail_fragment_rl, parent, false);
-            TextView idView = (TextView) newView.findViewById(R.id.idText);
-            TextView contentView = (TextView) newView.findViewById(R.id.word_content_rl);
+            newView = inflater.inflate(R.layout.activity_dic_word_list_item, parent, false);
+            TextView idView = (TextView) newView.findViewById(R.id.word_id);
+            TextView contentView = (TextView) newView.findViewById(R.id.a_word);
 
             //Get the string to go in row: position
             long id = ((Word) getItem(position)).getId();
             String content = getItem(position).toString();
             //Set the text of the text view
-            idView.setText(id+"");
+            idView.setText("    " + id);
             contentView.setText(content);
             return newView;
         }
@@ -292,7 +303,7 @@ public class ViewSavedWordsActivity extends AppCompatActivity {
         // get the item id for a specific position in the view list.
         @Override
         public long getItemId(int position) {
-            return position;
+            return (long)position;
         }
     }
 }

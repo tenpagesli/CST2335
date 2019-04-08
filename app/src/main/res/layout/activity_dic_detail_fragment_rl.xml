@@ -18,9 +18,10 @@
         android:layout_below="@id/idText"/>
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Delete"
-        android:id="@+id/deleteButton"/>
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:text="@string/delete_btn_dic_rl"
+    android:id="@+id/deleteButton"/>
+
 </RelativeLayout>

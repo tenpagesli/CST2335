@@ -39,27 +39,23 @@
         android:id="@+id/v_flightNo_qy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:text="@string/flightNo_qy" />
+        android:layout_columnWeight="1" />
 
     <TextView
         android:id="@+id/v_iataNumber_qy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:text="IATA No." />
+        android:layout_columnWeight="1"/>
 
     <TextView
         android:id="@+id/v_icaoNumber_qy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:text="ICOA No." />
+        android:layout_columnWeight="1"/>
 
     <TextView
         android:id="@+id/v_flightStatus_qy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:text="@string/flightStatus_qy" />
+        android:layout_columnWeight="1" />
 </GridLayout>
