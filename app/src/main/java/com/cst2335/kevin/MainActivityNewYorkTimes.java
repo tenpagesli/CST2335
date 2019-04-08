@@ -6,8 +6,10 @@
 
 package com.cst2335.kevin;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +25,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.view.View;
+import android.widget.TextView;
+
 import com.cst2335.R;
 import com.cst2335.hung.MainActivityNewsFeed;
 import com.cst2335.queeny.MainActivityFlightStatusTracker;
@@ -37,7 +41,8 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
     private ArrayAdapter<String> adapterString;
     private ListView listView;
     private ImageButton androidImageButton;
-
+    TextView inputWord;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +50,28 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
         setContentView(R.layout.activity_main_new_york_times);
 
 
+        inputWord = findViewById(R.id.nyt_searchEdit);
         Button searchBtn = findViewById(R.id.nyt_searchButton);
+        Button viewSaveArticle = findViewById(R.id.nyt_view_saved);
         androidImageButton = findViewById(R.id.nyt_imageBut);
         Toolbar tBar = (Toolbar) findViewById(R.id.toolbar_kn);
         setSupportActionBar(tBar);
 
+        sp = getSharedPreferences("searchedArticle", Context.MODE_PRIVATE);
+        // get the value from xml tag of <inputWord>
+        String savedString = sp.getString("inputWord", "");
+        inputWord.setText(savedString);
 
         // clicked on search button to go to new pages with searched results
 
         searchBtn.setOnClickListener(c -> {
             Intent nextPage = new Intent(MainActivityNewYorkTimes.this, NytApiSearch.class);
+            nextPage.putExtra("inputWord", inputWord.getText().toString());
+            startActivity(nextPage);
+        });
+
+        viewSaveArticle.setOnClickListener(c->{
+            Intent nextPage = new Intent(MainActivityNewYorkTimes.this, NytSavedArticle.class );
             startActivity(nextPage);
         });
 
@@ -67,6 +84,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
                 sb.show();
             }
         });
+
 
 
         ArrayList<Article> newsArrayList = new ArrayList<Article>();

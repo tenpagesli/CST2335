@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Button fstBtn = findViewById(R.id.enter_fst);
         Button nfBtn = findViewById(R.id.enter_nf);
         Button nytBtn = findViewById(R.id.enter_nyt);
-        ImageButton nytMenuBtn = findViewById(R.id.nyt_menu_KN);
+       // ImageButton nytMenuBtn = findViewById(R.id.nyt_menu_KN);
 
 
         // when user click on enter dictionary button
@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
             Intent nextPage = new Intent(MainActivity.this, MainActivityNewYorkTimes.class);
             startActivity(nextPage);
         });
-        nytMenuBtn.setOnClickListener(c->{
-            Intent nextPage = new Intent(MainActivity.this, MainActivityNewYorkTimes.class);
-            startActivity(nextPage);
-        });
+       // nytMenuBtn.setOnClickListener(c->{
+//            Intent nextPage = new Intent(MainActivity.this, MainActivityNewYorkTimes.class);
+//            startActivity(nextPage);
+//        });
     }
 
     /**

@@ -14,4 +14,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Copyright: " />
+
+    <Button
+        android:id="@+id/nyt_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nyt_progressBar"
+        android:layout_marginBottom="0dp"
+        android:text="@string/nyt_save_kn" />
+
+    <Button
+        android:id="@+id/nyt_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nyt_save"
+        android:layout_marginBottom="0dp"
+        android:text="@string/nyt_delete_kn" />
 </LinearLayout>

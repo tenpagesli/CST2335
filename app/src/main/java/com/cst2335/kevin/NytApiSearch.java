@@ -1,7 +1,9 @@
 package com.cst2335.kevin;
 
-
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
@@ -13,9 +15,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
-
 import com.cst2335.R;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
@@ -36,6 +35,13 @@ public class NytApiSearch extends AppCompatActivity {
     private ProgressBar progressBar;
     public String aString;
 
+    String inputWord;
+    TextView inputWordView;
+
+    NytDataBaseHelper dbInitiate;
+    SQLiteDatabase db;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,22 +54,49 @@ public class NytApiSearch extends AppCompatActivity {
            networkThread.execute( "http://torunski.ca/CST2335_XML.xml" );
        // }
 
-
-
-
         progressBar = findViewById(R.id.progressBar_kn);
         progressBar.setVisibility(View.VISIBLE);
         copyrightView = findViewById(R.id.copyright_kn);
+        Button saveBtn = findViewById(R.id.nyt_save);
 
 
+
+//         get user input word
+        Intent previousPage = getIntent();
+        inputWord = previousPage.getStringExtra("inputWord");
+        // clicked on view save word button
+            saveBtn.setOnClickListener(c->{
+        // save word into database
+        //get a database:
+            dbInitiate = new NytDataBaseHelper(this);
+            db = dbInitiate.getWritableDatabase();
+            this.saveWord(db, inputWord);
+        });
+
+    }
+
+    private void saveWord(SQLiteDatabase db, String inputWord){
+        // get word content
+        //add to the database and get the new ID
+        ContentValues newRowValues = new ContentValues();
+        //put string word content in the word_content column:
+        newRowValues.put(dbInitiate.COL_Article, inputWord);
+        //insert into the database:
+        long newId = db.insert(dbInitiate.TABLE_NAME, null, newRowValues);
+        String saveMsg = "";
+        if(newId>0){
+            saveMsg = "Article Saved!.";
+        }else{
+            saveMsg = "Not Completed.";
+        }
+        // show toast bar if saved successful
+        Toast.makeText(NytApiSearch.this, saveMsg, Toast.LENGTH_LONG).show();
     }
 
 
     // a subclass of AsyncTask                  Type1    Type2    Type3
     private class NewsFeedQuery extends AsyncTask<String, Integer, String>
     {
-
-
 
         @Override
         protected String doInBackground(String... params) {
@@ -80,10 +113,6 @@ public class NytApiSearch extends AppCompatActivity {
                 conn.setDoInput(true);
 
                 InputStream inStream = conn.getInputStream();
-
-
-
-
 
                 URL UVurl = new URL("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-key=z0pR0Dz3Ke0loLw2kFTPk3tEPvezSe26");
                 HttpURLConnection UVConnection = (HttpURLConnection) UVurl.openConnection();
