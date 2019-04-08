@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.cst2335.R;
-import com.cst2335.ryan.EmptyFragmentActivity;
 
 public class DetailFragment extends Fragment {
 
