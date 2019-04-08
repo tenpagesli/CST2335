@@ -1,8 +1,12 @@
 package com.cst2335.hung;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +20,10 @@ import android.widget.Toast;
 
 
 import com.cst2335.R;
+import com.cst2335.ryan.MyDatabaseOpenHelper;
 
+
+import org.w3c.dom.Text;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -30,19 +37,73 @@ import java.util.ArrayList;
 public class NewsFeedSearches extends AppCompatActivity {
 private TextView titleView, uuidView, articleView; //title, uuid, article view
 private ProgressBar progressBar; //progress bar of Async
+    String preUrl = "http://webhose.io/filterWebContent?token=8efc0856-c286-43e6-8d08-0fc945525524&format=xml&sort=relevancy&q=";
+    String postUrl = "%20market%20language%3Aenglish";
+    NewsFeedDBHelper dbOpener;
+    SQLiteDatabase db;
+    String myURL;
+    String inputWord;
+    ArrayList<News> newsList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed_searches);
 
-        //webhose url
-        NewsFeedQuery wq = new NewsFeedQuery();
-        wq.execute("http://webhose.io/filterWebContent?token=86940a5c-b094-4465-942e-81ce096fe5c9&format=xml&sort=crawled&q=samsung");
 
+
+        // get user input word
+        Intent previousPage = getIntent();
+        inputWord = previousPage.getStringExtra("inputWord");
+        myURL = preUrl + inputWord + postUrl;
+        Log.e("url is: ", myURL);
+        //webhose url
+
+        NewsFeedQuery wq = new NewsFeedQuery();
+        wq.execute(myURL);
         progressBar = findViewById(R.id.progressBar_hd);
         progressBar.setVisibility(View.VISIBLE);
         titleView = findViewById(R.id.title_hd);
         uuidView = findViewById(R.id.uuid_hd);
+
+        Button saveBtn = (Button)findViewById(R.id.savebtn_hd);
+        Button delBtn = (Button)findViewById(R.id.deletebtn_hd);
+        Button retBtn = (Button)findViewById(R.id.returnbtn_hd);
+
+        //saving article to db
+        saveBtn.setOnClickListener(c->{
+            showToast("Article Saved.");
+            // save word into database
+            //get a database:
+            dbOpener = new NewsFeedDBHelper(this);
+            db = dbOpener.getWritableDatabase();
+            this.saveWord(db, inputWord);
+        });
+
+        //deleting article from db
+        delBtn.setOnClickListener(c->{
+            alertDelete();
+        });
+
+        //hitting the return button will show snackbar
+        retBtn.setOnClickListener(c->{
+
+            Snackbar sb = Snackbar.make(retBtn, "Would you like to return? ", Snackbar.LENGTH_LONG)
+                    .setAction("Yes.", e -> Log.e("Toast", "Clicked return"));
+            sb.setAction("Yes.",f -> finish());
+            sb.show();
+        });
+
+
+
+        // clicked on view save word button
+/*        saveBtn.setOnClickListener(c->{
+            // save word into database
+            //get a database:
+            dbOpener = new MyDatabaseOpenHelper(this);
+            db = dbOpener.getWritableDatabase();
+            this.saveWord(db, inputWord);
+        });*/
+
 
     }
 
@@ -114,7 +175,7 @@ private ProgressBar progressBar; //progress bar of Async
                             }
                             // titleAtt = xpp.getAttributeValue(null, "cheese");
                             publishProgress(15);
-                            Thread.sleep(300);
+
                         }
                         else if(tagName.equals("title")) {
                             // same thing as above
@@ -124,7 +185,7 @@ private ProgressBar progressBar; //progress bar of Async
                             }
                             // titleAtt = xpp.getAttributeValue(null, "cheese");
                             publishProgress(25);
-                            Thread.sleep(300);
+
                         }
 /*                    else if(tagName.equals("dt"))
                     {
@@ -151,7 +212,7 @@ private ProgressBar progressBar; //progress bar of Async
                     xpp.next(); //advance to next XML event
                 }
 
-                Thread.sleep(2000); //pause for 2000 milliseconds to watch the progress bar spin
+                //Thread.sleep(2000); //pause for 2000 milliseconds to watch the progress bar spin
             }catch (Exception ex)
             {
                 Log.e("Crash!!", ex.getMessage() );
@@ -173,6 +234,7 @@ private ProgressBar progressBar; //progress bar of Async
             progressBar.setProgress(25);
             progressBar.setProgress(50);
             progressBar.setProgress(75);
+            progressBar.setProgress(100);
             progressBar.setMax(100);
         }
 
@@ -184,11 +246,61 @@ private ProgressBar progressBar; //progress bar of Async
         protected void onPostExecute(String args) {
             Log.i("AsyncTask", "onPostExecute" );
             titleView.setText(titleAtt);
-            titleView.setText(uuid);
+            uuidView.setText(uuid);
         }
 
 
     }
+
+    private void saveWord(SQLiteDatabase db, String inputWord){
+        // get word content
+
+        //add to the database and get the new ID
+        ContentValues newRowValues = new ContentValues();
+        //put string word content in the word_content column:
+        newRowValues.put(NewsFeedDBHelper.COL_TITLE, inputWord);
+        //insert into the database:
+        long newId = db.insert(NewsFeedDBHelper.TABLE_NAME, null, newRowValues);
+        String saveResultMessage = "";
+        if(newId>0){
+            saveResultMessage = "News saved successfully!.";
+        }else{
+            saveResultMessage = "NOT SAVED!.";
+        }
+        // show toast bar if saved successful
+        Toast.makeText(NewsFeedSearches.this, saveResultMessage, Toast.LENGTH_LONG).show();
+    }
+
+
+
+    public void alertDelete() {
+
+        //pop up custom dialog to ensure user wants to delete article
+        View middle = getLayoutInflater().inflate(R.layout.activity_news_feed_popup_delete, null);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage("Are you sure you want to delete article?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // What to do on Accept
+                        showToast("Article Deleted.");
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // What to do on Cancel
+                    }
+                }).setView(middle);
+
+        builder.create().show();
+    }
+    //toast message
+    public void showToast(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
+
 
 
 }

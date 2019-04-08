@@ -43,7 +43,10 @@ public class NytApiSearch extends AppCompatActivity {
 
 
         NewsFeedQuery networkThread = new NewsFeedQuery();
-        networkThread.execute( "http://torunski.ca/CST2335_XML.xml" );
+
+       //onClick() {
+           networkThread.execute( "http://torunski.ca/CST2335_XML.xml" );
+       // }
 
 
 

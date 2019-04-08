@@ -38,5 +38,24 @@
         android:layout_below="@id/uuid_hd"
         android:text="article: " />
 
+    <Button
+        android:id="@+id/savebtn_hd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/article_hd"
+        android:text="@string/save_article_hd" />
+
+    <Button
+        android:id="@+id/deletebtn_hd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/savebtn_hd"
+        android:text="@string/del_article_hd" />
+    <Button
+        android:id="@+id/returnbtn_hd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/deletebtn_hd"
+        android:text="@string/return_article_hd" />
 
 </RelativeLayout>

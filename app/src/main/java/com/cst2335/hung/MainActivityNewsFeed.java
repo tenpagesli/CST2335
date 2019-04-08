@@ -1,7 +1,9 @@
 package com.cst2335.hung;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,17 +18,24 @@ import android.widget.AdapterView;
 import android.widget.Button;
 
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.cst2335.R;
 import com.cst2335.kevin.MainActivityNewYorkTimes;
 import com.cst2335.queeny.MainActivityFlightStatusTracker;
 import com.cst2335.ryan.MainActivityDictionary;
+import com.cst2335.ryan.Word;
 
 
 import java.util.ArrayList;
 
 public class MainActivityNewsFeed extends AppCompatActivity {
-
+    SharedPreferences sp;
+    TextView inputWord;
+    /** to save all the words */
+    private ArrayList<News> newsList;
+    /** to save word contents */
+    private News news;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -36,9 +45,15 @@ public class MainActivityNewsFeed extends AppCompatActivity {
 
         //search button
         Button searchBtn = findViewById(R.id.search_btn);
+        inputWord = findViewById(R.id.edit_search);
+
+        sp = getSharedPreferences("SearchedNews", Context.MODE_PRIVATE);
+        String savedString = sp.getString("inputWord", "");
+        inputWord.setText(savedString);
 
         searchBtn.setOnClickListener(c->{
             Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSearches.class );
+            nextPage.putExtra("inputWord", inputWord.getText().toString());
             startActivity(nextPage);
             //startActivityForResult(nextPage, 30);
         });
@@ -70,7 +85,7 @@ public class MainActivityNewsFeed extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "selected Item Name is " + v.getText(), Toast.LENGTH_LONG).show();
 */
             if (position == 0){
-                Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedDetailed.class );
+                Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSavedSearches.class );
                 Log.i("ListView clicked: ", "0");
                 startActivity(nextPage);
             }
@@ -171,4 +186,18 @@ public class MainActivityNewsFeed extends AppCompatActivity {
         builder.create().show();
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        //get an editor object
+        SharedPreferences.Editor editor = sp.edit();
+
+        //save what was typed under the name "inputWord"
+        String whatWasTyped = inputWord.getText().toString();
+        // xml tag name is inputWord
+        editor.putString("inputWord", whatWasTyped);
+
+        //write it to disk:
+        editor.commit();
+    }
 }
