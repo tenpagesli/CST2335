@@ -44,6 +44,11 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
     TextView inputWord;
     SharedPreferences sp;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +73,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
             Intent nextPage = new Intent(MainActivityNewYorkTimes.this, NytApiSearch.class);
             nextPage.putExtra("inputWord", inputWord.getText().toString());
             startActivity(nextPage);
+            //passes the input string from edit text to the next page clicked
         });
 
         viewSaveArticle.setOnClickListener(c->{
@@ -120,7 +126,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
     public boolean onOptionsItemSelected (MenuItem item){
         Intent nextPage = null;
         switch (item.getItemId()) {
-//when click on "dictionary"
+            //when click on "dictionary"
             case R.id.go_flight:
                 nextPage = new Intent(MainActivityNewYorkTimes.this, MainActivityFlightStatusTracker.class);
                 startActivity(nextPage);

@@ -40,22 +40,23 @@ import java.util.List;
 
 public class NytSavedArticle extends AppCompatActivity {
 
-    /** below 2 fields are for database using */
-    NytDataBaseHelper dbInitiate;
-    SQLiteDatabase db;
-    /** below 4 fields are for fragment using */
+    //2 fields are for database
+
+    //4 fields are for fragment using
     public static final String ITEM_SELECTED = "ITEM";
     public static final String ITEM_POSITION = "POSITION";
     public static final String ITEM_ID = "ID";
     public static final int EMPTY_ACTIVITY = 345;
 
-    /** tool bar */
+    NytDataBaseHelper dbInitiate;
+    SQLiteDatabase db;
+    //toolbar
     Toolbar tBar;
-    /** word list */
+   //article list
     ArrayList<Article> savedArticleList;
-    /** Saved Words Adapter */
+    //saved article word
     SavedWordsAdapter adt;
-    /** selected Article */
+    //selected article
     Article selectArticle;
 
     /**
@@ -87,15 +88,15 @@ public class NytSavedArticle extends AppCompatActivity {
         ListView theList = (ListView)findViewById(R.id.saved_article_list);
         // get fragment
         boolean isTablet = findViewById(R.id.frameLayout) != null; //check if the FrameLayout is loaded
-        // initial the adapter with chatting history list
+        // initial the adapter with article history list
         adt = new SavedWordsAdapter(savedArticleList);
-        theList.setAdapter(adt); // the list should show up now
+        // the list should show up now
+        theList.setAdapter(adt);
 
         theList.setOnItemClickListener( (list, item, position, id) -> {
             Bundle dataToPass = new Bundle();
             dataToPass.putString(ITEM_SELECTED, savedArticleList.get(position).getTitle() );
             dataToPass.putInt(ITEM_POSITION, position);
-            // dataToPass.putLong(ITEM_ID, msgList.get(position).getId());
             dataToPass.putLong(ITEM_ID, id);
 
             if(isTablet)
@@ -201,27 +202,21 @@ public class NytSavedArticle extends AppCompatActivity {
     //This class needs 4 functions to work properly:
     protected class SavedWordsAdapter<E> extends BaseAdapter {
         private List<E> dataCopy = null;
-
         //Keep a reference to the data:
         public SavedWordsAdapter(List<E> originalData) {
             dataCopy = originalData;
         }
-
-        //You can give it an array
         public SavedWordsAdapter(E[] array) {
             dataCopy = Arrays.asList(array);
         }
-
         public SavedWordsAdapter() {
         }
-
-        // return how many items to display
+        // return  the size
         @Override
         public int getCount() {
             return dataCopy.size();
         }
-
-        // return the contents will show up in each row
+        // return the contents that shows up
         @Override
         public E getItem(int position) {
             return dataCopy.get(position);
@@ -229,9 +224,8 @@ public class NytSavedArticle extends AppCompatActivity {
 
 
         /***
-         *  this method set up and add the view that will be added to the bottom of the view list.
-         *  Thsi method will be run list.size() times
-         *   @param position: locates the one that will be add to the bottom
+         *  this method will add to the list view
+         *   @param position: locate the pos and add to the bott
          *   @return the new view
          **/
         @Override
@@ -252,7 +246,7 @@ public class NytSavedArticle extends AppCompatActivity {
             return newView;
         }
 
-        // get the item id for a specific position in the view list.
+        // gets the Item id to add to the position
         @Override
         public long getItemId(int position) {
             return (long)position;

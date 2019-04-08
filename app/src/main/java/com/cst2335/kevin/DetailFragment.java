@@ -21,7 +21,13 @@ public class DetailFragment extends Fragment {
     public void setTablet(boolean tablet) { isTablet = tablet; }
 
 
-    //setting tablet
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

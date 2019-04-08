@@ -131,17 +131,9 @@ public class FlightSavedActivity extends AppCompatActivity {
     }
 
     public void deleteMessage(int position) {
-        String str="";
-        Cursor c;
-        String [] cols = {FlightDataBaseHelper.COL_ID};
-        c = db.query(false, FlightDataBaseHelper.TABLE_NAME, cols, null, null, null, null, null, null);
-        if(c.moveToFirst()) {
-            for (int i =0; i<position; i++) {
-                c.moveToNext();
-            }
-            str = c.getString(c.getColumnIndex(FlightDataBaseHelper.COL_ID));
-        }
-        int x = db.delete(FlightDataBaseHelper.TABLE_NAME, "id=?", new String[] {str});
+
+
+        int x = db.delete(FlightDataBaseHelper.TABLE_NAME, "id=?", new String[] {Integer.toString(position)});
         Log.i("ViewContact", "Deleted " + x + " rows");
 
 //        db.delete(FlightDataBaseHelper.TABLE_NAME, FlightDataBaseHelper.COL_ID + " = ?",

@@ -41,6 +41,11 @@ public class NytApiSearch extends AppCompatActivity {
     NytDataBaseHelper dbInitiate;
     SQLiteDatabase db;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,11 @@ public class NytApiSearch extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     * @param db
+     * @param inputWord
+     */
     private void saveWord(SQLiteDatabase db, String inputWord){
         // get word content
         //add to the database and get the new ID
@@ -97,7 +107,11 @@ public class NytApiSearch extends AppCompatActivity {
     // a subclass of AsyncTask                  Type1    Type2    Type3
     private class NewsFeedQuery extends AsyncTask<String, Integer, String>
     {
-
+        /**
+         *
+         * @param params
+         * @return
+         */
         @Override
         protected String doInBackground(String... params) {
 

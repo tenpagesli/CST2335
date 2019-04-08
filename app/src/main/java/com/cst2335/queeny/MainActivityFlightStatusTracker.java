@@ -223,6 +223,8 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
                 pbar.setProgress(75);
                 Thread.sleep(1000);
                 allFlights.addAll(arrFlights);
+                flightAdapter = new FlightAdapter(allFlights);
+                flightList.setAdapter(flightAdapter);
                 publishProgress(100); //tell android to call onProgressUpdate with 25 as parameter
                 pbar.setProgress(100);
                 Thread.sleep(1000);

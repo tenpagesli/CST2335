@@ -7,15 +7,15 @@ import android.util.Log;
 
 public class NytDataBaseHelper extends SQLiteOpenHelper {
 
-    /** database */
+
     private SQLiteDatabase database;
-    /** database table name */
+    //db name
     public static final String DATABASE_NAME = "NytDB";
-    /** database version number*/
+    //db version
     public static final int VERSION_NUM = 1;
-    /** database table name*/
+   //db table name
     public static final String TABLE_NAME = "Nyt_Table";
-    /** database table column names */
+    // db colum names
     public static final String COL_ID = "id";
     public static final String COL_Article = "article";
 
@@ -25,18 +25,23 @@ public class NytDataBaseHelper extends SQLiteOpenHelper {
         super(ctx, DATABASE_NAME,null,VERSION_NUM);
     }
 
+    /**
+     *
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db)
     {
         Log.i("Database onCreate:", "trying to create the database .");
         //Make sure you put spaces between SQL statements and Java strings:
         String sql = "CREATE TABLE " + TABLE_NAME + "( "
-                + COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COL_ID +" " +
+                "INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COL_Article + " TEXT)";
         Log.i("Database onCreate:", "the query is: " + sql);
         db.execSQL(sql);
         // log messages
-        Log.i("Database onCreate:", "the database is created.");
+        Log.i("Database onCreate:", "db created.");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)

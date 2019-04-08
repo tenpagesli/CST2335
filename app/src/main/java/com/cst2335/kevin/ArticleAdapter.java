@@ -22,18 +22,30 @@ public class ArticleAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ArrayList<Article> article;
 
+    /**
+     *
+     * @param news
+     * @param context
+     */
 
     public ArticleAdapter(ArrayList<Article> news, Context context) {
         this.article = news;
         this.context = context;
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-
+    /**
+     *
+     * @return
+     */
     @Override
     public int getCount() {
         return article.size();
     }
-
+    /**
+     *
+     * @param position
+     * @return
+     */
     @Override
     public Object getItem(int position) {
         return article.get(position);
