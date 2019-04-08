@@ -84,7 +84,7 @@ public class NytSavedArticle extends AppCompatActivity {
         this.findAllData(db);
 
         // get the "ListView" object
-        ListView theList = (ListView)findViewById(R.id.saved_nyt_articles);
+        ListView theList = (ListView)findViewById(R.id.saved_article_list);
         // get fragment
         boolean isTablet = findViewById(R.id.frameLayout) != null; //check if the FrameLayout is loaded
         // initial the adapter with chatting history list
