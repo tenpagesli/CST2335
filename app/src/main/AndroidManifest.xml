@@ -29,6 +29,7 @@
         <activity android:name=".kevin.NytSavedArticle" />
         <activity android:name=".kevin.ArticleActivity1" />
         <activity android:name=".kevin.NytApiSearch" />
+        <activity android:name=".kevin.EmptyActivity" />
         <activity android:name=".hung.MainActivityNewsFeed" />
         <activity android:name=".MainActivity">
             <intent-filter>
