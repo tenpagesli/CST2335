@@ -7,7 +7,7 @@ public class News {
     private int newsID; //uuid
 
     /**
-     *
+     *title body and new id constructor
      * @param title
      * @param body
      * @param newsID

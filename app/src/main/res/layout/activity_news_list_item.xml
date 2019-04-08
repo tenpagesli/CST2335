@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textFontWeight="10"
-        android:text="TITLE" />
+        android:text="TITLE " />
 
 
 </LinearLayout>

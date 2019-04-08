@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 
 import com.cst2335.R;
-import com.cst2335.ryan.MyDatabaseOpenHelper;
+
 
 
 import org.w3c.dom.Text;
@@ -39,11 +39,12 @@ private TextView titleView, uuidView, articleView; //title, uuid, article view
 private ProgressBar progressBar; //progress bar of Async
     String preUrl = "http://webhose.io/filterWebContent?token=8efc0856-c286-43e6-8d08-0fc945525524&format=xml&sort=relevancy&q=";
     String postUrl = "%20market%20language%3Aenglish";
-    NewsFeedDBHelper dbOpener;
+    NewsFeedDBHelper dbHelper;
     SQLiteDatabase db;
-    String myURL;
-    String inputWord;
-    ArrayList<News> newsList = new ArrayList<>();
+    String URL;
+    String searchedArticle;
+    //ArrayList<News> newsList = new ArrayList<>();
+    public String titleAtt; //title attribute pulled from WEBHOSE.io
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,13 +54,12 @@ private ProgressBar progressBar; //progress bar of Async
 
         // get user input word
         Intent previousPage = getIntent();
-        inputWord = previousPage.getStringExtra("inputWord");
-        myURL = preUrl + inputWord + postUrl;
-        Log.e("url is: ", myURL);
+        searchedArticle = previousPage.getStringExtra("searchedArticle");
+        URL = preUrl + searchedArticle + postUrl;
         //webhose url
 
         NewsFeedQuery wq = new NewsFeedQuery();
-        wq.execute(myURL);
+        wq.execute(URL);
         progressBar = findViewById(R.id.progressBar_hd);
         progressBar.setVisibility(View.VISIBLE);
         titleView = findViewById(R.id.title_hd);
@@ -74,9 +74,9 @@ private ProgressBar progressBar; //progress bar of Async
             showToast("Article Saved.");
             // save word into database
             //get a database:
-            dbOpener = new NewsFeedDBHelper(this);
-            db = dbOpener.getWritableDatabase();
-            this.saveWord(db, inputWord);
+            dbHelper = new NewsFeedDBHelper(this);
+            db = dbHelper.getWritableDatabase();
+            this.saveWord(db, titleAtt);
         });
 
         //deleting article from db
@@ -99,8 +99,8 @@ private ProgressBar progressBar; //progress bar of Async
 /*        saveBtn.setOnClickListener(c->{
             // save word into database
             //get a database:
-            dbOpener = new MyDatabaseOpenHelper(this);
-            db = dbOpener.getWritableDatabase();
+            dbHelper = new MyDatabaseOpenHelper(this);
+            db = dbHelper.getWritableDatabase();
             this.saveWord(db, inputWord);
         });*/
 
@@ -112,7 +112,7 @@ private ProgressBar progressBar; //progress bar of Async
     private class NewsFeedQuery extends AsyncTask<String, Integer, String>
     {
 
-        public String titleAtt; //title value
+
         public String uuid; //uuid value
 
         @Override

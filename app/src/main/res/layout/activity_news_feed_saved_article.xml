@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".hung.NewsFeedSavedSearches">
+    tools:context=".hung.NewsFeedSavedArticles">
 
     <TextView
         android:id="@+id/saved_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:text="Saved searches" />
+        android:textSize="30dp"
+        android:paddingBottom="10dip"
+        android:text="Saved Articles" />
 
     <ListView
         android:id="@+id/saved_news_list_hd"

@@ -25,15 +25,14 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
         // it will run only if the database file doesn't exist yet
         public void onCreate(SQLiteDatabase db)
         {
-            Log.i("Database onCreate:", "trying to create the database .");
             //Make sure you put spaces between SQL statements and Java strings:
             String sql = "CREATE TABLE " + TABLE_NAME + "( "
                     + COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + COL_TITLE + " TEXT)";
-            Log.i("Database onCreate:", "the query is: " + sql);
+            Log.i("Database onCreate:", "Query:" + sql);
             db.execSQL(sql);
             // log messages
-            Log.i("Database onCreate:", "the database is created.");
+            Log.i("Database onCreate:", "Created.");
         }
 
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
@@ -58,9 +57,6 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
             onCreate(db);
         }
 
-//    public boolean deleteRow(SQLiteDatabase db, long id)
-//    {
-//        return db.delete(TABLE_NAME, COL_ID + "=?", new String[]{id+""}) > 0;
-//    }
+
 
 }

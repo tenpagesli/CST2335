@@ -24,18 +24,19 @@ import com.cst2335.R;
 import com.cst2335.kevin.MainActivityNewYorkTimes;
 import com.cst2335.queeny.MainActivityFlightStatusTracker;
 import com.cst2335.ryan.MainActivityDictionary;
-import com.cst2335.ryan.Word;
 
 
 import java.util.ArrayList;
 
+/**
+ * Author: Hung Doan
+ * Version: 1.3
+ * Last modified: 2019-04-18
+ */
 public class MainActivityNewsFeed extends AppCompatActivity {
-    SharedPreferences sp;
-    TextView inputWord;
-    /** to save all the words */
-    private ArrayList<News> newsList;
-    /** to save word contents */
-    private News news;
+    SharedPreferences sp; //edit search shared prefs
+    TextView editSearch; //edit search view
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -45,15 +46,16 @@ public class MainActivityNewsFeed extends AppCompatActivity {
 
         //search button
         Button searchBtn = findViewById(R.id.search_btn);
-        inputWord = findViewById(R.id.edit_search);
+        editSearch = findViewById(R.id.edit_search);
 
-        sp = getSharedPreferences("SearchedNews", Context.MODE_PRIVATE);
-        String savedString = sp.getString("inputWord", "");
-        inputWord.setText(savedString);
+        //edit tex shared preferences
+        sp = getSharedPreferences("searchedArticle", Context.MODE_PRIVATE);
+        String savedString = sp.getString("savedSearch", "");
+        editSearch.setText(savedString);
 
         searchBtn.setOnClickListener(c->{
             Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSearches.class );
-            nextPage.putExtra("inputWord", inputWord.getText().toString());
+            nextPage.putExtra("searchedArticle", editSearch.getText().toString());
             startActivity(nextPage);
             //startActivityForResult(nextPage, 30);
         });
@@ -63,9 +65,9 @@ public class MainActivityNewsFeed extends AppCompatActivity {
 
         //arraylist of articles
         ArrayList<News> newsArrayList = new ArrayList<News>();
-        newsArrayList.add(new News("Samsung battery explode", "djsaiudjasiudja", 1));
-        newsArrayList.add(new News("Cheese found the moon", "djsaiudjasiudja", 2));
-        newsArrayList.add(new News("Cracks found on butts", "djsaiudjasiudja", 3));
+        newsArrayList.add(new News("Saved Article", "djsaiudjasiudja", 1));
+        newsArrayList.add(new News("Article 1", "djsaiudjasiudja", 2));
+        newsArrayList.add(new News("Article 2", "djsaiudjasiudja", 3));
 
         NewsAdapter newsAdt = new NewsAdapter(newsArrayList, getApplicationContext());
 
@@ -85,7 +87,7 @@ public class MainActivityNewsFeed extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "selected Item Name is " + v.getText(), Toast.LENGTH_LONG).show();
 */
             if (position == 0){
-                Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSavedSearches.class );
+                Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSavedArticles.class );
                 Log.i("ListView clicked: ", "0");
                 startActivity(nextPage);
             }
@@ -108,7 +110,7 @@ public class MainActivityNewsFeed extends AppCompatActivity {
     }
 
     /**
-     *
+     * toolbar leading to different teammate projects
      * @param item
      * @return
      */
@@ -186,16 +188,19 @@ public class MainActivityNewsFeed extends AppCompatActivity {
         builder.create().show();
     }
 
+    /**
+     * shared prefs commit
+     */
     @Override
     protected void onPause(){
         super.onPause();
         //get an editor object
         SharedPreferences.Editor editor = sp.edit();
 
-        //save what was typed under the name "inputWord"
-        String whatWasTyped = inputWord.getText().toString();
-        // xml tag name is inputWord
-        editor.putString("inputWord", whatWasTyped);
+        //save what was typed under the name "editSearch"
+        String whatWasTyped = editSearch.getText().toString();
+        // xml tag name is editSearch
+        editor.putString("savedSearch", whatWasTyped);
 
         //write it to disk:
         editor.commit();
