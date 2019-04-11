@@ -9,7 +9,7 @@ public class MyUtil {
     public static final String dictionaryInstruction = "Here is a long instruction";
 
     /** api key for Queeny */
-    public static final String flightApiKey = "8639b0-1eaa4a";
+    public static final String flightApiKey = "d937a4-c68616";
     /** help dialog contents for Queeny*/
     public static final String flightAuther = "Yan (Queeny) Qu";
     public static final String flightInstruction = "Queeny's meodule instruction";
