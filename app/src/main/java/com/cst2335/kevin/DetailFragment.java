@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 import com.cst2335.R;
@@ -17,6 +18,7 @@ public class DetailFragment extends Fragment {
     private Bundle dataFromActivity;
     private long db_id;
     private int id;
+    private String webUrl;
 
     public void setTablet(boolean tablet) { isTablet = tablet; }
 
@@ -39,15 +41,42 @@ public class DetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View result =  inflater.inflate(R.layout.activity_nyt_fragment, container, false);
 
+
         //show the article ID
         db_id = dataFromActivity.getLong(NytSavedArticle.ITEM_ID );
         TextView idView = (TextView)result.findViewById(R.id.idText);
         idView.setText("Listview ID=" + id);
 
+
         //show saved article word
         TextView position = (TextView)result.findViewById(R.id.message);
         idView.setText(dataFromActivity.getString(NytSavedArticle.ITEM_SELECTED));
 
+//
+        System.out.println("check here");
+        System.out.println(dataFromActivity.getString(NytSavedArticle.ITEM_SELECTED));
+        System.out.println("ends here");
+
+        webUrl = dataFromActivity.getString(NytSavedArticle.ITEM_SELECTED);
+
+        WebView webView = result.findViewById(R.id.wvArticle1);
+        webView.loadUrl(webUrl);
+
+
+        Button goBack = result.findViewById(R.id.open_activity2);
+        goBack.setOnClickListener( clk -> {
+
+            if(isTablet) {
+            NytSavedArticle parent = (NytSavedArticle)getActivity();
+            parent.finish(); //go back
+            }
+            else {
+                EmptyActivity parent = (EmptyActivity) getActivity();
+                parent.finish(); //go back
+            }
+
+
+        });
 
         // get the delete button, and add a click listener:
         Button deleteButton = (Button)result.findViewById(R.id.deleteButton);

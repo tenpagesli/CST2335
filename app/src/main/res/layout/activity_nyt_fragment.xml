@@ -17,6 +17,17 @@
         android:id="@+id/idText"
         android:layout_below="@id/message"/>
 
+
+    <WebView
+        android:id="@+id/wvArticle1"
+        android:layout_width="match_parent"
+        android:layout_height="605dp"
+        android:layout_below="@id/idText"
+        android:layout_marginTop="-4dp">
+
+
+    </WebView>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/deleteButton"
-        android:text="Open"
+        android:text="Go Back"
         android:id="@+id/open_activity2"/>
 
     <TextView
