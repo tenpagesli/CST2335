@@ -4,7 +4,7 @@ public class News {
 
     private String title; //title article
     private String body; //body of article
-    private int newsID; //uuid
+    private String newsID; //uuid
 
     /**
      *title body and new id constructor
@@ -12,7 +12,7 @@ public class News {
      * @param body
      * @param newsID
      */
-    public News(String title, String body, int newsID){
+    public News(String title, String body, String newsID){
         this.title = title;
         this.body = body;
         this.newsID = newsID;
@@ -54,7 +54,7 @@ public class News {
      *
      * @return
      */
-    public int getNewsID() {
+    public String getNewsID() {
         return newsID;
     }
 
@@ -62,7 +62,7 @@ public class News {
      *
      * @param newsID
      */
-    public void setNewsID(int newsID) {
+    public void setNewsID(String newsID) {
         this.newsID = newsID;
     }
 }

@@ -12,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,12 @@ import java.util.ArrayList;
 public class NewsFeedSearches extends AppCompatActivity {
 private TextView titleView, uuidView, articleView; //title, uuid, article view
 private ProgressBar progressBar; //progress bar of Async
+
+    private ArrayAdapter<String> adapterString;
+    ArrayList<News> newsListArticle = new ArrayList<>();
+    private ListView newsfeedList;
+    private String positionUrl;
+
     String preUrl = "http://webhose.io/filterWebContent?token=8efc0856-c286-43e6-8d08-0fc945525524&format=xml&sort=relevancy&q=";
     String postUrl = "%20market%20language%3Aenglish";
     NewsFeedDBHelper dbHelper;
@@ -50,7 +58,7 @@ private ProgressBar progressBar; //progress bar of Async
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed_searches);
 
-
+        newsfeedList = findViewById(R.id.news_feed_list1);
 
         // get user input word
         Intent previousPage = getIntent();
@@ -62,36 +70,60 @@ private ProgressBar progressBar; //progress bar of Async
         wq.execute(URL);
         progressBar = findViewById(R.id.progressBar_hd);
         progressBar.setVisibility(View.VISIBLE);
-        titleView = findViewById(R.id.title_hd);
-        uuidView = findViewById(R.id.uuid_hd);
+//        titleView = findViewById(R.id.title_hd);
+//        uuidView = findViewById(R.id.uuid_hd);
 
-        Button saveBtn = (Button)findViewById(R.id.savebtn_hd);
-        Button delBtn = (Button)findViewById(R.id.deletebtn_hd);
-        Button retBtn = (Button)findViewById(R.id.returnbtn_hd);
+//        Button saveBtn = (Button)findViewById(R.id.savebtn_hd);
+//        Button delBtn = (Button)findViewById(R.id.deletebtn_hd);
+//        Button retBtn = (Button)findViewById(R.id.returnbtn_hd);
+
+        newsfeedList.setOnItemClickListener(  (parent, view, position, id)->{
+
+        Intent nextPage = new Intent(NewsFeedSearches.this, newFeed1.class);
+
+
+            System.out.println(newsListArticle.get(position).getNewsID());
+
+
+
+            positionUrl = newsListArticle.get(position).getNewsID();
+
+
+            System.out.println("hellooweoweowoew");
+            System.out.println(positionUrl);
+            nextPage.putExtra("inputPosition", positionUrl);
+
+
+
+            startActivity(nextPage);
+//                startActivity(arrayPass);
+
+        });
+
 
         //saving article to db
-        saveBtn.setOnClickListener(c->{
-            showToast("Article Saved.");
-            // save word into database
-            //get a database:
-            dbHelper = new NewsFeedDBHelper(this);
-            db = dbHelper.getWritableDatabase();
-            this.saveWord(db, titleAtt);
-        });
+//        saveBtn.setOnClickListener(c->{
+//            showToast("Article Saved.");
+//            // save word into database
+//            //get a database:
+//            dbHelper = new NewsFeedDBHelper(this);
+//            db = dbHelper.getWritableDatabase();
+//            this.saveWord(db, titleAtt);
+//        });
 
         //deleting article from db
-        delBtn.setOnClickListener(c->{
-            alertDelete();
-        });
-
-        //hitting the return button will show snackbar
-        retBtn.setOnClickListener(c->{
-
-            Snackbar sb = Snackbar.make(retBtn, "Would you like to return? ", Snackbar.LENGTH_LONG)
-                    .setAction("Yes.", e -> Log.e("Toast", "Clicked return"));
-            sb.setAction("Yes.",f -> finish());
-            sb.show();
-        });
+//        delBtn.setOnClickListener(c->{
+//            alertDelete();
+//        });
+//
+//        //hitting the return button will show snackbar
+//        retBtn.setOnClickListener(c->{
+//
+//            Snackbar sb = Snackbar.make(retBtn, "Would you like to return? ", Snackbar.LENGTH_LONG)
+//                    .setAction("Yes.", e -> Log.e("Toast", "Clicked return"));
+//            sb.setAction("Yes.",f -> finish());
+//            sb.show();
+//        });
 
 
 
@@ -177,16 +209,22 @@ private ProgressBar progressBar; //progress bar of Async
                             publishProgress(15);
 
                         }
-                        else if(tagName.equals("title")) {
+                        else if(tagName.equals("url")) {
                             // same thing as above
                             if(xpp.next() == XmlPullParser.TEXT) {
                                 titleAtt = xpp.getText();
                                 Log.e("AsyncTask", "Found parameter titleAtt: " + titleAtt);
+                                News new1 = new News(titleAtt, titleAtt, titleAtt);
+                                newsListArticle.add(new1);
+
                             }
                             // titleAtt = xpp.getAttributeValue(null, "cheese");
                             publishProgress(25);
 
                         }
+
+
+
 /*                    else if(tagName.equals("dt"))
                     {
                         String definition = xpp.getText();
@@ -229,6 +267,14 @@ private ProgressBar progressBar; //progress bar of Async
         protected void onProgressUpdate(Integer... values) {
             Log.i("AsyncTask", "update:" + values[0]);
 
+//            int size = newsListArticle.size();
+//            for (int i = 0; i < size; i++) {
+//                NewsAdapter adt = new NewsAdapter(newsListArticle, getApplicationContext());
+//                newsfeedList.setAdapter(adt);
+//                adt.notifyDataSetChanged();
+
+//            }
+
             progressBar.setVisibility(View.VISIBLE);
             progressBar.setProgress(15);
             progressBar.setProgress(25);
@@ -236,6 +282,7 @@ private ProgressBar progressBar; //progress bar of Async
             progressBar.setProgress(75);
             progressBar.setProgress(100);
             progressBar.setMax(100);
+
         }
 
         /**
@@ -245,10 +292,12 @@ private ProgressBar progressBar; //progress bar of Async
         @Override
         protected void onPostExecute(String args) {
             Log.i("AsyncTask", "onPostExecute" );
-            titleView.setText(titleAtt);
-            uuidView.setText(uuid);
+//            titleView.setText(titleAtt);
+//            uuidView.setText(uuid);
+            NewsAdapter adt = new NewsAdapter(newsListArticle, getApplicationContext());
+            newsfeedList.setAdapter(adt);
+            adt.notifyDataSetChanged();
         }
-
 
     }
 
