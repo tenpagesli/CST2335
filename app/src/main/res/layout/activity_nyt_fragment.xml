@@ -23,6 +23,12 @@
         android:layout_alignParentBottom="true"
         android:text="Delete"
         android:id="@+id/deleteButton"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/deleteButton"
+        android:text="Open"
+        android:id="@+id/open_activity2"/>
 
     <TextView
         android:id="@+id/position"

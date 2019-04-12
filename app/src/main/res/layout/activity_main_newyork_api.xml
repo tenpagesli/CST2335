@@ -15,6 +15,12 @@
         android:layout_height="wrap_content"
         android:text="Copyright: " />
 
+    <ListView
+        android:id="@+id/nyt_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+
     <Button
         android:id="@+id/nyt_save"
         android:layout_width="match_parent"
@@ -30,4 +36,6 @@
         android:layout_below="@+id/nyt_save"
         android:layout_marginBottom="0dp"
         android:text="@string/nyt_delete_kn" />
+
+
 </LinearLayout>

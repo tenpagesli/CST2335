@@ -12,10 +12,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.cst2335.R;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -33,7 +36,7 @@ public class NytApiSearch extends AppCompatActivity {
 
     private TextView copyrightView ;
     private ProgressBar progressBar;
-    public String aString;
+    public String aString, urlString,para ;
 
     String inputWord;
     TextView inputWordView;
@@ -41,6 +44,11 @@ public class NytApiSearch extends AppCompatActivity {
     NytDataBaseHelper dbInitiate;
     SQLiteDatabase db;
 
+    private ListView nyList;
+
+    Article article;
+    ArrayList<Article> articleList = new ArrayList<>();
+    protected String preUrl;
     /**
      *
      * @param savedInstanceState
@@ -52,18 +60,22 @@ public class NytApiSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_newyork_api);
 
+        preUrl =" https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-key=z0pR0Dz3Ke0loLw2kFTPk3tEPvezSe26";
 
         NewsFeedQuery networkThread = new NewsFeedQuery();
 
        //onClick() {
-           networkThread.execute( "http://torunski.ca/CST2335_XML.xml" );
+           networkThread.execute(preUrl );
+//        "http://torunski.ca/CST2335_XML.xml"
        // }
 
+        nyList = findViewById(R.id.nyt_list);
         progressBar = findViewById(R.id.progressBar_kn);
         progressBar.setVisibility(View.VISIBLE);
         copyrightView = findViewById(R.id.copyright_kn);
         Button saveBtn = findViewById(R.id.nyt_save);
 
+        ArrayList<Article> newsArrayList = new ArrayList<Article>();
 
 
 //         get user input word
@@ -143,11 +155,32 @@ public class NytApiSearch extends AppCompatActivity {
                 }
                 String result = sb.toString();
 
-                //now a JSON table:
                 JSONObject jObject = new JSONObject(result);
-                aString = jObject.getString("copyright");
-                Log.i("copyright is:", ""+ aString);
+                JSONObject jsonObjectGetNumbers = jObject.optJSONObject("response");
+                JSONArray jsonArray = jsonObjectGetNumbers.getJSONArray("docs");
 
+                for(int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject c = jsonArray.getJSONObject(i);
+
+                    // Storing each json item in variable
+
+                    urlString = c.getString("web_url");
+                    para = c.getJSONObject("byline").getString("original");
+                    aString = c.getJSONObject("headline").getString("main");
+
+
+                    Article article = new Article(urlString, aString, para);
+                    articleList.add(article);
+
+
+
+//                    ArticleAdapter artAdt = new ArticleAdapter(newsArrayList, getApplicationContext());
+//                    ArticleAdapter artAdt1 = new ArticleAdapter(newsArrayList, getApplicationContext());
+//                    nyList.setAdapter(artAdt);
+//                    nyList.setAdapter(artAdt1);
+
+                }
+//                articleList.add(article);
                 //END of UV rating
 
                 publishProgress(15);
@@ -170,6 +203,11 @@ public class NytApiSearch extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Integer... values) {
 
+//            int size = articleList.size();
+//            for (int i = 0;  i<size; i++) {
+//                ArticleAdapter adt = new ArticleAdapter(articleList, getApplicationContext());
+//                nyList.setAdapter(adt);
+//            }
 
             progressBar.setVisibility(View.VISIBLE);
             progressBar.setProgress(15);
@@ -184,8 +222,12 @@ public class NytApiSearch extends AppCompatActivity {
         @Override
         protected void onPostExecute(String args) {
             Log.i("AsyncTask", "onPostExecute" );
-
-            copyrightView.setText(aString);
+            int size = articleList.size();
+            for (int i = 0;  i<size; i++) {
+                ArticleAdapter adt = new ArticleAdapter(articleList, getApplicationContext());
+                nyList.setAdapter(adt);
+            }
+//            copyrightView.setText(urlString);
         }
 
 

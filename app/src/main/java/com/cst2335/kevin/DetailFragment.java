@@ -73,7 +73,9 @@ public class DetailFragment extends Fragment {
 
         });
         return result;
-    }
+
+
 }
 
 
+}

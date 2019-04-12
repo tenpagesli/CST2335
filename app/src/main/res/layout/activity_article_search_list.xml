@@ -7,7 +7,7 @@
 
 
     <TextView
-        android:id="@+id/news_title"
+        android:id="@+id/nyt_url"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textFontWeight="10"
@@ -16,10 +16,17 @@
 
 
     <TextView
-        android:id="@+id/article_id"
+        android:id="@+id/nyt_snip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="ID" />
+
+    <TextView
+        android:id="@+id/nyt_para"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ID" />
+
 
 </LinearLayout>
 

@@ -5,62 +5,74 @@
 
 package com.cst2335.kevin;
 
-public class Article {
+import java.io.Serializable;
+
+public class Article implements Serializable {
 
     private String title;
-    private String body;
-    private int articleID;
+    private String organization;
+    private String articleID;
+
     /**
-     *title body and new id constructor
+     * title body and new id constructor
+     *
      * @param title
-     * @param body
+     * @param organization
      * @param articleID
      */
 
-    public Article(String title, String body, int articleID){
+    public Article(String title, String organization, String articleID) {
         this.title = title;
-        this.body = body;
+        this.organization = organization;
         this.articleID = articleID;
     }
+
     /**
-     *
      * @return
      */
     public String getTitle() {
+
         return title;
     }
+
     /**
-     *
      * @param title
      */
     public void setTitle(String title) {
         this.title = title;
     }
+
     /**
-     *
      * @return
      */
-    public String getBody() {
-        return body;
+    public String getOrganization() {
+
+        return organization;
     }
+
     /**
-     *
-     * @param body
+     * @param organization
      */
-    public void setBody(String body) {
-        this.body = body;
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
+
     /**
-     *
-     * @return
+     * @return organization
      */
-    public int getNewsID() {
+
+    public String getArticleID() {
         return articleID;
     }
 
-    public void setNewsID(int newsID) {
-        this.articleID = newsID;
+    /**
+     * @param articleID
+     */
+    public void setArticleID(String articleID) {
+        this.articleID = articleID;
     }
+
+
 }
 
 

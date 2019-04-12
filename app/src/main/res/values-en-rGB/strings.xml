@@ -20,6 +20,8 @@
     <string name="nyt_saved_article">View Saved Article </string>
     <string name="nyt_search">Enter Search Article </string>
     <string name="nyt_article_saved">Your Saved Articles</string>
+    <string name="nyt_back_menu">Back To Menu</string>
+
 
     <!--Ryan Strings-->
     <string name="welcome_msg_dic_rl">Welcome to Merriam Webster Dictionary</string>
