@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 public class ArticleActivity1 extends AppCompatActivity {
 
-    String inputPosition;
+    String inputPosition,inputHeadline;
     NytDataBaseHelper dbInitiate;
     SQLiteDatabase db;
 
@@ -31,9 +31,12 @@ public class ArticleActivity1 extends AppCompatActivity {
 
         Intent previousPage = getIntent();
         inputPosition = previousPage.getStringExtra("inputPosition");
+        inputHeadline = previousPage.getStringExtra("inputHeadline");
 
-        System.out.println("im cool boy");
-        System.out.println(inputPosition);
+
+        System.out.println("url headline " +inputHeadline);
+        System.out.println("url check " +inputPosition);
+
 
         WebView webView = findViewById(R.id.wvArticle);
         webView.loadUrl(inputPosition);
@@ -43,25 +46,32 @@ public class ArticleActivity1 extends AppCompatActivity {
             //get a database:
             dbInitiate = new NytDataBaseHelper(this);
             db = dbInitiate.getWritableDatabase();
-            this.saveWord(db, inputPosition);
+            this.saveWord(db, inputPosition,inputHeadline);
         });
     }
 
 
-        private void saveWord(SQLiteDatabase db, String inputPosition){
+        private void saveWord(SQLiteDatabase db, String a, String b ){
             // get word content
             //add to the database and get the new ID
             ContentValues newRowValues = new ContentValues();
             //put string word content in the word_content column:
             newRowValues.put(dbInitiate.COL_Article, inputPosition);
+
+//            System.out.println("savedWord here" +inputHeadline);
+
+//            newRowValues.put(dbInitiate.COL_Url, inputPosition);
             //insert into the database:
             long newId = db.insert(dbInitiate.TABLE_NAME, null, newRowValues);
+            System.out.println("kevinnim" +newId);
+
             String saveMsg = "";
-            if(newId>0){
+            if(newId >-10){
                 saveMsg = "Article Saved!.";
             }else{
                 saveMsg = "Not Completed.";
             }
+
             // show toast bar if saved successful
             Toast.makeText(ArticleActivity1.this, saveMsg, Toast.LENGTH_LONG).show();
         }

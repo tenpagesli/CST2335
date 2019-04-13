@@ -18,6 +18,7 @@ public class NytDataBaseHelper extends SQLiteOpenHelper {
     // db colum names
     public static final String COL_ID = "id";
     public static final String COL_Article = "article";
+    public static final String COL_Url = "url";
 
 
 
@@ -35,9 +36,12 @@ public class NytDataBaseHelper extends SQLiteOpenHelper {
         Log.i("Database onCreate:", "trying to create the database .");
         //Make sure you put spaces between SQL statements and Java strings:
         String sql = "CREATE TABLE " + TABLE_NAME + "( "
-                + COL_ID +" " +
-                "INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COL_Article + " TEXT)";
+                + COL_ID  + "INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COL_Article + " TEXT)"
+                + COL_Url + " TEXT)"
+                + "";
+
+
         Log.i("Database onCreate:", "the query is: " + sql);
         db.execSQL(sql);
         // log messages

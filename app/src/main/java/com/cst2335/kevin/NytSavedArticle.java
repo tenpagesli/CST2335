@@ -94,12 +94,13 @@ public class NytSavedArticle extends AppCompatActivity {
         // the list should show up now
         theList.setAdapter(adt);
 
+//        System.out.println("your here" + savedArticleList.get(0).getArticleID());
+//        System.out.println("your here" + savedArticleList.get(0).getOrganization());
+//        System.out.println("your here" + savedArticleList.get(0).getTitle());
 
 
 
-
-
-                theList.setOnItemClickListener( (list, item, position, id) -> {
+            theList.setOnItemClickListener( (list, item, position, id) -> {
             Bundle dataToPass = new Bundle();
             dataToPass.putString(ITEM_SELECTED, savedArticleList.get(position).getTitle() );
             dataToPass.putInt(ITEM_POSITION, position);
@@ -193,6 +194,7 @@ public class NytSavedArticle extends AppCompatActivity {
         //find the column indices:
         int idColIndex = results.getColumnIndex(NytDataBaseHelper.COL_ID);
         int contentColumnIndex = results.getColumnIndex(NytDataBaseHelper.COL_Article);
+//        int urlColumnIndex = results.getColumnIndex(NytDataBaseHelper.COL_Url);
         //iterate over the results, return true if there is a next item:
         while(results.moveToNext())
         {
@@ -245,11 +247,11 @@ public class NytSavedArticle extends AppCompatActivity {
             TextView contentView = (TextView) newView.findViewById(R.id.a_article);
 
             //Get the string to go in row: position
-            String id = ((Article) getItem(position)).getOrganization();
-            String content = ((Article) getItem(position)).getTitle();
+            String id = ((Article) getItem(position)).getTitle();
+//            String content = ((Article) getItem(position)).getTitle();
             //Set the text of the text view
             idView.setText("    " + id);
-            contentView.setText(content);
+//            contentView.setText(content);
             return newView;
         }
 

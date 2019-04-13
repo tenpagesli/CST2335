@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ProgressBar;
 import android.util.Log;
 import android.view.Menu;
@@ -55,7 +56,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
     TextView inputWord;
     SharedPreferences sp;
 
-    public String positionUrl;
+    public String positionUrl,positionHeadline;
     public String nTitle, organization, urlString ;
     Article article;
     ArrayList<Article> articleList = new ArrayList<>();
@@ -106,7 +107,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
 
             NewsFeedQuery networkThread = new NewsFeedQuery();
             networkThread.execute(preUrl);
-
+            searchBtn.onEditorAction(EditorInfo.IME_ACTION_DONE); //https://www.youtube.com/watch?v=V54largrb7E
             progressBar.setProgress(0);
             articleList.clear();
             System.out.println(inputWord.getText().toString());
@@ -114,25 +115,24 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
             System.out.println("hello" +search);
             Url = preUrl + search + postUrl;
             System.out.println("myurl" +Url);
+            inputWord.setText("");
 
                 nyList.setOnItemClickListener(  (parent, view, position, id)->{
 
                 Intent nextPage = new Intent(MainActivityNewYorkTimes.this, ArticleActivity1.class);
 
-//                Intent arrayPass = new Intent(MainActivityNewYorkTimes.this, ArticleActivity1.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("arrayPackage",article);
-//                arrayPass.putExtra("hello",bundle);
-
 
 
                 System.out.println(articleList.get(position).getArticleID());
+                System.out.println(articleList.get(position).getTitle());
                 article = articleList.get(position);
                 positionUrl = articleList.get(position).getArticleID();
+
+                positionHeadline = articleList.get(position).getTitle();
                 System.out.println("hellooweoweowoew");
                 System.out.println(positionUrl);
                 nextPage.putExtra("inputPosition", positionUrl);
-
+                nextPage.putExtra("inputHeadline", positionHeadline );
 
 
                 startActivity(nextPage);
