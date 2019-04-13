@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.widget.ProgressBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,6 +51,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
     private ArrayAdapter<String> adapterString;
     private ListView nyList;
     private ImageButton androidImageButton;
+    private ProgressBar progressBar;
     TextView inputWord;
     SharedPreferences sp;
 
@@ -57,8 +59,9 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
     public String nTitle, organization, urlString ;
     Article article;
     ArrayList<Article> articleList = new ArrayList<>();
-    protected String preUrl;
-
+    protected String preUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=";
+    protected String postUrl = "&api-key=z0pR0Dz3Ke0loLw2kFTPk3tEPvezSe26";
+    private String Url, search;
 
     /**
      *
@@ -71,7 +74,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
         setContentView(R.layout.activity_main_new_york_times);
 
 
-
+        progressBar = findViewById(R.id.nyt_progressBar);
         nyList = findViewById(R.id.nyt_newsList);
         inputWord = findViewById(R.id.nyt_searchEdit);
         Button searchBtn = findViewById(R.id.nyt_searchButton);
@@ -80,13 +83,18 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
         Toolbar tBar = (Toolbar) findViewById(R.id.toolbar_kn);
         setSupportActionBar(tBar);
 
-        preUrl =" https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-key=z0pR0Dz3Ke0loLw2kFTPk3tEPvezSe26";
+
+
 
         sp = getSharedPreferences("searchedArticle", Context.MODE_PRIVATE);
-        // get the value from xml tag of <inputWord>
-//        String savedString = sp.getString("inputWord", "");
-//        inputWord.setText(savedString);
+//         get the value from xml tag of <inputWord>
+        String savedString = sp.getString("inputWord", "");
+        inputWord.setText(savedString);
 
+
+//        System.out.println("kevin");
+//        System.out.println(inputWord.getText().toString());
+//        System.out.println("nim");
         // clicked on search button to go to new pages with searched results
 
         searchBtn.setOnClickListener(c -> {
@@ -99,6 +107,14 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
             NewsFeedQuery networkThread = new NewsFeedQuery();
             networkThread.execute(preUrl);
 
+            progressBar.setProgress(0);
+            articleList.clear();
+            System.out.println(inputWord.getText().toString());
+            search = inputWord.getText().toString();
+            System.out.println("hello" +search);
+            Url = preUrl + search + postUrl;
+            System.out.println("myurl" +Url);
+
                 nyList.setOnItemClickListener(  (parent, view, position, id)->{
 
                 Intent nextPage = new Intent(MainActivityNewYorkTimes.this, ArticleActivity1.class);
@@ -109,10 +125,9 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
 //                arrayPass.putExtra("hello",bundle);
 
 
+
                 System.out.println(articleList.get(position).getArticleID());
-
                 article = articleList.get(position);
-
                 positionUrl = articleList.get(position).getArticleID();
                 System.out.println("hellooweoweowoew");
                 System.out.println(positionUrl);
@@ -225,7 +240,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
                 //get the string url:
                 String myUrl = params[0];
                 //create the network connection:
-                URL url = new URL(myUrl);
+                URL url = new URL(Url);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000); // milliseconds
                 conn.setConnectTimeout(15000); //milliseconds
@@ -234,7 +249,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
 
                 InputStream inStream = conn.getInputStream();
 
-                URL UVurl = new URL("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-key=z0pR0Dz3Ke0loLw2kFTPk3tEPvezSe26");
+                URL UVurl = new URL(Url);
                 HttpURLConnection UVConnection = (HttpURLConnection) UVurl.openConnection();
                 inStream = UVConnection.getInputStream();
 
@@ -294,17 +309,20 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Integer... values) {
 
-            int size = articleList.size();
-            for (int i = 0; i < size; i++) {
+//            int size = articleList.size();
+//            for (int i = 0; i < size; i++) {
+
                 ArticleAdapter adt = new ArticleAdapter(articleList, getApplicationContext());
                 nyList.setAdapter(adt);
 
-            }
+//
+//            }
 
-//            progressBar.setVisibility(View.VISIBLE);
-//            progressBar.setProgress(15);
-//            progressBar.setProgress(50);
-//            progressBar.setMax(100);
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setProgress(15);
+            progressBar.setProgress(50);
+            progressBar.setProgress(100);
+            progressBar.setMax(100);
         }
     }
 

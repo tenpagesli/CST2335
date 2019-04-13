@@ -116,6 +116,8 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
         String savedString = sp.getString("inputCode", "");
         airportCodeBtn.setText(savedString);
 
+
+
         // default airport code is IATA
         depAirCode = "&depIata=" + airportCodeBtn.getText().toString();
         arrAirCode ="&arrIata=" + airportCodeBtn.getText().toString();
