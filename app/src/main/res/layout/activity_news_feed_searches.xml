@@ -14,7 +14,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:id="@+id/progressBar_hd"/>
 
-    <TextView
+<!--    <TextView
         android:id="@+id/title_hd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,13 +36,20 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_below="@id/uuid_hd"
-        android:text="article: " />
+        android:text="article: " />-->
+
+    <ListView
+        android:id="@+id/news_feed_list_searches"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/returnbtn_hd"
+        android:layout_weight="2"/>
 
     <Button
         android:id="@+id/savebtn_hd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/article_hd"
+
         android:text="@string/save_article_hd" />
 
     <Button

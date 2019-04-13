@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +44,7 @@ private ProgressBar progressBar; //progress bar of Async
     SQLiteDatabase db;
     String URL;
     String searchedArticle;
-    //ArrayList<News> newsList = new ArrayList<>();
+    ArrayList<News> newsList = new ArrayList<>();
     public String titleAtt; //title attribute pulled from WEBHOSE.io
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +63,8 @@ private ProgressBar progressBar; //progress bar of Async
         wq.execute(URL);
         progressBar = findViewById(R.id.progressBar_hd);
         progressBar.setVisibility(View.VISIBLE);
-        titleView = findViewById(R.id.title_hd);
-        uuidView = findViewById(R.id.uuid_hd);
+        titleView = findViewById(R.id.news_title);
+        uuidView = findViewById(R.id.news_title);
 
         Button saveBtn = (Button)findViewById(R.id.savebtn_hd);
         Button delBtn = (Button)findViewById(R.id.deletebtn_hd);
@@ -104,7 +105,9 @@ private ProgressBar progressBar; //progress bar of Async
             this.saveWord(db, inputWord);
         });*/
 
-
+        NewsAdapter newsAdt = new NewsAdapter(newsList, getApplicationContext());
+        ListView lv = (ListView) findViewById(R.id.news_feed_list_searches);
+        lv.setAdapter(newsAdt);
     }
 
 
@@ -245,8 +248,9 @@ private ProgressBar progressBar; //progress bar of Async
         @Override
         protected void onPostExecute(String args) {
             Log.i("AsyncTask", "onPostExecute" );
-            titleView.setText(titleAtt);
-            uuidView.setText(uuid);
+            //titleView.setText(titleAtt);
+            //uuidView.setText(uuid);
+            newsList.add(new News(titleAtt, uuid, 1));
         }
 
 

@@ -66,8 +66,7 @@ public class MainActivityNewsFeed extends AppCompatActivity {
         //arraylist of articles
         ArrayList<News> newsArrayList = new ArrayList<News>();
         newsArrayList.add(new News("Saved Article", "djsaiudjasiudja", 1));
-        newsArrayList.add(new News("Article 1", "djsaiudjasiudja", 2));
-        newsArrayList.add(new News("Article 2", "djsaiudjasiudja", 3));
+
 
         NewsAdapter newsAdt = new NewsAdapter(newsArrayList, getApplicationContext());
 
@@ -91,7 +90,7 @@ public class MainActivityNewsFeed extends AppCompatActivity {
                 Log.i("ListView clicked: ", "0");
                 startActivity(nextPage);
             }
-            if (position == 1) {
+/*            if (position == 1) {
                 Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedDetailed2.class);
                 Log.i("ListView clicked", "1");
                 startActivity(nextPage);
@@ -100,7 +99,7 @@ public class MainActivityNewsFeed extends AppCompatActivity {
                 Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedDetailed3.class);
                 Log.i("ListView clicked", "2");
                 startActivity(nextPage);
-                }
+                }*/
 
             }
         });

@@ -15,9 +15,6 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".hung.NewsFeedSavedArticles"/>
         <activity android:name=".hung.EmptyFragmentActivity"/>
-        <activity android:name=".hung.NewsFeedDetailed3" />
-        <activity android:name=".hung.NewsFeedDetailed2" />
-        <activity android:name=".hung.NewsFeedDetailed" />
         <activity android:name=".hung.NewsFeedSearches" />
         <activity android:name=".queeny.FlightPhoneFragmentActivity" />
         <activity android:name=".queeny.FlightSavedActivity" />
