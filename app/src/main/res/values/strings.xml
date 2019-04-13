@@ -63,6 +63,8 @@
     <string name="help_hd">Help</string>
     <string name="title_hd">Title: </string>
     <string name="uuid_hd">uuid: </string>
+    <string name="fav_hd">Favorites: </string>
+
 
 
 </resources>

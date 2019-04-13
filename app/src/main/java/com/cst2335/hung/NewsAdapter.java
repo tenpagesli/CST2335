@@ -80,14 +80,14 @@ public class NewsAdapter extends BaseAdapter {
 
 
         TextView textViewTitle = convertView.findViewById(R.id.news_title);
-        TextView textViewUrl = convertView.findViewById(R.id.news_url);
-        TextView textViewPara = convertView.findViewById(R.id.news_para);
+//        TextView textViewUrl = convertView.findViewById(R.id.news_url);
+//        TextView textViewPara = convertView.findViewById(R.id.news_para);
 
 
 
         textViewTitle.setText(currentItem.getTitle());
-        textViewUrl.setText(currentItem.getBody());
-        textViewPara.setText(currentItem.getNewsID());
+//        textViewUrl.setText(currentItem.getBody());
+//        textViewPara.setText(currentItem.getNewsID());
         return convertView;
     }
 }

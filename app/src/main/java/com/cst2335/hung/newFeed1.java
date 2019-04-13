@@ -31,7 +31,7 @@ public class newFeed1 extends AppCompatActivity{
         Intent previousPage = getIntent();
         inputPosition = previousPage.getStringExtra("inputPosition");
 
-        System.out.println("im cool boy");
+
         System.out.println(inputPosition);
 
         WebView webView = findViewById(R.id.wvArticle);
@@ -40,6 +40,7 @@ public class newFeed1 extends AppCompatActivity{
         saveButton.setOnClickListener(c -> {
             // save word into database
             //get a database:
+
             dbInitiate = new NewsFeedDBHelper(this);
             db = dbInitiate.getWritableDatabase();
             this.saveWord(db, inputPosition);
@@ -52,7 +53,7 @@ public class newFeed1 extends AppCompatActivity{
         //add to the database and get the new ID
         ContentValues newRowValues = new ContentValues();
         //put string word content in the word_content column:
-        newRowValues.put(dbInitiate.COL_ID, inputPosition);
+        newRowValues.put(dbInitiate.COL_TITLE, inputPosition);
         //insert into the database:
         long newId = db.insert(dbInitiate.TABLE_NAME, null, newRowValues);
         String saveMsg = "";

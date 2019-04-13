@@ -32,6 +32,12 @@
         android:layout_height="wrap_content"
         android:text="@string/search_hd" />
 
+    <Button
+        android:id="@+id/favorite_hd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fav_hd" />
+
     <ListView
         android:id="@+id/news_feed_list"
         android:layout_width="match_parent"

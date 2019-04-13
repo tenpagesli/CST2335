@@ -82,11 +82,12 @@ private ProgressBar progressBar; //progress bar of Async
         Intent nextPage = new Intent(NewsFeedSearches.this, newFeed1.class);
 
 
-            System.out.println(newsListArticle.get(position).getNewsID());
+            System.out.println("hello kevin here" +newsListArticle.get(position).getBody());
 
 
 
-            positionUrl = newsListArticle.get(position).getNewsID();
+
+            positionUrl = newsListArticle.get(position).getBody();
 
 
             System.out.println("hellooweoweowoew");
@@ -146,6 +147,7 @@ private ProgressBar progressBar; //progress bar of Async
 
 
         public String uuid; //uuid value
+        public String title;
 
         @Override
         protected String doInBackground(String... params) {
@@ -155,6 +157,10 @@ private ProgressBar progressBar; //progress bar of Async
                 String myUrl = params[0];
                 //create the network connection:
                 URL url = new URL(myUrl);
+
+                System.out.println("myUrl");
+
+
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000 ); // milliseconds
                 conn.setConnectTimeout(15000  ); //milliseconds
@@ -198,11 +204,11 @@ private ProgressBar progressBar; //progress bar of Async
                     if(xpp.getEventType() == XmlPullParser.START_TAG)
                     {
                         String tagName = xpp.getName();
-                        if(tagName.equals("uuid")) {
+                        if(tagName.equals("title")) {
                             // need to call xpp.next() point to inside of the <uuid> tag;
                             // But if we are looking for an "attribute" of <uuid> tag, then do not need to call xpp.next()"
                             if(xpp.next() == XmlPullParser.TEXT) {
-                                uuid = xpp.getText();
+                                title = xpp.getText();
                                 Log.e("AsyncTask", "Found parameter uuid: " + uuid);
                             }
                             // titleAtt = xpp.getAttributeValue(null, "cheese");
@@ -214,7 +220,7 @@ private ProgressBar progressBar; //progress bar of Async
                             if(xpp.next() == XmlPullParser.TEXT) {
                                 titleAtt = xpp.getText();
                                 Log.e("AsyncTask", "Found parameter titleAtt: " + titleAtt);
-                                News new1 = new News(titleAtt, titleAtt, titleAtt);
+                                News new1 = new News(title, titleAtt, title);
                                 newsListArticle.add(new1);
 
                             }
