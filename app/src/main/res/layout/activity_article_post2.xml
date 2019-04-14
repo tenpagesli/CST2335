@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".kevin.ArticleActivity1"
+    tools:context=".kevin.ArticleActivity2"
     android:orientation="vertical">
 
 
@@ -17,11 +17,11 @@
     </WebView>
 
     <Button
-        android:id="@+id/add"
+        android:id="@+id/Back"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/wvArticle"
-        android:text="@string/nyt_save_kn" />
+        android:text="@string/nyt_back_menu" />
 
 
 

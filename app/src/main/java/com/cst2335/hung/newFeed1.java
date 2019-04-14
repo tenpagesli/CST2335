@@ -1,9 +1,6 @@
-/***
- * Author: Kevin Nghiem
- * Last modified: Mar 25, 2019
- * **/
+package com.cst2335.hung;
 
-package com.cst2335.kevin;
+
 
 import android.content.ContentValues;
 import android.os.Bundle;
@@ -16,10 +13,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 
-public class ArticleActivity1 extends AppCompatActivity {
+public class newFeed1 extends AppCompatActivity{
+
+
 
     String inputPosition;
-    NytDataBaseHelper dbInitiate;
+    NewsFeedDBHelper dbInitiate;
     SQLiteDatabase db;
 
 
@@ -41,30 +40,30 @@ public class ArticleActivity1 extends AppCompatActivity {
         saveButton.setOnClickListener(c -> {
             // save word into database
             //get a database:
-            dbInitiate = new NytDataBaseHelper(this);
+            dbInitiate = new NewsFeedDBHelper(this);
             db = dbInitiate.getWritableDatabase();
             this.saveWord(db, inputPosition);
         });
     }
 
 
-        private void saveWord(SQLiteDatabase db, String inputPosition){
-            // get word content
-            //add to the database and get the new ID
-            ContentValues newRowValues = new ContentValues();
-            //put string word content in the word_content column:
-            newRowValues.put(dbInitiate.COL_Article, inputPosition);
-            //insert into the database:
-            long newId = db.insert(dbInitiate.TABLE_NAME, null, newRowValues);
-            String saveMsg = "";
-            if(newId>0){
-                saveMsg = "Article Saved!.";
-            }else{
-                saveMsg = "Not Completed.";
-            }
-            // show toast bar if saved successful
-            Toast.makeText(ArticleActivity1.this, saveMsg, Toast.LENGTH_LONG).show();
+    private void saveWord(SQLiteDatabase db, String inputPosition){
+        // get word content
+        //add to the database and get the new ID
+        ContentValues newRowValues = new ContentValues();
+        //put string word content in the word_content column:
+        newRowValues.put(dbInitiate.COL_TITLE, inputPosition);
+        //insert into the database:
+        long newId = db.insert(dbInitiate.TABLE_NAME, null, newRowValues);
+        String saveMsg = "";
+        if(newId>0){
+            saveMsg = "Article Saved!.";
+        }else{
+            saveMsg = "Not Completed.";
         }
+        // show toast bar if saved successful
+        Toast.makeText(newFeed1.this, saveMsg, Toast.LENGTH_LONG).show();
+    }
 
 
 
@@ -75,3 +74,4 @@ public class ArticleActivity1 extends AppCompatActivity {
 
 
 }// end class
+

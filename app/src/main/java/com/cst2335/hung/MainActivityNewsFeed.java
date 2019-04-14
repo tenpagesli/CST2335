@@ -56,6 +56,7 @@ public class MainActivityNewsFeed extends AppCompatActivity {
         searchBtn.setOnClickListener(c->{
             Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSearches.class );
             nextPage.putExtra("searchedArticle", editSearch.getText().toString());
+
             startActivity(nextPage);
             //startActivityForResult(nextPage, 30);
         });
@@ -63,9 +64,9 @@ public class MainActivityNewsFeed extends AppCompatActivity {
         Toolbar tBar = (Toolbar)findViewById(R.id.toolbar_hd);
         setSupportActionBar(tBar);
 
-        //arraylist of articles
+       // arraylist of articles
         ArrayList<News> newsArrayList = new ArrayList<News>();
-        newsArrayList.add(new News("Saved Article", "djsaiudjasiudja", 1));
+        newsArrayList.add(new News("Saved Article", "djsaiudjasiudja", "1"));
 
 
         NewsAdapter newsAdt = new NewsAdapter(newsArrayList, getApplicationContext());

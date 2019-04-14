@@ -6,10 +6,11 @@
 
 package com.cst2335.kevin;
 
+import android.content.Intent;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,16 +34,31 @@ import com.cst2335.queeny.MainActivityFlightStatusTracker;
 import com.cst2335.ryan.MainActivityDictionary;
 
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 
 public class MainActivityNewYorkTimes extends AppCompatActivity {
 
     private ArrayAdapter<String> adapterString;
-    private ListView listView;
+    private ListView nyList;
     private ImageButton androidImageButton;
     TextView inputWord;
     SharedPreferences sp;
+
+    public String positionUrl;
+    public String nTitle, organization, urlString ;
+    Article article;
+    ArrayList<Article> articleList = new ArrayList<>();
+    protected String preUrl;
+
 
     /**
      *
@@ -55,6 +71,8 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
         setContentView(R.layout.activity_main_new_york_times);
 
 
+
+        nyList = findViewById(R.id.nyt_newsList);
         inputWord = findViewById(R.id.nyt_searchEdit);
         Button searchBtn = findViewById(R.id.nyt_searchButton);
         Button viewSaveArticle = findViewById(R.id.nyt_view_saved);
@@ -62,19 +80,52 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
         Toolbar tBar = (Toolbar) findViewById(R.id.toolbar_kn);
         setSupportActionBar(tBar);
 
+        preUrl =" https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-key=z0pR0Dz3Ke0loLw2kFTPk3tEPvezSe26";
+
         sp = getSharedPreferences("searchedArticle", Context.MODE_PRIVATE);
         // get the value from xml tag of <inputWord>
-        String savedString = sp.getString("inputWord", "");
-        inputWord.setText(savedString);
+//        String savedString = sp.getString("inputWord", "");
+//        inputWord.setText(savedString);
 
         // clicked on search button to go to new pages with searched results
 
         searchBtn.setOnClickListener(c -> {
-            Intent nextPage = new Intent(MainActivityNewYorkTimes.this, NytApiSearch.class);
-            nextPage.putExtra("inputWord", inputWord.getText().toString());
-            startActivity(nextPage);
+//            Intent nextPage = new Intent(MainActivityNewYorkTimes.this, NytApiSearch.class);
+//            nextPage.putExtra("inputWord", inputWord.getText().toString());
+//            startActivity(nextPage);
             //passes the input string from edit text to the next page clicked
+
+
+            NewsFeedQuery networkThread = new NewsFeedQuery();
+            networkThread.execute(preUrl);
+
+                nyList.setOnItemClickListener(  (parent, view, position, id)->{
+
+                Intent nextPage = new Intent(MainActivityNewYorkTimes.this, ArticleActivity1.class);
+
+//                Intent arrayPass = new Intent(MainActivityNewYorkTimes.this, ArticleActivity1.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("arrayPackage",article);
+//                arrayPass.putExtra("hello",bundle);
+
+
+                System.out.println(articleList.get(position).getArticleID());
+
+                article = articleList.get(position);
+
+                positionUrl = articleList.get(position).getArticleID();
+                System.out.println("hellooweoweowoew");
+                System.out.println(positionUrl);
+                nextPage.putExtra("inputPosition", positionUrl);
+
+
+
+                startActivity(nextPage);
+//                startActivity(arrayPass);
+
         });
+        });
+
 
         viewSaveArticle.setOnClickListener(c->{
             Intent nextPage = new Intent(MainActivityNewYorkTimes.this, NytSavedArticle.class );
@@ -92,35 +143,6 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
         });
 
 
-
-        ArrayList<Article> newsArrayList = new ArrayList<Article>();
-        newsArrayList.add(new Article("NYT Article 1 Test", "NYT 2019", 1));
-
-        ArticleAdapter artAdt = new ArticleAdapter(newsArrayList, getApplicationContext());
-
-
-        ListView listV = findViewById(R.id.nyt_newsList);
-        listV.setClickable(true);
-        listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                //populates article one from arraylist
-                if (position == 0) {
-                    Intent nextPage = new Intent(MainActivityNewYorkTimes.this, ArticleActivity1.class);
-                    Log.i("ListView clicked: ", "0");
-                    startActivity(nextPage);
-                }
-            }
-        });
-        listV.setAdapter(artAdt);
-        /*
-            this method will populates the listview will Arraylist objects
-            returns article to listview
-
-            to do, link to the website and return nyt Articles
-        */
     }
     @Override
     public boolean onOptionsItemSelected (MenuItem item){
@@ -187,6 +209,103 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
                 }).setView(middle);
 
         builder.create().show();
+    }
+
+
+    // a subclass of AsyncTask                  Type1    Type2    Type3
+    class NewsFeedQuery extends AsyncTask<String, Integer, String> {
+        /**
+         * @param params
+         * @return
+         */
+        @Override
+        protected String doInBackground(String... params) {
+
+            try {
+                //get the string url:
+                String myUrl = params[0];
+                //create the network connection:
+                URL url = new URL(myUrl);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000); // milliseconds
+                conn.setConnectTimeout(15000); //milliseconds
+                conn.setRequestMethod("GET");
+                conn.setDoInput(true);
+
+                InputStream inStream = conn.getInputStream();
+
+                URL UVurl = new URL("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Tesla&api-key=z0pR0Dz3Ke0loLw2kFTPk3tEPvezSe26");
+                HttpURLConnection UVConnection = (HttpURLConnection) UVurl.openConnection();
+                inStream = UVConnection.getInputStream();
+
+                //create a JSON object from the response
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 8);
+                StringBuilder sb = new StringBuilder();
+
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                String result = sb.toString();
+
+                JSONObject jObject = new JSONObject(result);
+                JSONObject jsonObjectGetNumbers = jObject.optJSONObject("response");
+                JSONArray jsonArray = jsonObjectGetNumbers.getJSONArray("docs");
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject c = jsonArray.getJSONObject(i);
+
+                    // Storing each json item in variable
+
+                    nTitle = c.getJSONObject("headline").getString("main");
+                    organization = c.getJSONObject("byline").getString("original");
+                    urlString = c.getString("web_url");
+
+
+
+                    Article article = new Article(nTitle, organization, urlString);
+                    articleList.add(article);
+
+
+//                    ArticleAdapter artAdt = new ArticleAdapter(newsArrayList, getApplicationContext());
+//                    ArticleAdapter artAdt1 = new ArticleAdapter(newsArrayList, getApplicationContext());
+//                    nyList.setAdapter(artAdt);
+//                    nyList.setAdapter(artAdt1);
+
+                }
+//                articleList.add(article);
+                //END of UV rating
+
+                publishProgress(15);
+                publishProgress(50);
+
+            } catch (Exception ex) {
+                Log.e("Crash!!", ex.getMessage());
+            }
+
+            //return type 3, which is String:
+            return "Finished task";
+        }
+
+
+        /**
+         * @param values
+         */
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+
+            int size = articleList.size();
+            for (int i = 0; i < size; i++) {
+                ArticleAdapter adt = new ArticleAdapter(articleList, getApplicationContext());
+                nyList.setAdapter(adt);
+
+            }
+
+//            progressBar.setVisibility(View.VISIBLE);
+//            progressBar.setProgress(15);
+//            progressBar.setProgress(50);
+//            progressBar.setMax(100);
+        }
     }
 
     }//end class

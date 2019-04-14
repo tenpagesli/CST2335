@@ -1,6 +1,7 @@
 package com.cst2335.hung;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -17,9 +18,10 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
         public static final String COL_TITLE = "news_title";
 
 
-        public NewsFeedDBHelper(Activity ctx){
+        public NewsFeedDBHelper(Context ctx){
             //The factory parameter should be null, unless you know a lot about Database Memory management
             super(ctx, DATABASE_NAME, null, VERSION_NUM );
+
         }
 
         // it will run only if the database file doesn't exist yet
@@ -57,6 +59,24 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
             onCreate(db);
         }
 
+public Cursor getAllData(){
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery("select news_title from "+ TABLE_NAME, null);
+            return cursor;
+}
 
-
+public String getEmployeeName(String empNo) {
+        Cursor cursor = null;
+        String empName = "";
+        try {
+            cursor = getReadableDatabase().rawQuery("SELECT news_title FROM saved_news_feed WHERE EmpNo=?", new String[] {empNo + ""});
+            if(cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                empName = cursor.getString(cursor.getColumnIndex("news_title"));
+            }
+            return empName;
+        }finally {
+            cursor.close();
+        }
+    }
 }

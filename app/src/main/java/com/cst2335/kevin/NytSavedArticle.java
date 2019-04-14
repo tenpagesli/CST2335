@@ -72,6 +72,7 @@ public class NytSavedArticle extends AppCompatActivity {
 
         setSupportActionBar(tBar);
 
+
         // get savedWordList array list for first time running
         if (savedArticleList == null) {
             savedArticleList = new ArrayList<>();
@@ -85,7 +86,7 @@ public class NytSavedArticle extends AppCompatActivity {
         this.findAllData(db);
 
         // get the "ListView" object
-        ListView theList = (ListView)findViewById(R.id.saved_article_list);
+        ListView theList = findViewById(R.id.saved_article_list);
         // get fragment
         boolean isTablet = findViewById(R.id.frameLayout) != null; //check if the FrameLayout is loaded
         // initial the adapter with article history list
@@ -93,11 +94,17 @@ public class NytSavedArticle extends AppCompatActivity {
         // the list should show up now
         theList.setAdapter(adt);
 
-        theList.setOnItemClickListener( (list, item, position, id) -> {
+
+
+
+
+
+                theList.setOnItemClickListener( (list, item, position, id) -> {
             Bundle dataToPass = new Bundle();
             dataToPass.putString(ITEM_SELECTED, savedArticleList.get(position).getTitle() );
             dataToPass.putInt(ITEM_POSITION, position);
             dataToPass.putLong(ITEM_ID, id);
+
 
             if(isTablet)
             {
@@ -189,7 +196,7 @@ public class NytSavedArticle extends AppCompatActivity {
         //iterate over the results, return true if there is a next item:
         while(results.moveToNext())
         {
-            int id = results.getInt(idColIndex);
+            String id = results.getString(idColIndex);
             String content = results.getString(contentColumnIndex);
             //add the new Contact to the array list:
             String content1 = results.getString(contentColumnIndex);
@@ -238,7 +245,7 @@ public class NytSavedArticle extends AppCompatActivity {
             TextView contentView = (TextView) newView.findViewById(R.id.a_article);
 
             //Get the string to go in row: position
-            int id = ((Article) getItem(position)).getNewsID();
+            String id = ((Article) getItem(position)).getOrganization();
             String content = ((Article) getItem(position)).getTitle();
             //Set the text of the text view
             idView.setText("    " + id);

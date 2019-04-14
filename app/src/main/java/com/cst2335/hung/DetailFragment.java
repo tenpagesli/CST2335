@@ -1,14 +1,21 @@
 package com.cst2335.hung;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
+
 
 import com.cst2335.R;
 
@@ -20,7 +27,11 @@ public class DetailFragment extends Fragment {
     private Bundle dataFromActivity;
     /** id from previous page */
     private long id;
+    NewsFeedDBHelper myDb;
+    SQLiteDatabase db;
+    WebView webView;
 
+    String url;
     /**
      * set tablet
      * @param tablet
@@ -38,11 +49,24 @@ public class DetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // get arguments from previous page
         dataFromActivity = getArguments();
         // Inflate the layout for this fragment
         View result =  inflater.inflate(R.layout.activity_news_feed_detail_fragment, container, false);
 
+
+        webView = result.findViewById(R.id.wvArticle_hd);
+       //url = myDb.getEmployeeName("11");
+
+
+
+       url = "http://www.google.ca";
+
+
+       // columns = new String[]{NewsFeedDBHelper.COL_TITLE};
+        webView.loadUrl(url);
         //show the id:
         id = dataFromActivity.getLong(NewsFeedSavedArticles.ITEM_ID );
         TextView idView = (TextView)result.findViewById(R.id.idText);
@@ -54,6 +78,7 @@ public class DetailFragment extends Fragment {
 
         // get the delete button, and add a click listener:
         Button deleteButton = (Button)result.findViewById(R.id.deleteButton);
+
         deleteButton.setOnClickListener( clk -> {
             if(isTablet) { //both the list and details are on the screen:
                 NewsFeedSavedArticles parent = (NewsFeedSavedArticles)getActivity();
@@ -76,4 +101,59 @@ public class DetailFragment extends Fragment {
         });
         return result;
     }
+  //  public News getUrlIndex(){
+
+
+
+/*        // 2. build query
+        Cursor cursor =
+                db.query("NewsFeedDB", // a. table
+                        columns, // b. column names
+                        " id = ?", // c. selections
+                        new String[] { String.valueOf(id) }, // d. selections args
+                        null, // e. group by
+                        null, // f. having
+                        null, // g. order by
+                        null); // h. limit
+        // 3. if we got results get the first one*/
+
+
+
+
+/*        if (cursor != null)
+            cursor.moveToFirst();
+
+        // 4. build book object
+        News book = new News(null,null,null);
+        book.setTitle(cursor.getString(1));*/
+
+
+        //log
+/*        Log.d("getBook("+id+")", book.toString());
+
+        // 5. return book
+        return book;*/
+    //}
+    public void viewAll(){
+        Cursor cursor = myDb.getAllData();
+        if(cursor.getCount() == 0) {
+            showMessage("error", "no data found");
+        }
+            StringBuffer buffer = new StringBuffer();
+            while (cursor.moveToNext()){
+                buffer.append("title: " + cursor.getString(1));
+            }
+            showMessage("Data", buffer.toString());
+        }
+
+    public void showMessage(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+
+
+    }
+
 }
+

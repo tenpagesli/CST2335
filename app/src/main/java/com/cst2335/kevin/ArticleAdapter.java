@@ -63,8 +63,15 @@ public class ArticleAdapter extends BaseAdapter {
                     inflate(R.layout.activity_article_search_list, parent, false);
         }
         Article currentItem = (Article) getItem(position);
-        TextView textViewItemName = convertView.findViewById(R.id.article_id);
-        textViewItemName.setText(currentItem.getTitle());
+        TextView textViewUrl = convertView.findViewById(R.id.nyt_url);
+        TextView textViewSnip = convertView.findViewById(R.id.nyt_snip);
+        TextView textViewPara = convertView.findViewById(R.id.nyt_para);
+
+
+
+        textViewUrl.setText(currentItem.getTitle());
+        textViewSnip.setText(currentItem.getOrganization());
+        textViewPara.setText(currentItem.getArticleID());
 
         return convertView;
     }

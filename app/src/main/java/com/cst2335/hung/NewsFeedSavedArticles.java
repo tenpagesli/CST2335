@@ -17,7 +17,9 @@ import com.cst2335.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class NewsFeedSavedArticles extends AppCompatActivity {
     NewsFeedDBHelper dbHelper;
@@ -25,6 +27,7 @@ public class NewsFeedSavedArticles extends AppCompatActivity {
     ArrayList<News> newsArrayList; //news article array list
     SavedWordsAdapter adt; //adapter
     News selectID; //id position
+
 
     public static final String ITEM_SELECTED = "ITEM";
     public static final String ITEM_POSITION = "POSITION";
@@ -34,6 +37,7 @@ public class NewsFeedSavedArticles extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed_saved_article);
+
 
         // create newsArrayList if does not exist
         if (newsArrayList == null) {
@@ -80,6 +84,7 @@ public class NewsFeedSavedArticles extends AppCompatActivity {
                 startActivityForResult(nextActivity, EMPTY_ACTIVITY); //make the transition
             }
         });
+
     }
 
     /**
@@ -136,17 +141,19 @@ public class NewsFeedSavedArticles extends AppCompatActivity {
         String [] columns = {NewsFeedDBHelper.COL_ID, NewsFeedDBHelper.COL_TITLE};
         Cursor results = db.query(false, NewsFeedDBHelper.TABLE_NAME, columns, null, null, null, null, null, null);
         //find the column indices:
-        int idColIndex = results.getColumnIndex(NewsFeedDBHelper.COL_ID);
+       // int idColIndex = results.getColumnIndex(NewsFeedDBHelper.COL_ID);
         int contentColumnIndex = results.getColumnIndex(NewsFeedDBHelper.COL_TITLE);
         //iterate over the results, return true if there is a next item:
         while(results.moveToNext())
         {
 
             String title = results.getString(contentColumnIndex);
-            int id = results.getInt(idColIndex);
-            String body = results.getString(contentColumnIndex);
+           // String id = results.getString(idColIndex);
+          //  String body = results.getString(contentColumnIndex);
             //add the new Contact to the array list:
-            newsArrayList.add(new News(title, body ,id));
+            newsArrayList.add(new News(title, null ,null));
+           // this.newsArrayList.clear();
+
         }
     }
 
@@ -197,9 +204,13 @@ public class NewsFeedSavedArticles extends AppCompatActivity {
             //Get the string to go in row: position
            // int id = ((News) getItem(position)).getNewsID();
             String content = ((News) getItem(position)).getTitle();
+           // String content1 = ((News) getItem(position)).getBody();
+
             //Set the text of the text view
            // idView.setText("    " + id);
             contentView.setText(content);
+          //  contentView.setText(content1);
+
             return newView;
         }
 
