@@ -143,7 +143,7 @@ public class NewsFeedSavedArticles extends AppCompatActivity {
         {
 
             String title = results.getString(contentColumnIndex);
-            int id = results.getInt(idColIndex);
+            String id = results.getString(idColIndex);
             String body = results.getString(contentColumnIndex);
             //add the new Contact to the array list:
             newsArrayList.add(new News(title, body ,id));

@@ -46,6 +46,7 @@ public class MainActivityNewsFeed extends AppCompatActivity {
 
         //search button
         Button searchBtn = findViewById(R.id.search_btn);
+        Button favBtn = findViewById(R.id.favorite_hd);
         editSearch = findViewById(R.id.edit_search);
 
         //edit tex shared preferences
@@ -60,51 +61,58 @@ public class MainActivityNewsFeed extends AppCompatActivity {
             //startActivityForResult(nextPage, 30);
         });
 
+        favBtn.setOnClickListener(c->{
+            Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSavedArticles.class );
+            startActivity(nextPage);
+            //startActivityForResult(nextPage, 30);
+        });
+
+
         Toolbar tBar = (Toolbar)findViewById(R.id.toolbar_hd);
         setSupportActionBar(tBar);
 
         //arraylist of articles
-        ArrayList<News> newsArrayList = new ArrayList<News>();
-        newsArrayList.add(new News("Saved Article", "djsaiudjasiudja", 1));
-        newsArrayList.add(new News("Article 1", "djsaiudjasiudja", 2));
-        newsArrayList.add(new News("Article 2", "djsaiudjasiudja", 3));
-
-        NewsAdapter newsAdt = new NewsAdapter(newsArrayList, getApplicationContext());
-
-        //list view of article set to clickable
-        ListView lv = (ListView) findViewById(R.id.news_feed_list);
-        lv.setClickable(true);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-/*
-                Object o = lv.getItemAtPosition(position);
-                Toast.makeText(MainActivityNewsFeed.this, newsArrayList.get(position)+"", Toast.LENGTH_SHORT).show();
-                Log.i("Item clicked", "yay");
-                TextView v = (TextView) view.findViewById(R.id.news_title);
-                Toast.makeText(getApplicationContext(), "selected Item Name is " + v.getText(), Toast.LENGTH_LONG).show();
-*/
-            if (position == 0){
-                Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSavedArticles.class );
-                Log.i("ListView clicked: ", "0");
-                startActivity(nextPage);
-            }
-            if (position == 1) {
-                Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedDetailed2.class);
-                Log.i("ListView clicked", "1");
-                startActivity(nextPage);
-            }
-            if (position == 2) {
-                Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedDetailed3.class);
-                Log.i("ListView clicked", "2");
-                startActivity(nextPage);
-                }
-
-            }
-        });
-        lv.setAdapter(newsAdt);
+//        ArrayList<News> newsArrayList = new ArrayList<News>();
+//        newsArrayList.add(new News("Saved Article", "djsaiudjasiudja", 1));
+//        newsArrayList.add(new News("Article 1", "djsaiudjasiudja", 2));
+//        newsArrayList.add(new News("Article 2", "djsaiudjasiudja", 3));
+//
+//        NewsAdapter newsAdt = new NewsAdapter(newsArrayList, getApplicationContext());
+//
+//        //list view of article set to clickable
+//        ListView lv = (ListView) findViewById(R.id.news_feed_list);
+//        lv.setClickable(true);
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+///*
+//                Object o = lv.getItemAtPosition(position);
+//                Toast.makeText(MainActivityNewsFeed.this, newsArrayList.get(position)+"", Toast.LENGTH_SHORT).show();
+//                Log.i("Item clicked", "yay");
+//                TextView v = (TextView) view.findViewById(R.id.news_title);
+//                Toast.makeText(getApplicationContext(), "selected Item Name is " + v.getText(), Toast.LENGTH_LONG).show();
+//*/
+//            if (position == 0){
+//                Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSavedArticles.class );
+//                Log.i("ListView clicked: ", "0");
+//                startActivity(nextPage);
+//            }
+//            if (position == 1) {
+//                Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedDetailed2.class);
+//                Log.i("ListView clicked", "1");
+//                startActivity(nextPage);
+//            }
+//            if (position == 2) {
+//                Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedDetailed3.class);
+//                Log.i("ListView clicked", "2");
+//                startActivity(nextPage);
+//                }
+//
+//            }
+//        });
+//        lv.setAdapter(newsAdt);
 
 
     }

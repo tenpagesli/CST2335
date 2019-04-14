@@ -19,6 +19,9 @@
         <activity android:name=".hung.NewsFeedDetailed2" />
         <activity android:name=".hung.NewsFeedDetailed" />
         <activity android:name=".hung.NewsFeedSearches" />
+        <activity android:name=".hung.newFeed1" />
+
+
         <activity android:name=".queeny.FlightPhoneFragmentActivity" />
         <activity android:name=".queeny.FlightSavedActivity" />
         <activity android:name=".queeny.FlightDetailsActivity" />
