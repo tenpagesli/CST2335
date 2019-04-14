@@ -157,6 +157,14 @@ public class NewsFeedSavedArticles extends AppCompatActivity {
         }
     }
 
+    private void findUrl(SQLiteDatabase db){
+        String [] columns = {NewsFeedDBHelper.COL_TITLE};
+        Cursor results = db.query(false, NewsFeedDBHelper.TABLE_NAME, columns, null, null, null, null, null, null);
+        while(results.moveToNext())
+        {
+
+        }
+    }
     //This class needs 4 functions to work properly:
     protected class SavedWordsAdapter<E> extends BaseAdapter {
         private List<E> dataCopy = null;

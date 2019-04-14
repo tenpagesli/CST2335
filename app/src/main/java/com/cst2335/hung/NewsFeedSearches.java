@@ -58,7 +58,7 @@ private ProgressBar progressBar; //progress bar of Async
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed_searches);
 
-        newsfeedList = findViewById(R.id.news_feed_list_hd);
+        newsfeedList = findViewById(R.id.news_feed_list1);
 
         // get user input word
         Intent previousPage = getIntent();
