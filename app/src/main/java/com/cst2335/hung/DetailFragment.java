@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 
 import com.cst2335.R;
+import com.cst2335.kevin.NytSavedArticle;
 
 public class DetailFragment extends Fragment {
 
@@ -27,6 +28,8 @@ public class DetailFragment extends Fragment {
     private Bundle dataFromActivity;
     /** id from previous page */
     private long id;
+    private long db_id;
+
     NewsFeedDBHelper myDb;
     SQLiteDatabase db;
     WebView webView;
@@ -53,24 +56,35 @@ public class DetailFragment extends Fragment {
 
         // get arguments from previous page
         dataFromActivity = getArguments();
+        db_id = dataFromActivity.getLong("db_id" );
+        id = dataFromActivity.getInt("id" );
         // Inflate the layout for this fragment
         View result =  inflater.inflate(R.layout.activity_news_feed_detail_fragment, container, false);
 
+        db_id = dataFromActivity.getLong(NewsFeedSavedArticles.ITEM_ID );
+        TextView idView = (TextView)result.findViewById(R.id.idText);
+        idView.setText("Listview ID=" + id);
+
+
+        //show saved article word
+        TextView position = (TextView)result.findViewById(R.id.message);
+        idView.setText(dataFromActivity.getString(NewsFeedSavedArticles.ITEM_SELECTED));
+
 
         webView = result.findViewById(R.id.wvArticle_hd);
-       //url = myDb.getEmployeeName("11");
+       
 
 
+        url = dataFromActivity.getString(NewsFeedSavedArticles.ITEM_SELECTED);
 
-       url = "http://www.google.ca";
 
 
        // columns = new String[]{NewsFeedDBHelper.COL_TITLE};
         webView.loadUrl(url);
         //show the id:
         id = dataFromActivity.getLong(NewsFeedSavedArticles.ITEM_ID );
-        TextView idView = (TextView)result.findViewById(R.id.idText);
-        idView.setText("ID is "+ id);
+
+
 
         //show the word content
         TextView contentView = (TextView)result.findViewById(R.id.news_title);
