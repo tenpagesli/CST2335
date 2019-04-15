@@ -10,12 +10,13 @@ import android.util.Log;
 public class NewsFeedDBHelper extends SQLiteOpenHelper {
 
 
-        public static final String DATABASE_NAME = "NewsFeedDB";
+        public static final String DATABASE_NAME = "NewsFeedDB"; //Db name
         public static final int VERSION_NUM = 1;
-        // the column names in database
-        public static final String TABLE_NAME = "saved_news_feed";
-        public static final String COL_ID = "_id";
-        public static final String COL_TITLE = "news_title";
+
+        public static final String TABLE_NAME = "saved_news_feed"; //table name
+
+        public static final String COL_ID = "_id"; //column 0
+        public static final String COL_TITLE = "news_title"; //column 1
 
 
         public NewsFeedDBHelper(Context ctx){
@@ -40,43 +41,26 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
             Log.i("Database upgrade:", " Old version:" + oldVersion + " newVersion:"+newVersion);
-
-            //Delete the old table:
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-
-            //Create a new table:
             onCreate(db);
         }
 
         public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
             Log.i("Database downgrade", " Old version:" + oldVersion + " newVersion:"+newVersion);
-
-            //Delete the old table:
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-
-            //Create a new table:
             onCreate(db);
         }
 
-public Cursor getAllData(){
+    /**
+     * get all data from table using raw query
+     * @return
+     */
+    public Cursor getAllData(){
             SQLiteDatabase db = this.getWritableDatabase();
             Cursor cursor = db.rawQuery("select news_title from "+ TABLE_NAME, null);
             return cursor;
 }
 
-public String getEmployeeName(String empNo) {
-        Cursor cursor = null;
-        String empName = "";
-        try {
-            cursor = getReadableDatabase().rawQuery("SELECT news_title FROM saved_news_feed WHERE EmpNo=?", new String[] {empNo + ""});
-            if(cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                empName = cursor.getString(cursor.getColumnIndex("news_title"));
-            }
-            return empName;
-        }finally {
-            cursor.close();
-        }
-    }
+
 }

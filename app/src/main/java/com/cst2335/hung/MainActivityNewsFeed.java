@@ -30,8 +30,8 @@ import java.util.ArrayList;
 
 /**
  * Author: Hung Doan
- * Version: 1.3
- * Last modified: 2019-04-18
+ * Version: 1.4
+ * Last modified: 2019-04-15
  */
 public class MainActivityNewsFeed extends AppCompatActivity {
     SharedPreferences sp; //edit search shared prefs
@@ -40,77 +40,41 @@ public class MainActivityNewsFeed extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_news_feed);
 
-        //search button
-        Button searchBtn = findViewById(R.id.search_btn);
-        editSearch = findViewById(R.id.edit_search);
+        Button searchBtn = findViewById(R.id.search_btn); //search button
+        Button saveBtn = findViewById(R.id.saved_btn); //save button
+        editSearch = findViewById(R.id.edit_search); //type in your search edit text
 
-        //edit tex shared preferences
+        //edit text shared preferences
         sp = getSharedPreferences("searchedArticle", Context.MODE_PRIVATE);
         String savedString = sp.getString("savedSearch", "");
         editSearch.setText(savedString);
 
-        searchBtn.setOnClickListener(c->{
-            Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSearches.class );
+        //search button on click
+        searchBtn.setOnClickListener(c -> {
+            Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSearches.class);
             nextPage.putExtra("searchedArticle", editSearch.getText().toString());
-
             startActivity(nextPage);
-            //startActivityForResult(nextPage, 30);
         });
 
-        Toolbar tBar = (Toolbar)findViewById(R.id.toolbar_hd);
+        //toolbar containing team member's activities
+        Toolbar tBar = (Toolbar) findViewById(R.id.toolbar_hd);
         setSupportActionBar(tBar);
 
-       // arraylist of articles
-        ArrayList<News> newsArrayList = new ArrayList<News>();
-        newsArrayList.add(new News("Saved Article", "djsaiudjasiudja", "1"));
+        //save button onclick
+        saveBtn.setOnClickListener(d -> {
+            Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSavedArticles.class);
+            startActivity(nextPage);
 
-
-        NewsAdapter newsAdt = new NewsAdapter(newsArrayList, getApplicationContext());
-
-        //list view of article set to clickable
-        ListView lv = (ListView) findViewById(R.id.news_feed_list);
-        lv.setClickable(true);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-/*
-                Object o = lv.getItemAtPosition(position);
-                Toast.makeText(MainActivityNewsFeed.this, newsArrayList.get(position)+"", Toast.LENGTH_SHORT).show();
-                Log.i("Item clicked", "yay");
-                TextView v = (TextView) view.findViewById(R.id.news_title);
-                Toast.makeText(getApplicationContext(), "selected Item Name is " + v.getText(), Toast.LENGTH_LONG).show();
-*/
-            if (position == 0){
-                Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSavedArticles.class );
-                Log.i("ListView clicked: ", "0");
-                startActivity(nextPage);
-            }
-/*            if (position == 1) {
-                Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedDetailed2.class);
-                Log.i("ListView clicked", "1");
-                startActivity(nextPage);
-            }
-            if (position == 2) {
-                Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedDetailed3.class);
-                Log.i("ListView clicked", "2");
-                startActivity(nextPage);
-                }*/
-
-            }
         });
-        lv.setAdapter(newsAdt);
-
 
     }
 
     /**
      * toolbar leading to different teammate projects
+     *
      * @param item
      * @return
      */
@@ -118,8 +82,7 @@ public class MainActivityNewsFeed extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent nextPage = null;
-        switch(item.getItemId())
-        {
+        switch (item.getItemId()) {
             //when click on "dictionary"
             case R.id.go_flight:
                 nextPage = new Intent(MainActivityNewsFeed.this, MainActivityFlightStatusTracker.class);
@@ -135,9 +98,6 @@ public class MainActivityNewsFeed extends AppCompatActivity {
                 nextPage = new Intent(MainActivityNewsFeed.this, MainActivityNewYorkTimes.class);
                 startActivity(nextPage);
                 break;
-
-
-
             // when click on "help":
             case R.id.go_help:
                 // show help dialog
@@ -149,7 +109,7 @@ public class MainActivityNewsFeed extends AppCompatActivity {
     }
 
     /**
-     * news feed toolbar inflater
+     * news feed toolbar inflate
      * @param menu
      * @return
      */
@@ -170,12 +130,11 @@ public class MainActivityNewsFeed extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setMessage("Activity Version: 1.0\n" +
+        builder.setMessage("Activity Version: 1.4\n" +
                 "Author: Hung\n" +
                 "How to use: Enter search term of the article. Click on article for further details.")
 /*                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
 
                     }
                 })*/
@@ -189,19 +148,16 @@ public class MainActivityNewsFeed extends AppCompatActivity {
     }
 
     /**
-     * shared prefs commit
+     * shared prefs for search edit text
      */
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         //get an editor object
         SharedPreferences.Editor editor = sp.edit();
-
         //save what was typed under the name "editSearch"
         String whatWasTyped = editSearch.getText().toString();
-        // xml tag name is editSearch
         editor.putString("savedSearch", whatWasTyped);
-
         //write it to disk:
         editor.commit();
     }

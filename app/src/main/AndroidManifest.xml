@@ -16,7 +16,7 @@
         <activity android:name=".hung.NewsFeedSavedArticles"/>
         <activity android:name=".hung.EmptyFragmentActivity"/>
         <activity android:name=".hung.NewsFeedSearches" />
-        <activity android:name=".hung.newFeed1" />
+        <activity android:name=".hung.NewsFeed" />
 
 
         <activity android:name=".queeny.FlightPhoneFragmentActivity" />

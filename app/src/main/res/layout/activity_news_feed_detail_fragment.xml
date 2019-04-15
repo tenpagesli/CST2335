@@ -19,7 +19,7 @@
     <WebView
         android:id="@+id/wvArticle_hd"
         android:layout_width="match_parent"
-        android:layout_height="593dp">
+        android:layout_height="680dp">
     </WebView>
 
     <Button

@@ -57,12 +57,14 @@
     <string name="welcome_hd">WELCOME TO THE NEWS FEED</string>
     <string name="search_hd">Search</string>
     <string name="type_search_hd">Enter search term</string>
-    <string name="save_article_hd">Save</string>
+    <string name="save_article_hd">Saved News</string>
     <string name="del_article_hd">Delete</string>
     <string name="return_article_hd">Return</string>
+    <string name="search_article_hd">Search</string>
     <string name="help_hd">Help</string>
     <string name="title_hd">Title: </string>
     <string name="uuid_hd">uuid: </string>
+    <string name="save_hd">Save article</string>
 
 
 </resources>

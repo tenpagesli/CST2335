@@ -2,7 +2,7 @@ package com.cst2335.hung;
 
 public class News {
 
-    private String title; //title article
+    private String title; //article of url
     private String body; //body of article
     private String newsID; //uuid
 

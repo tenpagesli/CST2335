@@ -51,13 +51,13 @@
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_below="@id/savebtn_hd"-->
         <!--android:text="@string/del_article_hd" />-->
-    <!--<Button-->
-        <!--android:id="@+id/returnbtn_hd"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@id/deletebtn_hd"-->
-        <!--android:text="@string/return_article_hd" />-->
-
+    <Button
+        android:id="@+id/returnbtn_hd"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_below="@id/news_feed_list1"
+        android:layout_marginTop="-53dp"
+        android:text="@string/return_article_hd" />
     <ListView
         android:id="@+id/news_feed_list1"
         android:layout_width="match_parent"

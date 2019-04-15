@@ -19,7 +19,7 @@ public class NewsAdapter extends BaseAdapter {
 
     private ArrayList<News> news; //news article arraylist
     private Context context;
-    private LayoutInflater inflater;
+    private LayoutInflater inflater; //news inflater
 
     /**
      *
@@ -75,15 +75,11 @@ public class NewsAdapter extends BaseAdapter {
                     inflate(R.layout.activity_news_list_item, parent, false);
         }
 
-
         News currentItem = (News) getItem(position);
-
 
         TextView textViewTitle = convertView.findViewById(R.id.news_title);
       //  TextView textViewUrl = convertView.findViewById(R.id.news_url);
       //  TextView textViewPara = convertView.findViewById(R.id.news_para);
-
-
 
         textViewTitle.setText(currentItem.getTitle());
       //  textViewUrl.setText(currentItem.getBody());
