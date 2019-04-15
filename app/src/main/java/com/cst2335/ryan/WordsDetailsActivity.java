@@ -126,10 +126,10 @@ public class WordsDetailsActivity extends AppCompatActivity {
             db = dbOpener.getWritableDatabase();
             String wordToSave = "";
             for(Word word: wordsList){
-                String wordContent = word.getWord()+"<br>";
-                String partsOfSpeech = word.getPartsOfSpeech()+"<br/>";
+                String wordContent = "<strong>" + word.getWord()+"</strong><br>";
+                String partsOfSpeech = "<b><i>" + word.getPartsOfSpeech()+"</i></b><br/>";
                 HashMap<String, ArrayList<String>> defMap = word.getDefinitions();
-                String def = "";
+//               String def = "";
 //                for(String key : defMap.keySet()){
 //                    ArrayList<String> values = defMap.get(key);
 //                    if(!"".equals(key)){
@@ -142,29 +142,33 @@ public class WordsDetailsActivity extends AppCompatActivity {
 //                    }
 //                }
 //                wordToSave += wordContent + partsOfSpeech + def +"<br/>";
-               wordToSave += wordContent + partsOfSpeech + defMap.keySet() +"<br/>";
+                String definition = defMap.keySet()+"";
+                if("[]".equals(definition)){
+                    definition = "";
+                }
+               wordToSave += wordContent + partsOfSpeech + definition +"<br/><br/><br/>";
             }
             this.saveWord(db, inputWord, wordToSave);
         });
 
-        // clicked on view delete word button
-        deleteBtn.setOnClickListener(c->{
-            // confirm with user if really want to delete
-            View middle = getLayoutInflater().inflate(R.layout.activity_delete, null);
-            AlertDialog.Builder builder = new AlertDialog.Builder(WordsDetailsActivity.this);
-            builder.setPositiveButton("Yes", (DialogInterface dialog, int id)-> {
-                // TODO: delete word from database
-
-                // show toast bar if deleted successful
-                // Toast.makeText(this, "Word deleted successfully!.", Toast.LENGTH_LONG).show();
-            })
-                    .setNegativeButton("Not Yet", (DialogInterface dialog, int id) ->{
-                        // What to do on Cancel
-
-                    })
-                    .setView(middle);
-            builder.create().show();
-        });
+//        // It's never used for this app. clicked on view delete word button.
+//        deleteBtn.setOnClickListener(c->{
+//            // confirm with user if really want to delete
+//            View middle = getLayoutInflater().inflate(R.layout.activity_delete, null);
+//            AlertDialog.Builder builder = new AlertDialog.Builder(WordsDetailsActivity.this);
+//            builder.setPositiveButton("Yes", (DialogInterface dialog, int id)-> {
+//                // TODO: delete word from database
+//
+//                // show toast bar if deleted successful
+//                // Toast.makeText(this, "Word deleted successfully!.", Toast.LENGTH_LONG).show();
+//            })
+//                    .setNegativeButton("Not Yet", (DialogInterface dialog, int id) ->{
+//                        // What to do on Cancel
+//
+//                    })
+//                    .setView(middle);
+//            builder.create().show();
+//        });
     }
 
     /**
@@ -306,7 +310,6 @@ public class WordsDetailsActivity extends AppCompatActivity {
                 if(!wordsList.isEmpty()){
                     ((WordDetailsAdapter) adt).notifyDataSetChanged();
                 }
-
             }
         }
 
@@ -316,7 +319,8 @@ public class WordsDetailsActivity extends AppCompatActivity {
             // show toast bar if saved successful
             Toast.makeText(WordsDetailsActivity.this, "We found the word for you!", Toast.LENGTH_LONG).show();
             //  messageBox.setText("Finished all tasks");
-            // progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setProgress(100);
+            progressBar.setVisibility(View.INVISIBLE);
         }
 
         /**

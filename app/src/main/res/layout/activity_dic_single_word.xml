@@ -10,12 +10,16 @@
     <TextView
         android:id="@+id/word_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:textSize="20dp"/>
 
     <TextView
         android:id="@+id/parts_of_speech"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:textSize="15dp"
         android:text="@string/parts_of_speech_dic_rl"/>
 
     <TextView
