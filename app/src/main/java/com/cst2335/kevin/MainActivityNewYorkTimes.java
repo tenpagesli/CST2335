@@ -299,6 +299,23 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
             progressBar.setMax(100);
         }
     }
+    /**
+     * override onPause() for sharedPreference
+     */
+    @Override
+    protected void onPause(){
+        super.onPause();
+        //get an editor object
+        SharedPreferences.Editor editor = sp.edit();
+
+        //save what was typed under the name "inputWord"
+        String whatWasTyped = inputWord.getText().toString();
+        // xml tag name is inputWord
+        editor.putString("inputWord", whatWasTyped);
+
+        //write it to disk:
+        editor.commit();
+    }
 
     }//end class
 
