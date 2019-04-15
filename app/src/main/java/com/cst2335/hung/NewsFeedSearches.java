@@ -83,7 +83,7 @@ public class NewsFeedSearches extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-
+            Log.e("url is : ", URL);
             try {
 
                 URL url = new URL(URL);
@@ -109,9 +109,11 @@ public class NewsFeedSearches extends AppCompatActivity {
                 factory.setNamespaceAware(false);
                 XmlPullParser xpp = factory.newPullParser();
                 xpp.setInput(inStream, "UTF-8");
-
+                String previousURL = "";
+                String currentUrl = "";
                 //loop over the webhose.io XML:
                 while (xpp.getEventType() != XmlPullParser.END_DOCUMENT) {
+
                     if (xpp.getEventType() == XmlPullParser.START_TAG) {
                         String tagName = xpp.getName();
 
@@ -130,14 +132,16 @@ public class NewsFeedSearches extends AppCompatActivity {
                             // same thing as above
                             if (xpp.next() == XmlPullParser.TEXT) {
                                 titleAtt = xpp.getText();
-                                Log.e("AsyncTask", "Found parameter titleAtt: " + titleAtt);
+                                currentUrl = titleAtt;
+                                if(!previousURL.equals(currentUrl)){
+                                    Log.e("AsyncTask", "Found parameter titleAtt: " + titleAtt);
 
-                                News new1 = new News(titleAtt, null, null);
-                                newsListArticle.add(new1);
-
+                                    News new1 = new News(titleAtt, null, null);
+                                    newsListArticle.add(new1);
+                                    previousURL = currentUrl;
+                                }
                             }
                             publishProgress(25);
-
                         }
 
                     }

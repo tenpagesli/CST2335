@@ -1,8 +1,10 @@
 package com.cst2335.hung;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cst2335.R;
 
@@ -65,6 +68,7 @@ public class NewsFeedSavedArticles extends AppCompatActivity {
             // dataToPass.putLong(ITEM_ID, msgList.get(position).getId());
             dataToPass.putLong(ITEM_ID, id);
 
+
             if (isTablet) {
                 DetailFragment dFragment = new DetailFragment(); //add a DetailFragment
                 dFragment.setArguments(dataToPass); //pass it a bundle for information
@@ -79,6 +83,7 @@ public class NewsFeedSavedArticles extends AppCompatActivity {
                 Intent nextActivity = new Intent(NewsFeedSavedArticles.this, EmptyFragmentActivity.class);
                 nextActivity.putExtras(dataToPass); //send data to next activity
                 startActivityForResult(nextActivity, EMPTY_ACTIVITY); //make the transition
+
             }
         });
 
@@ -104,7 +109,7 @@ public class NewsFeedSavedArticles extends AppCompatActivity {
      */
 
     public void deleteMessageId(int id) {
-        Log.i("Delete this message:", " id=" + id);
+        Log.i("Delete:", " id=" + id);
         String str = "";
         Cursor c;
         String[] cols = {NewsFeedDBHelper.COL_ID, NewsFeedDBHelper.COL_TITLE};
@@ -220,6 +225,7 @@ public class NewsFeedSavedArticles extends AppCompatActivity {
             return (long) position;
         }
     }
+
 }
 
 
