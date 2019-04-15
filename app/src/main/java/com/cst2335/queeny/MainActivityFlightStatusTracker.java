@@ -98,6 +98,8 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_flight_status_tracker);
+        // get progress bar
+        pbar = findViewById(R.id.progress_Bar);
         // get toolbar
         tBar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(tBar);
@@ -144,17 +146,37 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
 
         // when click on search button
         searchBtn.setOnClickListener(c->{
+            // verify if user entered an airport code
+            if(airportCodeBtn.getText()==null || "".equals(airportCodeBtn.getText().toString())){
+                Snackbar sb = Snackbar.make(refreshList, "Please enter an airport code!", Snackbar.LENGTH_LONG)
+                        .setAction("OK", e -> { });
+                sb.show();
+                return;
+            }
+
             // show progress bar
-            pbar = findViewById(R.id.progress_Bar);
             pbar.setVisibility(View.VISIBLE);
+            // get the updated depUrl and arrUrl
+            if(swBtn.isChecked()){
+                airportCodeType = "ICAO";
+                depAirCode = "&depIcao=" + airportCodeBtn.getText().toString();
+                arrAirCode ="&arrIcao=" + airportCodeBtn.getText().toString();
+            }else {
+                airportCodeType = "IATA";
+                depAirCode = "&depIata=" + airportCodeBtn.getText().toString();
+                arrAirCode = "&arrIata=" + airportCodeBtn.getText().toString();
+            }
+            String newDepUrl = preUrl + depAirCode;
+            String newArrUrl = preUrl + arrAirCode;
+            if(!newDepUrl.equals(depUrl) || !newArrUrl.equals(arrUrl)){
+                depUrl = newDepUrl;
+                arrUrl = newArrUrl;
+            }
             // get flight list from website
             FlightQuery fq = new FlightQuery();
             fq.execute(depUrl, arrUrl); // will run doInBackground()
-            // inflate flight summary xml
-            flightAdapter = new FlightAdapter(allFlights);
-            flightList.setAdapter(flightAdapter);
-            // after progress bar shown up, update the flight list
-            flightAdapter.notifyDataSetChanged();
+
+
 
             // get the specific flight info which user clicked on, and jump to the details page
             flightList.setOnItemClickListener(  (parent, view, position, id)->{
@@ -180,6 +202,23 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
             Snackbar sb = Snackbar.make(refreshList, "Do you want to refresh?", Snackbar.LENGTH_LONG)
                     .setAction("Yes!", e -> {
                         if(flightAdapter!=null){
+                            // get the updated depUrl and arrUrl
+                            if(swBtn.isChecked()){
+                                airportCodeType = "ICAO";
+                                depAirCode = "&depIcao=" + airportCodeBtn.getText().toString();
+                                arrAirCode ="&arrIcao=" + airportCodeBtn.getText().toString();
+                            }else {
+                                airportCodeType = "IATA";
+                                depAirCode = "&depIata=" + airportCodeBtn.getText().toString();
+                                arrAirCode = "&arrIata=" + airportCodeBtn.getText().toString();
+                            }
+                            String newDepUrl = preUrl + depAirCode;
+                            String newArrUrl = preUrl + arrAirCode;
+                            if(!newDepUrl.equals(depUrl) || !newArrUrl.equals(arrUrl)){
+                                depUrl = newDepUrl;
+                                arrUrl = newArrUrl;
+                            }
+
                             pbar.setVisibility(View.VISIBLE);
                             /// get flight list from website
                             FlightQuery fq = new FlightQuery();
@@ -189,6 +228,12 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
                             flightList.setAdapter(flightAdapter);
                             // after progress bar shown up, update the flight list
                             flightAdapter.notifyDataSetChanged();
+                        }else{
+                            Snackbar snb = Snackbar.make(refreshList, "Please search flights first!", Snackbar.LENGTH_LONG)
+                                    .setAction("ok", e1 -> {
+
+                                    });
+                            snb.show();
                         }
                     });
             sb.show();
@@ -209,6 +254,12 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
             Log.e("deparURL: ", depUrl);
             Log.e("arrUrl: ", arrUrl);
             try {
+                // if there is a flight list existing, reset it
+                if(allFlights!=null && allFlights.size()>0){
+                    allFlights = new ArrayList<>();
+                    depFlights = new ArrayList<>();
+                    arrFlights  = new ArrayList<>();
+                }
                 this.getFlights(depUrl, "depart");
                 publishProgress(25); //tell android to call onProgressUpdate with 25 as parameter
                 pbar.setProgress(25);
@@ -223,9 +274,10 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
                 pbar.setProgress(75);
                 Thread.sleep(1000);
                 allFlights.addAll(arrFlights);
-                flightAdapter = new FlightAdapter(allFlights);
-                flightList.setAdapter(flightAdapter);
-                publishProgress(100); //tell android to call onProgressUpdate with 25 as parameter
+
+
+
+                publishProgress(100); //tell android to call onProgressUpdate with 100 as parameter
                 pbar.setProgress(100);
                 Thread.sleep(1000);
             }catch (Exception ex){
@@ -239,6 +291,12 @@ public class MainActivityFlightStatusTracker extends AppCompatActivity {
             // pbar.setVisibility(View.VISIBLE);
             Log.e("onProgressUpdate:", " should update some thing here");
             // update the view list here
+            // inflate flight summary xml
+            Log.e("the flight list: ", " size is "+allFlights.size());
+            flightAdapter = new FlightAdapter(allFlights);
+            flightList.setAdapter(flightAdapter);
+            // after progress bar shown up, update the flight list
+            flightAdapter.notifyDataSetChanged();
         }
 
         @Override

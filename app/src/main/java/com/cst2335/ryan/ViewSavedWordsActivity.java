@@ -69,6 +69,13 @@ public class ViewSavedWordsActivity extends AppCompatActivity {
         tBar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(tBar);
 
+        // get go home button
+        Button goHomeBtn = findViewById(R.id.go_dic_home);
+        goHomeBtn.setOnClickListener(c->{
+            Intent nextPage = new Intent(ViewSavedWordsActivity.this, MainActivityDictionary.class);
+            startActivity(nextPage);
+        });
+
         // get savedWordList array list for first time running
         if (savedWordList == null) {
             savedWordList = new ArrayList<>();
@@ -85,16 +92,18 @@ public class ViewSavedWordsActivity extends AppCompatActivity {
         ListView theList = (ListView)findViewById(R.id.saved_words_list);
         // get fragment
         boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
-        // initial the adapter with chatting history list
+        // initial the adapter with word history list
         adt = new SavedWordsAdapter(savedWordList);
         theList.setAdapter(adt); // the list should show up now
 
         theList.setOnItemClickListener( (list, item, position, id) -> {
+            int myId = (int)savedWordList.get(position).getId();
+            String details = findDetailsById(db, (int)myId);
+
             Bundle dataToPass = new Bundle();
-            dataToPass.putString(ITEM_SELECTED, savedWordList.get(position).toString() );
+            dataToPass.putString(ITEM_SELECTED, details);
             dataToPass.putInt(ITEM_POSITION, position);
-            // dataToPass.putLong(ITEM_ID, msgList.get(position).getId());
-            dataToPass.putLong(ITEM_ID, id);
+            dataToPass.putLong(ITEM_ID, myId);
 
             if(isTablet)
             {
@@ -133,20 +142,17 @@ public class ViewSavedWordsActivity extends AppCompatActivity {
      */
     public void deleteMessageId(int id)
     {
-        Log.i("Delete this message:" , " id="+id);
-        String str="";
-        Cursor c;
-        String [] cols = {MyDatabaseOpenHelper.COL_ID, MyDatabaseOpenHelper.COL_CONTENT};
-        c = db.query(false, MyDatabaseOpenHelper.TABLE_NAME, cols, null, null, null, null, null, null);
-        if(c.moveToFirst()) {
-            for (int i =0; i<id; i++) {
-                c.moveToNext();
+        int position=0;
+        for(int i=0; i<savedWordList.size();i++){
+            Word w = savedWordList.get(i);
+            if(w.getId()==id){
+                position=i;
+                break;
             }
-            str = c.getString(c.getColumnIndex(MyDatabaseOpenHelper.COL_ID));
         }
-        int x = db.delete(MyDatabaseOpenHelper.TABLE_NAME, MyDatabaseOpenHelper.COL_ID+"=?", new String[] {str});
+        int x = db.delete(MyDatabaseOpenHelper.TABLE_NAME, MyDatabaseOpenHelper.COL_ID+"=?", new String[] {id+""});
         Log.i("ViewContact", "Deleted " + x + " rows");
-        savedWordList.remove(id);
+        savedWordList.remove(position);
         adt.notifyDataSetChanged();
     }
 
@@ -244,6 +250,25 @@ public class ViewSavedWordsActivity extends AppCompatActivity {
             //add the new Contact to the array list:
             savedWordList.add(new Word(id, content, null, null));
         }
+    }
+
+    private String findDetailsById(SQLiteDatabase db, int id){
+        Log.e("you ", " are looking for the details of id: " + id);
+        //query all the results from the database:
+       String [] columns = {MyDatabaseOpenHelper.COL_ID, MyDatabaseOpenHelper.COL_DETAILS};
+       Cursor results = db.query(false, MyDatabaseOpenHelper.TABLE_NAME, columns, null, null, null, null, null, null);
+//       String sql = "SELECT "+ MyDatabaseOpenHelper.COL_DETAILS
+//               +" FROM "+ MyDatabaseOpenHelper.TABLE_NAME
+//               + " WHERE "+ MyDatabaseOpenHelper.COL_ID +" = "+ id;
+//        Log.e("The  ", " find by id sql is :  " + sql);
+//        Cursor results = db.rawQuery(sql, null);
+        //find the column index:
+        int contentColumnIndex = results.getColumnIndex(MyDatabaseOpenHelper.COL_DETAILS);
+        String content = "";
+        while(results.moveToNext()) {
+            content = results.getString(contentColumnIndex);
+        }
+        return content;
     }
 
     //This class needs 4 functions to work properly:

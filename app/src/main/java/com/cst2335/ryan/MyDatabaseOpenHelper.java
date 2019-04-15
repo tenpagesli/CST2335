@@ -8,11 +8,12 @@ import android.util.Log;
 
 public class MyDatabaseOpenHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "DictionaryDB";
-    public static final int VERSION_NUM = 1;
+    public static final int VERSION_NUM = 4;
     // the column names in database
     public static final String TABLE_NAME = "saved_words";
     public static final String COL_ID = "_id";
     public static final String COL_CONTENT = "word_content";
+    public static final String COL_DETAILS = "word_details";
 
     public MyDatabaseOpenHelper(Activity ctx){
         //The factory parameter should be null, unless you know a lot about Database Memory management
@@ -26,7 +27,8 @@ public class MyDatabaseOpenHelper extends SQLiteOpenHelper {
         //Make sure you put spaces between SQL statements and Java strings:
         String sql = "CREATE TABLE " + TABLE_NAME + "( "
                 + COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COL_CONTENT + " TEXT)";
+                + COL_CONTENT + " TEXT, "
+                + COL_DETAILS + " TEXT)";
         Log.i("Database onCreate:", "the query is: " + sql);
         db.execSQL(sql);
         // log messages
