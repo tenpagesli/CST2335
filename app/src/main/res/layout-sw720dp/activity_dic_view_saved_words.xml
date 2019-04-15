@@ -30,5 +30,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorAccent"
-        android:layout_toRightOf="@id/title"/>
+        android:layout_toRightOf="@id/title">
+
+        <ListView
+            android:id="@+id/saved_words_list1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
 </RelativeLayout>

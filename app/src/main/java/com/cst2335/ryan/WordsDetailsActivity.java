@@ -79,6 +79,10 @@ public class WordsDetailsActivity extends AppCompatActivity {
     /** the final url to search a word */
     String myURL;
     /** below 2 fields are for database using */
+
+    private String wordContentPos, defiListPos, partsOfSpeech,Pos;
+
+
     MyDatabaseOpenHelper dbOpener;
     SQLiteDatabase db;
 
@@ -112,13 +116,79 @@ public class WordsDetailsActivity extends AppCompatActivity {
         wq.execute(myURL);
 
         // clicked on view save word button
-        saveBtn.setOnClickListener(c->{
-            // save word into database
-            //get a database:
-            dbOpener = new MyDatabaseOpenHelper(this);
-            db = dbOpener.getWritableDatabase();
-            this.saveWord(db, inputWord);
+//        saveBtn.setOnClickListener(c->{
+//            // save word into database
+//            //get a database:
+//
+//
+//
+//            dbOpener = new MyDatabaseOpenHelper(this);
+//            db = dbOpener.getWritableDatabase();
+//            this.saveWord(db, inputWord);
+//        });
+
+
+
+        preWordsList.setOnItemClickListener(  (parent, view, position, id)->{
+            System.out.println("position is here" + position);
+            saveBtn.setOnClickListener(c->{
+                // save word into database
+                //get a database:
+
+
+//                wordsList.get(position).getWord();
+//                wordsList.get(position).getDefinitions();
+//                wordsList.get(position).getPartsOfSpeech();
+//                System.out.println("get part of word" +  wordsList.get(position).getWord());
+//
+//
+//                dbOpener = new MyDatabaseOpenHelper(this);
+//                db = dbOpener.getWritableDatabase();
+//                this.saveWord(db, inputWord);
+//
+//
+
+
+
+                // save word into database
+                //get a database:
+                dbOpener = new MyDatabaseOpenHelper(this);
+                db = dbOpener.getWritableDatabase();
+                String wordToSave = "";
+
+
+                    String wordContent = wordsList.get(position).getWord()+"<br>";
+                    String partsOfSpeech = wordsList.get(position).getPartsOfSpeech()+"<br/>";
+
+                    HashMap<String, ArrayList<String>> defMap = wordsList.get(position).getDefinitions();
+//                wordsList.get(position).getDefinitions().keySet().
+
+                    wordToSave += wordContent + partsOfSpeech + defMap.keySet() +"<br/>";
+
+                this.saveWord(db, wordToSave);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            });
+
         });
+
 
         // clicked on view delete word button
         deleteBtn.setOnClickListener(c->{
@@ -148,6 +218,9 @@ public class WordsDetailsActivity extends AppCompatActivity {
      */
     private void saveWord(SQLiteDatabase db, String inputWord){
         // get word content
+
+        System.out.println("check size" +wordsList.size());
+
 
         //add to the database and get the new ID
         ContentValues newRowValues = new ContentValues();
