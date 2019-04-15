@@ -62,7 +62,7 @@ public class NewsAdapter extends BaseAdapter {
     }
 
     /**
-     *
+     * view for news feed
      * @param position
      * @param convertView
      * @param parent

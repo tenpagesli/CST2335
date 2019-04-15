@@ -116,7 +116,7 @@ public class NewsFeedSavedArticles extends AppCompatActivity {
             str = c.getString(c.getColumnIndex(NewsFeedDBHelper.COL_ID));
         }
         int x = db.delete(NewsFeedDBHelper.TABLE_NAME, NewsFeedDBHelper.COL_ID + "=?", new String[]{str});
-        Log.i("ViewContact", "Deleted " + x + " rows");
+        Log.i("Cursor", "Deleted " + x + " rows");
         newsArrayList.remove(id);
         adt.notifyDataSetChanged();
     }
