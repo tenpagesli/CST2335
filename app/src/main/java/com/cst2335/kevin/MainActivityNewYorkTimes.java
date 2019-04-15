@@ -93,7 +93,11 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
 //            Intent nextPage = new Intent(MainActivityNewYorkTimes.this, NytApiSearch.class);
 //            nextPage.putExtra("inputWord", inputWord.getText().toString());
 //            startActivity(nextPage);
+            CharSequence a = inputWord.getText();
+            if(inputWord.getText()==null || "".equals(inputWord.getText().toString())){
 
+                return;
+            }
             NewsFeedQuery networkThread = new NewsFeedQuery();
             networkThread.execute(preUrl);
 
@@ -188,7 +192,7 @@ public class MainActivityNewYorkTimes extends AppCompatActivity {
     public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.toolbar_menu_newsfeed_hd, menu);
+        inflater.inflate(R.menu.toolbar_menu_new_york, menu);
         return true;
     }
     //when case go_help gets called it will inflate the msg with the string on this method.

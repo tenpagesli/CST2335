@@ -256,7 +256,7 @@ public class ViewSavedWordsActivity extends AppCompatActivity {
         Log.e("you ", " are looking for the details of id: " + id);
         //query all the results from the database:
        String [] columns = {MyDatabaseOpenHelper.COL_ID, MyDatabaseOpenHelper.COL_DETAILS};
-       Cursor results = db.query(false, MyDatabaseOpenHelper.TABLE_NAME, columns, null, null, null, null, null, null);
+       Cursor results = db.query(false, MyDatabaseOpenHelper.TABLE_NAME, columns, MyDatabaseOpenHelper.COL_ID +" = " +id, null, null, null, null, null);
 //       String sql = "SELECT "+ MyDatabaseOpenHelper.COL_DETAILS
 //               +" FROM "+ MyDatabaseOpenHelper.TABLE_NAME
 //               + " WHERE "+ MyDatabaseOpenHelper.COL_ID +" = "+ id;
