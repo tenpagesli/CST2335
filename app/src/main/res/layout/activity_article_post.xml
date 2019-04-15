@@ -7,13 +7,12 @@
     tools:context=".kevin.ArticleActivity1"
     android:orientation="vertical">
 
+    <!--https://stackoverflow.com/questions/22427178/creating-webview-through-android-studio-->
 
     <WebView
         android:id="@+id/wvArticle"
         android:layout_width="match_parent"
         android:layout_height="593dp">
-
-
     </WebView>
 
     <Button

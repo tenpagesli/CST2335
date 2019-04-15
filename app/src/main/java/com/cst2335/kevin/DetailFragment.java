@@ -22,7 +22,6 @@ public class DetailFragment extends Fragment {
 
     public void setTablet(boolean tablet) { isTablet = tablet; }
 
-
     /**
      *
      * @param inflater
@@ -34,7 +33,7 @@ public class DetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        //data is passed from NYTsaved article
         dataFromActivity = getArguments();
         db_id = dataFromActivity.getLong("db_id" );
         id = dataFromActivity.getInt("id" );
@@ -48,21 +47,25 @@ public class DetailFragment extends Fragment {
         idView.setText("Listview ID=" + id);
 
 
-        //show saved article word
+        //show saved article word/url
         TextView position = (TextView)result.findViewById(R.id.message);
         idView.setText(dataFromActivity.getString(NytSavedArticle.ITEM_SELECTED));
 
-//
+        //testing whats inside the selected string
         System.out.println("check here");
         System.out.println(dataFromActivity.getString(NytSavedArticle.ITEM_SELECTED));
         System.out.println("ends here");
 
+        //String added to the webURL container
         webUrl = dataFromActivity.getString(NytSavedArticle.ITEM_SELECTED);
 
+        //webURL gets placed into the webView to show the Article and load it
         WebView webView = result.findViewById(R.id.wvArticle1);
         webView.loadUrl(webUrl);
 
 
+        //TO DO fix naming convention
+        // this listens for the click button and goes back to the page before this one
         Button goBack = result.findViewById(R.id.open_activity2);
         goBack.setOnClickListener( clk -> {
 
@@ -70,19 +73,17 @@ public class DetailFragment extends Fragment {
             NytSavedArticle parent = (NytSavedArticle)getActivity();
             parent.finish(); //go back
             }
-            else {
+            else {//phone
                 EmptyActivity parent = (EmptyActivity) getActivity();
                 parent.finish(); //go back
             }
-
-
         });
 
-        // get the delete button, and add a click listener:
-        Button deleteButton = (Button)result.findViewById(R.id.deleteButton);
+        // get the delete button, and add a click listener and deletes the bookmark item from the database
+        Button deleteButton = result.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener( clk -> {
 
-
+                //checks if it was clicked on a tablet
             if(isTablet) { //both the list and details are on the screen:
                 NytSavedArticle parent = (NytSavedArticle)getActivity();
                 parent.deleteMessageId((int)db_id); //this deletes the item and updates the list
@@ -91,7 +92,7 @@ public class DetailFragment extends Fragment {
                 parent.getSupportFragmentManager().beginTransaction().remove(this).commit();
                 parent.finish(); //go back
             }
-            //for Phone:
+            //checks if it was clicked on a phone
             else {
                 EmptyActivity parent = (EmptyActivity) getActivity();
                 Intent backToFragmentExample = new Intent();
@@ -99,7 +100,6 @@ public class DetailFragment extends Fragment {
                 parent.setResult(Activity.RESULT_OK, backToFragmentExample); //send data back to FragmentExample in onActivityResult()
                 parent.finish(); //go back
             }
-
         });
         return result;
 

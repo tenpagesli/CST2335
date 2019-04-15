@@ -21,24 +21,22 @@
     <WebView
         android:id="@+id/wvArticle1"
         android:layout_width="match_parent"
-        android:layout_height="605dp"
+        android:layout_height="632dp"
         android:layout_below="@id/idText"
-        android:layout_marginTop="-4dp">
-
-
+        android:layout_marginTop="-38dp">
     </WebView>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Delete"
+        android:text="@string/nyt_delete_article"
         android:id="@+id/deleteButton"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/deleteButton"
-        android:text="Go Back"
+        android:text="@string/nyt_go_back"
         android:id="@+id/open_activity2"/>
 
     <TextView
