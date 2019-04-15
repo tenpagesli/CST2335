@@ -16,6 +16,8 @@
         android:id="@+id/welcome_msg_dic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:textSize="20dp"
         android:text="@string/welcome_msg_dic_rl"/>
 
     <EditText

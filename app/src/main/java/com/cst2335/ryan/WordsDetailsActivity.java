@@ -96,6 +96,8 @@ public class WordsDetailsActivity extends AppCompatActivity {
 
         Button saveBtn = findViewById(R.id.save_btn_rl);
         Button deleteBtn = findViewById(R.id.delete_btn_rl);
+        deleteBtn.setVisibility(View.INVISIBLE);
+        Button savedListBtn = findViewById(R.id.view_saved_words_rl);
 
         preWordsList = findViewById(R.id.dic_search_results_rl);
         progressBar = findViewById(R.id.progress_bar_rl);
@@ -110,6 +112,11 @@ public class WordsDetailsActivity extends AppCompatActivity {
         WordQuery wq = new WordQuery();
         //this starts doInBackground on other thread
         wq.execute(myURL);
+        // when click on go to home page
+        savedListBtn.setOnClickListener(c->{
+            Intent nextPage = new Intent(WordsDetailsActivity.this, ViewSavedWordsActivity.class);
+            startActivity(nextPage);
+        });
 
         // clicked on view save word button
         saveBtn.setOnClickListener(c->{
@@ -117,7 +124,27 @@ public class WordsDetailsActivity extends AppCompatActivity {
             //get a database:
             dbOpener = new MyDatabaseOpenHelper(this);
             db = dbOpener.getWritableDatabase();
-            this.saveWord(db, inputWord);
+            String wordToSave = "";
+            for(Word word: wordsList){
+                String wordContent = word.getWord()+"<br>";
+                String partsOfSpeech = word.getPartsOfSpeech()+"<br/>";
+                HashMap<String, ArrayList<String>> defMap = word.getDefinitions();
+                String def = "";
+//                for(String key : defMap.keySet()){
+//                    ArrayList<String> values = defMap.get(key);
+//                    if(!"".equals(key)){
+//                        def = key+": ";
+//                    }
+//                    if(values!=null){
+//                        for(String s: values){
+//                            def = def + s +"<br/>";
+//                        }
+//                    }
+//                }
+//                wordToSave += wordContent + partsOfSpeech + def +"<br/>";
+               wordToSave += wordContent + partsOfSpeech + defMap.keySet() +"<br/>";
+            }
+            this.saveWord(db, inputWord, wordToSave);
         });
 
         // clicked on view delete word button
@@ -146,13 +173,14 @@ public class WordsDetailsActivity extends AppCompatActivity {
      * @param db
      * @param inputWord
      */
-    private void saveWord(SQLiteDatabase db, String inputWord){
+    private void saveWord(SQLiteDatabase db, String inputWord, String wordDetails){
         // get word content
 
         //add to the database and get the new ID
         ContentValues newRowValues = new ContentValues();
         //put string word content in the word_content column:
         newRowValues.put(MyDatabaseOpenHelper.COL_CONTENT, inputWord);
+        newRowValues.put(MyDatabaseOpenHelper.COL_DETAILS, wordDetails);
         //insert into the database:
         long newId = db.insert(MyDatabaseOpenHelper.TABLE_NAME, null, newRowValues);
         String saveResultMessage = "";

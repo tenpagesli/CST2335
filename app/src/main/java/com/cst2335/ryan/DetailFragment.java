@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ public class DetailFragment extends Fragment {
 
         //show the word content
         TextView contentView = (TextView)result.findViewById(R.id.word_content_rl);
-        idView.setText(dataFromActivity.getString(ViewSavedWordsActivity.ITEM_SELECTED));
+        idView.setText(Html.fromHtml(dataFromActivity.getString(ViewSavedWordsActivity.ITEM_SELECTED)));
 
         // get the delete button, and add a click listener:
         Button deleteButton = (Button)result.findViewById(R.id.deleteButton);
@@ -61,7 +62,7 @@ public class DetailFragment extends Fragment {
                 //now remove the fragment since you deleted it from the database:
                 // this is the object to be removed, so remove(this):
                 parent.getSupportFragmentManager().beginTransaction().remove(this).commit();
-                parent.finish(); //go back
+                // parent.finish(); //go back
             }
             //for Phone:
             else //You are only looking at the details, you need to go back to the previous list page
