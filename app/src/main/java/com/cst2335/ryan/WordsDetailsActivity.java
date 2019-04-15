@@ -79,10 +79,6 @@ public class WordsDetailsActivity extends AppCompatActivity {
     /** the final url to search a word */
     String myURL;
     /** below 2 fields are for database using */
-
-    private String wordContentPos, defiListPos, partsOfSpeech,Pos;
-
-
     MyDatabaseOpenHelper dbOpener;
     SQLiteDatabase db;
 
@@ -100,6 +96,8 @@ public class WordsDetailsActivity extends AppCompatActivity {
 
         Button saveBtn = findViewById(R.id.save_btn_rl);
         Button deleteBtn = findViewById(R.id.delete_btn_rl);
+        deleteBtn.setVisibility(View.INVISIBLE);
+        Button savedListBtn = findViewById(R.id.view_saved_words_rl);
 
         preWordsList = findViewById(R.id.dic_search_results_rl);
         progressBar = findViewById(R.id.progress_bar_rl);
@@ -114,100 +112,63 @@ public class WordsDetailsActivity extends AppCompatActivity {
         WordQuery wq = new WordQuery();
         //this starts doInBackground on other thread
         wq.execute(myURL);
+        // when click on go to home page
+        savedListBtn.setOnClickListener(c->{
+            Intent nextPage = new Intent(WordsDetailsActivity.this, ViewSavedWordsActivity.class);
+            startActivity(nextPage);
+        });
 
         // clicked on view save word button
-//        saveBtn.setOnClickListener(c->{
-//            // save word into database
-//            //get a database:
+        saveBtn.setOnClickListener(c->{
+            // save word into database
+            //get a database:
+            dbOpener = new MyDatabaseOpenHelper(this);
+            db = dbOpener.getWritableDatabase();
+            String wordToSave = "";
+            for(Word word: wordsList){
+                String wordContent = "<strong>" + word.getWord()+"</strong><br>";
+                String partsOfSpeech = "<b><i>" + word.getPartsOfSpeech()+"</i></b><br/>";
+                HashMap<String, ArrayList<String>> defMap = word.getDefinitions();
+//               String def = "";
+//                for(String key : defMap.keySet()){
+//                    ArrayList<String> values = defMap.get(key);
+//                    if(!"".equals(key)){
+//                        def = key+": ";
+//                    }
+//                    if(values!=null){
+//                        for(String s: values){
+//                            def = def + s +"<br/>";
+//                        }
+//                    }
+//                }
+//                wordToSave += wordContent + partsOfSpeech + def +"<br/>";
+                String definition = defMap.keySet()+"";
+                if("[]".equals(definition)){
+                    definition = "";
+                }
+               wordToSave += wordContent + partsOfSpeech + definition +"<br/><br/><br/>";
+            }
+            this.saveWord(db, inputWord, wordToSave);
+        });
+
+//        // It's never used for this app. clicked on view delete word button.
+//        deleteBtn.setOnClickListener(c->{
+//            // confirm with user if really want to delete
+//            View middle = getLayoutInflater().inflate(R.layout.activity_delete, null);
+//            AlertDialog.Builder builder = new AlertDialog.Builder(WordsDetailsActivity.this);
+//            builder.setPositiveButton("Yes", (DialogInterface dialog, int id)-> {
+//                // TODO: delete word from database
 //
+//                // show toast bar if deleted successful
+//                // Toast.makeText(this, "Word deleted successfully!.", Toast.LENGTH_LONG).show();
+//            })
+//                    .setNegativeButton("Not Yet", (DialogInterface dialog, int id) ->{
+//                        // What to do on Cancel
 //
-//
-//            dbOpener = new MyDatabaseOpenHelper(this);
-//            db = dbOpener.getWritableDatabase();
-//            this.saveWord(db, inputWord);
+//                    })
+//                    .setView(middle);
+//            builder.create().show();
 //        });
-
-
-
-        preWordsList.setOnItemClickListener(  (parent, view, position, id)->{
-            System.out.println("position is here" + position);
-            saveBtn.setOnClickListener(c->{
-                // save word into database
-                //get a database:
-
-
-//                wordsList.get(position).getWord();
-//                wordsList.get(position).getDefinitions();
-//                wordsList.get(position).getPartsOfSpeech();
-//                System.out.println("get part of word" +  wordsList.get(position).getWord());
-//
-//
-//                dbOpener = new MyDatabaseOpenHelper(this);
-//                db = dbOpener.getWritableDatabase();
-//                this.saveWord(db, inputWord);
-//
-//
-
-
-
-                // save word into database
-                //get a database:
-                dbOpener = new MyDatabaseOpenHelper(this);
-                db = dbOpener.getWritableDatabase();
-                String wordToSave = "";
-
-
-                    String wordContent = wordsList.get(position).getWord()+"<br>";
-                    String partsOfSpeech = wordsList.get(position).getPartsOfSpeech()+"<br/>";
-
-                    HashMap<String, ArrayList<String>> defMap = wordsList.get(position).getDefinitions();
-//                wordsList.get(position).getDefinitions().keySet().
-
-                    wordToSave += wordContent + partsOfSpeech + defMap.keySet() +"<br/>";
-
-                this.saveWord(db, wordToSave);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            });
-
-        });
-
-
-        // clicked on view delete word button
-        deleteBtn.setOnClickListener(c->{
-            // confirm with user if really want to delete
-            View middle = getLayoutInflater().inflate(R.layout.activity_delete, null);
-            AlertDialog.Builder builder = new AlertDialog.Builder(WordsDetailsActivity.this);
-            builder.setPositiveButton("Yes", (DialogInterface dialog, int id)-> {
-                // TODO: delete word from database
-
-                // show toast bar if deleted successful
-                // Toast.makeText(this, "Word deleted successfully!.", Toast.LENGTH_LONG).show();
-            })
-                    .setNegativeButton("Not Yet", (DialogInterface dialog, int id) ->{
-                        // What to do on Cancel
-
-                    })
-                    .setView(middle);
-            builder.create().show();
-        });
     }
 
     /**
@@ -216,16 +177,14 @@ public class WordsDetailsActivity extends AppCompatActivity {
      * @param db
      * @param inputWord
      */
-    private void saveWord(SQLiteDatabase db, String inputWord){
+    private void saveWord(SQLiteDatabase db, String inputWord, String wordDetails){
         // get word content
-
-        System.out.println("check size" +wordsList.size());
-
 
         //add to the database and get the new ID
         ContentValues newRowValues = new ContentValues();
         //put string word content in the word_content column:
         newRowValues.put(MyDatabaseOpenHelper.COL_CONTENT, inputWord);
+        newRowValues.put(MyDatabaseOpenHelper.COL_DETAILS, wordDetails);
         //insert into the database:
         long newId = db.insert(MyDatabaseOpenHelper.TABLE_NAME, null, newRowValues);
         String saveResultMessage = "";
@@ -351,7 +310,6 @@ public class WordsDetailsActivity extends AppCompatActivity {
                 if(!wordsList.isEmpty()){
                     ((WordDetailsAdapter) adt).notifyDataSetChanged();
                 }
-
             }
         }
 
@@ -361,7 +319,8 @@ public class WordsDetailsActivity extends AppCompatActivity {
             // show toast bar if saved successful
             Toast.makeText(WordsDetailsActivity.this, "We found the word for you!", Toast.LENGTH_LONG).show();
             //  messageBox.setText("Finished all tasks");
-            // progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setProgress(100);
+            progressBar.setVisibility(View.INVISIBLE);
         }
 
         /**

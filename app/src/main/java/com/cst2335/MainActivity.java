@@ -1,14 +1,19 @@
 package com.cst2335;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.cst2335.hung.MainActivityNewsFeed;
 import com.cst2335.kevin.MainActivityNewYorkTimes;
@@ -103,9 +108,32 @@ public class MainActivity extends AppCompatActivity {
                 nextPage = new Intent(MainActivity.this, MainActivityNewYorkTimes.class);
                 startActivity(nextPage);
                 break;
+
+            // when click on "help":
+            case R.id.go_help:
+                // show help dialog
+                this.showDialog();
+                break;
         }
         return true;
     }
+
+    /**
+     *  show the help dialog
+     */
+    private void showDialog(){
+        View middle = getLayoutInflater().inflate(R.layout.activity_help_dialog, null);
+        TextView authorName = (TextView)middle.findViewById(R.id.author_name);
+        TextView versionNumber = (TextView)middle.findViewById(R.id.version_number);
+        authorName.setText(Html.fromHtml(MyUtil.appAuther));
+        versionNumber.setText(Html.fromHtml(MyUtil.appVersion));
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setPositiveButton("OK", (DialogInterface dialog, int id) ->{
+
+        }).setView(middle);
+        builder.create().show();
+    }
+
 
     @Override
     protected void onStart() {

@@ -100,25 +100,6 @@ public class FlightSavedActivity extends AppCompatActivity {
                 intent.putExtra("vertical", clickedFlight.getSpeed().get("vertical"));
                 startActivityForResult(intent, 21);
             }
-
-
-//            AlertDialog.Builder builder = new AlertDialog.Builder(FlightSavedActivity.this);
-//            LayoutInflater inflater2 = FlightSavedActivity.this.getLayoutInflater();
-//            View dialogview = inflater2.inflate(R.layout.activity_delete, null);
-//            builder.setView(dialogview);
-//
-//            builder.setPositiveButton("Yes", (DialogInterface dialog, int which) -> {
-//                    // delete the selected flight info from database
-//
-//                    // update the flight list
-//                    flightAdapter.notifyDataSetChanged();
-//            });
-//
-//            builder.setNegativeButton("No", (DialogInterface dialog, int which)->{
-//
-//            });
-//            AlertDialog dialog = builder.create();
-//            dialog.show();
         });
     }
 
@@ -130,19 +111,21 @@ public class FlightSavedActivity extends AppCompatActivity {
         }
     }
 
-    public void deleteMessage(int position) {
-
-
-        int x = db.delete(FlightDataBaseHelper.TABLE_NAME, "id=?", new String[] {Integer.toString(position)});
+    public void deleteMessage(int id) {
+        int x = db.delete(FlightDataBaseHelper.TABLE_NAME, "id=?", new String[] {Integer.toString(id)});
         Log.i("ViewContact", "Deleted " + x + " rows");
 
-//        db.delete(FlightDataBaseHelper.TABLE_NAME, FlightDataBaseHelper.COL_ID + " = ?",
-//                new String[]{String.valueOf(flightAdapter.getItemId(position))});
+        int position = 0;
+        for(int i=0; i<flights.size();i++){
+            Flight f = flights.get(i);
+            if(f.getId()==id){
+                position = i;
+                break;
+            }
+        }
         flights.remove(position);
         flightAdapter.notifyDataSetChanged();
     }
-
-
 
     /**
      * This is a inner adapter class for the view list

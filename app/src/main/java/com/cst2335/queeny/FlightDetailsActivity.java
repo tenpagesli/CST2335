@@ -81,7 +81,6 @@ public class FlightDetailsActivity extends AppCompatActivity {
 
         // get progress bar
         pbar = findViewById(R.id.progress_Bar);
-        pbar.setVisibility(View.VISIBLE);
         pbar.setProgress(10);
 
         // get all the views and buttons
@@ -216,6 +215,8 @@ public class FlightDetailsActivity extends AppCompatActivity {
             try {
                 this.getFlightDetails(depUrl);
                 publishProgress(1); //tell android to call onProgressUpdate with 25 as parameter
+
+                pbar.setVisibility(View.VISIBLE);
                 pbar.setProgress(50);
                 Thread.sleep(1000);
             }catch (Exception ex){
@@ -250,13 +251,6 @@ public class FlightDetailsActivity extends AppCompatActivity {
         protected  void onPostExecute(String args){
             Log.e("onPostExecute:", " should update some thing here");
             pbar.setVisibility(View.INVISIBLE);
-        }
-
-
-        private boolean isExist(String fname){
-            File file = getBaseContext().getFileStreamPath(fname);
-            return file.exists();
-
         }
 
         private void getFlightDetails(String myUrl) throws MalformedURLException, IOException, JSONException {
