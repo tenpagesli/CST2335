@@ -53,8 +53,12 @@ public class ArticleActivity1 extends AppCompatActivity {
             dbInitiate = new NytDataBaseHelper(this);
             db = dbInitiate.getWritableDatabase();
             this.saveWord(db, inputPosition,inputHeadline);
+            Intent nextPage = new Intent(ArticleActivity1.this, MainActivityNewYorkTimes.class);
+
+            startActivity(nextPage);
+
         });
-    }
+    } //end OnCreate
 
     /**
      *
@@ -87,3 +91,5 @@ public class ArticleActivity1 extends AppCompatActivity {
             Toast.makeText(ArticleActivity1.this, saveMsg, Toast.LENGTH_LONG).show();
         }
 }// end class
+
+
