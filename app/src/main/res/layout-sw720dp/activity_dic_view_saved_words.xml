@@ -12,11 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:id="@+id/go_dic_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:text="@string/enter_dic" />
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
+        android:fontFamily="sans-serif-black"
+        android:textSize="15dp"
+        android:layout_below="@+id/go_dic_home"
         android:text="@string/welcome_msg_saved_words_list_dic_rl" />
 
     <ListView
@@ -31,4 +40,6 @@
         android:layout_height="match_parent"
         android:background="@color/colorAccent"
         android:layout_toRightOf="@id/title"/>
+
+
 </RelativeLayout>
