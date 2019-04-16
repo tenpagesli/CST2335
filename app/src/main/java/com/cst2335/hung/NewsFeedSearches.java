@@ -85,10 +85,12 @@ public class NewsFeedSearches extends AppCompatActivity {
         public String uuid; //uuid value
         public String title;
 
+
         @Override
         protected String doInBackground(String... params) {
 
             try {
+
                 //get the string url:
                 String myUrl = params[0];
                 //create the network connection:
@@ -139,12 +141,16 @@ public class NewsFeedSearches extends AppCompatActivity {
                         }
                         else if(tagName.equals("url")) {
                             // same thing as above
-                            if(xpp.next() == XmlPullParser.TEXT) {
+                            if (xpp.next() == XmlPullParser.TEXT) {
                                 titleAtt = xpp.getText();
-                                Log.e("AsyncTask", "Found parameter titleAtt: " + titleAtt);
-                                News new1 = new News(titleAtt, title, title);
-                                newsListArticle.add(new1);
+//                                currentUrl = titleAtt;
+//                                if(!previousURL.equals(currentUrl)){
+                                    Log.e("AsyncTask", "Found parameter titleAtt: " + titleAtt);
 
+                                    News new1 = new News(titleAtt, null, null);
+                                    newsListArticle.add(new1);
+//                                    previousURL = currentUrl;
+//                                }
                             }
                             // titleAtt = xpp.getAttributeValue(null, "cheese");
                             publishProgress(25);
@@ -203,7 +209,7 @@ public class NewsFeedSearches extends AppCompatActivity {
 
 //            }
 
-            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
             progressBar.setProgress(15);
             progressBar.setProgress(25);
             progressBar.setProgress(50);

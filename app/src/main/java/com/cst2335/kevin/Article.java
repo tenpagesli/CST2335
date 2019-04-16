@@ -16,9 +16,9 @@ public class Article implements Serializable {
     /**
      * title body and new id constructor
      *
-     * @param title
-     * @param organization
-     * @param articleID
+     * @param title headline
+     * @param organization detail
+     * @param articleID url
      */
 
     public Article(String title, String organization, String articleID) {
