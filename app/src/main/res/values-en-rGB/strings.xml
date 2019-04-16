@@ -69,7 +69,9 @@
     <string name="help_hd">Help</string>
     <string name="title_hd">Title: </string>
     <string name="uuid_hd">uuid: </string>
-    <string name="fav_hd">Favorites: </string>
+    <string name="save_hd">Save </string>
+    <string name="search_article_hd">Search</string>
+
 
 
 </resources>

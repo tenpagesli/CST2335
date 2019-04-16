@@ -51,18 +51,19 @@
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_below="@id/savebtn_hd"-->
         <!--android:text="@string/del_article_hd" />-->
-    <!--<Button-->
-        <!--android:id="@+id/returnbtn_hd"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@id/deletebtn_hd"-->
-        <!--android:text="@string/return_article_hd" />-->
+    <Button
+        android:id="@+id/returnbtn_hd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/return_article_hd" />
 
     <ListView
         android:id="@+id/news_feed_list1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/deletebtn_hd"
+        android:layout_alignParentTop="true"
+
         android:layout_weight="2"/>
 
 </RelativeLayout>

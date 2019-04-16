@@ -66,4 +66,7 @@
     <string name="help_hd">帮助</string>
     <string name="title_hd">标题: </string>
     <string name="uuid_hd">uuid: </string>
+    <string name="search_article_hd">Search</string>
+    <string name="save_hd">保存</string>
+
 </resources>

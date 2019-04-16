@@ -46,8 +46,9 @@ public class MainActivityNewsFeed extends AppCompatActivity {
 
         //search button
         Button searchBtn = findViewById(R.id.search_btn);
-        Button favBtn = findViewById(R.id.favorite_hd);
         editSearch = findViewById(R.id.edit_search);
+
+        Button saveBtn = findViewById(R.id.save_btn_hd);
 
         //edit tex shared preferences
         sp = getSharedPreferences("searchedArticle", Context.MODE_PRIVATE);
@@ -61,11 +62,13 @@ public class MainActivityNewsFeed extends AppCompatActivity {
             //startActivityForResult(nextPage, 30);
         });
 
-        favBtn.setOnClickListener(c->{
+        saveBtn.setOnClickListener(c->{
             Intent nextPage = new Intent(MainActivityNewsFeed.this, NewsFeedSavedArticles.class );
             startActivity(nextPage);
-            //startActivityForResult(nextPage, 30);
+
         });
+
+
 
 
         Toolbar tBar = (Toolbar)findViewById(R.id.toolbar_hd);
