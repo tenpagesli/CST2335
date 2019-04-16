@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".hung.NewsFeedSavedArticles"/>
         <activity android:name=".hung.EmptyFragmentActivity"/>
-
+        <activity android:name=".hung.NewsFeed"/>
         <activity android:name=".hung.NewsFeedSearches" />
 
 

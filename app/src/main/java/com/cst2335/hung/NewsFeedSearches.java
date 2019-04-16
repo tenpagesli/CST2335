@@ -120,20 +120,6 @@ public class NewsFeedSearches extends AppCompatActivity {
                 XmlPullParser xpp = factory.newPullParser();
                 xpp.setInput( inStream  , "UTF-8");
 
-
-/**             // the commented code below also can be replaced of you code from line 61 to line 86
- String myUrl = params[0];
- //create the network connection:
- URL url = new URL(myUrl);
- HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
- InputStream inStream = urlConnection.getInputStream();
- //create a pull parser:
- XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
- factory.setNamespaceAware(false);
- XmlPullParser xpp = factory.newPullParser();
- xpp.setInput( inStream  , "UTF-8");  //inStream comes from line 46
- */
-
                 //loop over the webhose.io XML:
                 while(xpp.getEventType() != XmlPullParser.END_DOCUMENT)
                 {
@@ -156,7 +142,7 @@ public class NewsFeedSearches extends AppCompatActivity {
                             if(xpp.next() == XmlPullParser.TEXT) {
                                 titleAtt = xpp.getText();
                                 Log.e("AsyncTask", "Found parameter titleAtt: " + titleAtt);
-                                News new1 = new News(title, titleAtt, title);
+                                News new1 = new News(titleAtt, title, title);
                                 newsListArticle.add(new1);
 
                             }
