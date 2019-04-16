@@ -17,9 +17,12 @@
     <string name="nyt_save_kn">保存文章</string>
     <string name="nyt_delete_kn">删除文章</string>
     <string name="delete_article_kn">您确定删除这篇文章？</string>
-    <string name="nyt_saved_article">查看已保存文章</string>
-    <string name="nyt_search">搜索文章</string>
-    <string name="nyt_article_saved">您的已保存的文章</string>
+    <string name="nyt_saved_article">查看已保存的文章</string>
+    <string name="nyt_search">输入以搜索文章 </string>
+    <string name="nyt_article_saved">保存的书签</string>
+    <string name="nyt_back_menu">回到主菜单</string>
+    <string name="nyt_delete_article">删除文章</string>
+    <string name="nyt_go_back">返回</string>
 
     <!--Ryan Strings-->
     <string name="welcome_msg_dic_rl">欢迎来到梅里亚姆韦伯斯特词典</string>

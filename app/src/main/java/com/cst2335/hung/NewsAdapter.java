@@ -19,7 +19,7 @@ public class NewsAdapter extends BaseAdapter {
 
     private ArrayList<News> news; //news article arraylist
     private Context context;
-    private LayoutInflater inflater; //news inflater
+    private LayoutInflater inflater;
 
     /**
      *
@@ -62,7 +62,7 @@ public class NewsAdapter extends BaseAdapter {
     }
 
     /**
-     * view for news feed
+     *
      * @param position
      * @param convertView
      * @param parent
@@ -75,15 +75,19 @@ public class NewsAdapter extends BaseAdapter {
                     inflate(R.layout.activity_news_list_item, parent, false);
         }
 
+
         News currentItem = (News) getItem(position);
 
+
         TextView textViewTitle = convertView.findViewById(R.id.news_title);
-      //  TextView textViewUrl = convertView.findViewById(R.id.news_url);
-      //  TextView textViewPara = convertView.findViewById(R.id.news_para);
+//        TextView textViewUrl = convertView.findViewById(R.id.news_url);
+//        TextView textViewPara = convertView.findViewById(R.id.news_para);
+
+
 
         textViewTitle.setText(currentItem.getTitle());
-      //  textViewUrl.setText(currentItem.getBody());
-       // textViewPara.setText(currentItem.getNewsID());
+//        textViewUrl.setText(currentItem.getBody());
+//        textViewPara.setText(currentItem.getNewsID());
         return convertView;
     }
 }

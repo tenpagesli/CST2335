@@ -21,5 +21,17 @@
         android:layout_height="wrap_content"
         android:text="" />-->
 
+    <!--<TextView-->
+        <!--android:id="@+id/news_url"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="ID" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/news_para"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="ID" />-->
+
 
 </LinearLayout>

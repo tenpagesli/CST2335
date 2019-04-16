@@ -18,8 +18,10 @@
     <string name="delete_article_kn">Do you want to delete this Article </string>
     <string name="nyt_saved_article">View Saved Article </string>
     <string name="nyt_search">Enter Search Article </string>
-    <string name="nyt_article_saved">Your Saved Articles</string>
+    <string name="nyt_article_saved">YOUR SAVED BOOKMARKS</string>
     <string name="nyt_back_menu">Back To Menu</string>
+    <string name="nyt_delete_article">Delete Article</string>
+    <string name="nyt_go_back">Go Back</string>
 
     <!--Ryan Strings-->
     <string name="welcome_msg_dic_rl">Welcome to Merriam Webster Dictionary</string>
@@ -57,14 +59,16 @@
     <string name="welcome_hd">WELCOME TO THE NEWS FEED</string>
     <string name="search_hd">Search</string>
     <string name="type_search_hd">Enter search term</string>
-    <string name="save_article_hd">Saved News</string>
+    <string name="save_article_hd">Save</string>
     <string name="del_article_hd">Delete</string>
     <string name="return_article_hd">Return</string>
-    <string name="search_article_hd">Search</string>
     <string name="help_hd">Help</string>
     <string name="title_hd">Title: </string>
     <string name="uuid_hd">uuid: </string>
-    <string name="save_hd">Save article</string>
+    <string name="save_hd">uuid: </string>
+    <string name="search_article_hd">Search</string>
+
+
 
 
 </resources>
